@@ -15,7 +15,7 @@ Außerdem können einzelne Einträge durch Generierung eindeutiger Links freigeg
 + UC-7: Generierung eines Freigabelinks (als nicht erratbare GUID) und Zugriff auf das Objekt über Aufruf des Links
 
 # Vergleichbare Lösung: 
-+ [PasteBin](https://pastebin.com)PasteBin
++ [PasteBin](https://pastebin.com)
 
 # Mindestumfang: 
 Falls Sie das Projekt allein realisieren, sind die Anwendungsfälle UC-1, UC-2, UC-3 und UC-4 erforderlich.
