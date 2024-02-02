@@ -19,6 +19,9 @@ public class TestAuthenticationService {
     @Autowired
     private AuthenticationService authsvc;
 
+    /**
+     * Testing if a login whith valid credentials returns an accesstoken
+     */
     @Test
     public void testLogin() {
         log.info("entering test testLogin");
@@ -28,10 +31,13 @@ public class TestAuthenticationService {
         assertTrue(token.getUser_id() == 1, "Wrong UserID in session token, expected = 1");
     }
 
+    /**
+     * Testing if a login whith invalid credentials returns nothing
+     */
     @Test
     public void testLoginInvalidCredetials() {
         log.info("entering test testLoginInvalidCredetials");
-        AccessToken token = this.authsvc.login("ruediger@thowl.de", "sylosis");
+        AccessToken token = this.authsvc.login("ruediger@thowl.de", "BringMe115");
         assertNull(token, "Token should be NULL");
     }
 }

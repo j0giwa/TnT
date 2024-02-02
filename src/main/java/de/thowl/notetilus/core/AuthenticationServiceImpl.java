@@ -56,4 +56,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             
         return token;
     }
+
+    public void register(String username, String email, String password, String password2){
+        // TODO: Password MUST be BCrypt-encrypted
+    }
 }
