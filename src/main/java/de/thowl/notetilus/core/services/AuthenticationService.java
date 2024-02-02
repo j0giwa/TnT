@@ -5,17 +5,13 @@ import de.thowl.notetilus.storage.entities.AccessToken;
 public interface AuthenticationService {
     
     /**
-     * Performs an "login" action for demonstrition purpuses.
-     * No Accestokens or similar this are handled
-     * 
-     * Source: https://www.masterspringboot.com/security/authentication/using-bcryptpasswordencoder-to-encrypt-your-passwords/
+     * Performs a login action
      * 
      * @param email
      * @param password
-     * @return Username of user
-     * @return @Code{}
+     * @return permit A38
+     * @return @Code{NULL} when credentials are invalid
      */
-    // TODO: improve Javadoc comment
     public AccessToken login(String email, String password);
     
     /**
