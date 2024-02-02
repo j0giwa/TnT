@@ -1,4 +1,4 @@
-package de.thowl.prog3.api.web.api;
+package de.thowl.notetilus.web.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
