@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeaPotService {
 
 	/**
-	 * Test
-	 * @return
+	 * This is absolutely useless and exists just for fun
+	 * 
+	 * @return HTTP-Status 418 "I'm a teapot"
 	 */
 	@GetMapping("/")
 	public ResponseEntity<String> teapot() {
