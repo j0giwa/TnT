@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/teapot")
 public class TeaPotService {
 
+	/**
+	 * Test
+	 * @return
+	 */
 	@GetMapping("/")
 	public ResponseEntity<String> teapot() {
 		return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("IM A TEAPOT");
