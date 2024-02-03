@@ -28,7 +28,7 @@ public class TestAuthenticationService {
         AccessToken token = this.authsvc.login("ruediger@thowl.de", "SuperSicher1234");
         assertNotNull(token, "Token should not be NULL");
         assertNotNull(token.getUSID(), "Session ID should not be NULL");
-        assertTrue(token.getUser_id() == 1, "Wrong UserID in session token, expected = 1");
+        assertTrue(token.getUserId() == 1, "Wrong UserID in session token, expected = 1");
     }
 
     /**

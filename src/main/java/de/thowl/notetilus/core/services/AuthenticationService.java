@@ -7,8 +7,8 @@ public interface AuthenticationService {
     /**
      * Performs a login action
      * 
-     * @param email
-     * @param password
+     * @param email The E-Mail address of the user
+     * @param password The password of the user
      * @return permit A38
      * @return @Code{NULL} when credentials are invalid
      */

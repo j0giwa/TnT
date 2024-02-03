@@ -49,8 +49,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             token = new AccessToken();
             UUID uuid = UUID.randomUUID();
             token.setUSID(uuid.toString());
-            token.setUser_id(usr.getId());
-            token.setLastactive(new Date());
+            token.setUserId(usr.getId());
+            token.setLastActive(new Date());
             this.sessions.save(new Session(token.getUSID(), usr));
         }
             

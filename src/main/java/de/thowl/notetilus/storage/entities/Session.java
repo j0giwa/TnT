@@ -11,20 +11,22 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name= "Sessions")
+@Table(name = "Sessions")
 public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
-    private Date createdAt;
     private String authToken;
+    private Date createdAt;
     private int userId;
 
-    public Session(String authToken, User u) {
-        this.authToken = authToken;
-        this.userId = u.getId();
+    public Session() {}
+
+    public Session(String USID, User usr) {
+        this.authToken = USID;
+        this.userId = usr.getId();
         this.createdAt = new Date();
     }
-
+    
 }
