@@ -42,7 +42,7 @@ public class AuthController {
         AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
 
         if (null == token){
-            /* TDOD: add localisation */
+            /* TODO: add localisation */
             model.addAttribute("error", "E-Mail oder Passwort falsch");
             return "index";
         }

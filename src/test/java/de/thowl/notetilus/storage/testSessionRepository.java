@@ -27,6 +27,7 @@ public class testSessionRepository {
         usr.setEmail("godlike@thyart.web");
         usr.setPassword("joinM3In4rmageddon");
         Session session = new Session(sessionId, usr);
+        
         this.sessions.save(session);
         assertNotNull(this.sessions.findSessionByAuthToken(sessionId));
     }

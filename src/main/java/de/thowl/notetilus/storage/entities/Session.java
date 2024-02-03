@@ -8,10 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "Sessions")
+@NoArgsConstructor
 public class Session {
 
     @Id
@@ -21,12 +23,9 @@ public class Session {
     private Date createdAt;
     private int userId;
 
-    public Session() {}
-
     public Session(String USID, User usr) {
         this.authToken = USID;
         this.userId = usr.getId();
         this.createdAt = new Date();
     }
-    
 }
