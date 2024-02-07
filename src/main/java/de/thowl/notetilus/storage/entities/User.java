@@ -4,15 +4,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "Users")
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class User {
     
     @Id
@@ -27,5 +29,9 @@ public class User {
 
     @NotNull
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
 
 }

@@ -7,6 +7,6 @@ import de.thowl.notetilus.storage.entities.Session;
 
 @Repository
 public interface SessionRepository extends CrudRepository<Session, Long> {
-    public Session findSessionById(int id);
-    public Session findSessionByAuthToken(String authToken);
+    public Session findById(int id);
+    public Session findByAuthToken(String authToken);
 }

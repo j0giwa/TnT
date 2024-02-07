@@ -29,7 +29,7 @@ public class testSessionRepository {
         Session session = new Session(sessionId, usr);
         
         this.sessions.save(session);
-        assertNotNull(this.sessions.findSessionByAuthToken(sessionId));
+        assertNotNull(this.sessions.findByAuthToken(sessionId));
     }
 
 }
