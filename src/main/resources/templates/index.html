@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="de_DE" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
   <head>
     <title>BCrypt Demo</title>
     <meta charset="utf-8">
@@ -9,30 +9,23 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
     crossorigin="anonymous">
   </head>
-  <body class="bg-dark">
-    <nav class="navbar navbar-light bg-light">
+  <body>
+    <nav class="navbar navbar-light h-50 bg-light">
       <div class="container-fluid">
-        <img src="images/thowl_logo.png" width="100"/>
+        <img th:src="@{images/thowl_logo.png}" alt="Logo der th-owl" width="100"/>
       </div>
     </nav>
-    <div class="container-fluid mh-100">
-      <form class="mx-auto w-25 m-5 p-5 bg-light rounded" method="post" action="/login">
-        <h4 class="text-center">Login</h4>
-        <div class="mb-3">
-          <label for="email" class="form-label">E-Mail</label>
-          <input type="email" class="form-control" id="email" aria-describedby="email" name="email" placeholder="E-Mail">
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Passwort</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Passwort">
-        </div>
-        <button type="submit" class="btn btn-danger">Submit</button>
-        <div class="text-success m-2" th:if="${user != null}">
-          Logged in as: <span th:text="${user}">USERNAME</span>
-        </div>
-        <span class="text-danger m-2" th:text="${error}">ERROR</span>
-      </form>
+
+    <div class="container mh-100">
+      <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
+        <h1 class="display-4">Notetilus</h1>
+        <p class="lead">Lorem ipsum dolor sit amet</p>
+        <hr class="my-4">
+        <p th:text="#{welcome}">Lorem ipsum</p>
+        <a class="btn btn-primary btn-lg" href="signup" role="button" th:text="#{sign_up}">Sign up</a>
+        <a class="btn btn-primary btn-lg" href="login" role="button" th:text="#{login}">Login</a>
+      </div>
     </div>
+
   </body>
  </html>

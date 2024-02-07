@@ -25,7 +25,7 @@ public class AuthController {
     @GetMapping("/login")
     public String showLoginPage() {
         log.info("entering showLoginPage (GET-Method: /login)");
-        return "index";
+        return "login";
     }
 
     /**
@@ -42,12 +42,13 @@ public class AuthController {
         AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
 
         if (null == token){
-            /* TODO: add localisation */
+            // TODO: add localisation
             model.addAttribute("error", "E-Mail oder Passwort falsch");
             return "index";
         }
 
         model.addAttribute("user", token);
+        //TODO: add dynamic route <Username>/notes/
         return "index";
     }
     
