@@ -26,36 +26,40 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private SessionRepository sessions;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
+    
+    private boolean isPasswordCorrect(User user, String password) {
+        log.info("Comparing Form-password with BCrypt-hash");
+        String dbPassword = user.getPassword();
+        return encoder.matches(password, dbPassword);
+    }
+    
+    private AccessToken createSession(User user) {
+        AccessToken token = new AccessToken();
+        UUID uuid = UUID.randomUUID();
+        token.setUSID(uuid.toString());
+        token.setUserId(user.getId());
+        token.setLastActive(new Date());
+        this.sessions.save(new Session(token.getUSID(), user));
+        return token;
+    }
 
     public AccessToken login(String email, String password){
         log.debug("entering login");
-        log.info("Login attempt with E-Mail: {}", email);
-        AccessToken token = null;
-
-        User usr = this.users.findByEmail(email);
-
-        if (null == usr) {
-            // User not registert
-            log.error("E-Mail: {} does not exitst", email);
+        
+        User user = this.users.findByEmail(email);
+        if (user == null) {
+            log.error("User with E-Mail '{}' does not exist", email);
             return null;
         }
-
-        log.info("Comparing Form-password with BCrypt-hash");
-        String dbpasswd = usr.getPassword();
-        /* log.debug("BCrypt-hash: {}", dbpasswd); */
-
-        if (encoder.matches(password, dbpasswd)) {
+    
+        if (isPasswordCorrect(user, password)) {
             log.info("Password matched, creating user session");
-            token = new AccessToken();
-            UUID uuid = UUID.randomUUID();
-            token.setUSID(uuid.toString());
-            token.setUserId(usr.getId());
-            token.setLastActive(new Date());
-            this.sessions.save(new Session(token.getUSID(), usr));
+            return createSession(user);
         }
-            
-        return token;
+        
+        return null;
     }
+    
 
     public void register(String username, String email, String password, String password2){
         // TODO: Password MUST be BCrypt-encrypted
