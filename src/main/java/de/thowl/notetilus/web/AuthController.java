@@ -15,41 +15,41 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private AuthenticationService authsvc;
+	@Autowired
+	private AuthenticationService authsvc;
 
-    /**
-     * Shows the login page
-     * @return index.html
-     */
-    @GetMapping("/login")
-    public String showLoginPage() {
-        log.info("entering showLoginPage (GET-Method: /login)");
-        return "login";
-    }
+	/**
+	 * Shows the login page
+	 * @return index.html
+	 */
+	@GetMapping("/login")
+	public String showLoginPage() {
+		log.info("entering showLoginPage (GET-Method: /login)");
+		return "login";
+	}
 
-    /**
-     * Performs a login action
-     * @return index.html
-     */
-    @PostMapping("/login")
-    public String doLogin(LoginForm form, Model model) {
-        log.info("entering doLogin (POST-Method: /login)");
+	/**
+	 * Performs a login action
+	 * @return index.html
+	 */
+	@PostMapping("/login")
+	public String doLogin(LoginForm form, Model model) {
+		log.info("entering doLogin (POST-Method: /login)");
 
-        log.debug("Email = {}", form.getEmail());
-        log.debug("Password = {}", form.getPassword());
+		log.debug("Email = {}", form.getEmail());
+		log.debug("Password = {}", form.getPassword());
 
-        AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
+		AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
 
-        if (null == token){
-            // TODO: add localisation
-            model.addAttribute("error", "E-Mail oder Passwort falsch");
-            return "index";
-        }
+		if (null == token){
+			// TODO: add localisation
+			model.addAttribute("error", "E-Mail oder Passwort falsch");
+			return "index";
+		}
 
-        model.addAttribute("user", token);
-        //TODO: add dynamic route <Username>/notes/
-        return "index";
-    }
-    
+		model.addAttribute("user", token);
+		//TODO: add dynamic route <Username>/notes/
+		return "index";
+	}
+	
 }

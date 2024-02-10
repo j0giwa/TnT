@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Session {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
-    private String authToken;
-    private Date createdAt;
-    private int userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
+	private String authToken;
+	private Date createdAt;
+	private int userId;
 
-    public Session(String USID, User usr) {
-        this.authToken = USID;
-        this.userId = usr.getId();
-        this.createdAt = new Date();
-    }
+	public Session(String USID, User usr) {
+		this.authToken = USID;
+		this.userId = usr.getId();
+		this.createdAt = new Date();
+	}
 }

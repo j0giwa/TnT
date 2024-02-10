@@ -18,18 +18,18 @@ import lombok.NoArgsConstructor;
 @Table(name = "Groups")
 @NoArgsConstructor
 public class Group {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
 
-    @NotNull
-    private String name;
+	@NotNull
+	private String name;
 
-    @NotNull
-    private boolean admin;
+	@NotNull
+	private boolean admin;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
-    public List<User> members;
+	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+	public List<User> members;
 
 }

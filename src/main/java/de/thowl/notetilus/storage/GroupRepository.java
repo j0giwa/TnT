@@ -7,6 +7,6 @@ import de.thowl.notetilus.storage.entities.Session;
 
 @Repository
 public interface GroupRepository extends CrudRepository<Group, Long> {
-    public Session findById(int id);
-    public Session findByName(String name);
+	public Session findById(int id);
+	public Session findByName(String name);
 }
