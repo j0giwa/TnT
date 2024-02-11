@@ -16,6 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+/**
+ * Ipmlementaion of the {@link AuthenticationService} interface
+* {@inheritDoc}
+*/
 @Slf4j
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -42,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 	
 	/**
-	 * Creates a {@link Session}for the given {@link User}.
+	 * Creates a {@link Session} for the given {@link User}.
 	 *
 	 * @param user The {@link User} to create a {@link Session} for.
 	 * @return The {@link User}s {@link AccessToken}

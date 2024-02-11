@@ -2,6 +2,10 @@ package de.thowl.notetilus.core.services;
 
 import de.thowl.notetilus.storage.entities.AccessToken;
 
+
+/**
+ * Provides User Authentifaciton/Management funtionalitys
+ */
 public interface AuthenticationService {
     
     /**
@@ -9,8 +13,7 @@ public interface AuthenticationService {
      * 
      * @param email The E-Mail address of the user
      * @param password The password of the user
-     * @return permit A38
-     * @return @Code{NULL} when credentials are invalid
+     * @return permit A38, or @Code{NULL} when credentials are invalid.
      */
     public AccessToken login(String email, String password);
     
