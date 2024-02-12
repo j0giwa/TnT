@@ -18,9 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 /**
- * Ipmlementaion of the {@link AuthenticationService} interface
-* {@inheritDoc}
-*/
+ * Implementaion of the {@link AuthenticationService} interface
+ * {@inheritDoc}
+ */
 @Slf4j
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -35,8 +35,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/**
 	 * Checks if the input password matches the {@link User}s password stored in the Database.
 	 *
-	 * @param user {@link User} whose Password should be checked against
-	 * @param password The input Password that should be checked
+	 * @param user 	    The {@link User} whose Password should be checked against
+	 * @param password  The input Password that should be checked
 	 *
 	 * @return {@code true} if the Password matched, {@code false} if the Password did not match
 	 */
@@ -49,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/**
 	 * Creates a {@link Session} for the given {@link User}.
 	 *
-	 * @param user The {@link User} to create a {@link Session} for.
+	 * @param user 	The {@link User} to create a {@link Session} for.
 	 * @return The {@link User}s {@link AccessToken}
 	 */
 	private AccessToken createSession(User user) {
@@ -65,12 +65,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public AccessToken login(String email, String password){
 		log.debug("entering login");
 		
 		User user = this.users.findByEmail(email);
+
 		if (user == null) {
-			log.error("User with E-Mail '{}' does not exist", email);
+			log.error("E-Mail '{}' does not exist", email);
 			return null;
 		}
 	
@@ -85,6 +87,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void register(String username, String email, String password, String password2){
 		// TODO: Password MUST be BCrypt-encrypted
 	}
