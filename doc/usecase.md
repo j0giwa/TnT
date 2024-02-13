@@ -1,23 +1,24 @@
-# Projektvision: Plattform zur Ablage von kurzen Notizen und Weblinks
+# Projektvision: Plattform zur Ablage von Todo-Listen
 
-## Idee: 
-Die Web-Anwendung erlaubt es dem Anwender, kurze Notizen, Links auf Webseiten oder Bilder in einer Datenbank zu speichern.
+## Idee:
+Die Web Anwendung Todolist erlaubt es Benutzern, Aufgaben hinzuzufügen bzw. zu löschen. Der Benutzer kann also seinen Tag planen und die Priorität zu jeder Aufgaben setzen. Nach 24h werden die nicht gemachten Aufgaben in den Überfälligen Bereich verschoben. Die Aufgaben können bearbeitet werden.
+Außerdem erlaubt die Web-Anwendung dem Anwender, kurze Notizen, Links auf Webseiten oder Bilder in einer Datenbank zu speichern.
 Zu allen Einträgen können Schlagwörter vergeben werden und es kann nach Schlagwörtern gesucht oder sortiert werden.
-Außerdem können einzelne Einträge durch Generierung eindeutiger Links freigegeben werden.
+Weiterhin können einzelne Notizen durch Generierung eindeutiger Links freigegeben werden.
 
 ## Die folgenden Use-Cases sind erforderlich:
++ UC-0: Homepage (grobe Präsentation Webapp)
 + UC-1: Neuanlage eines Benutzerkontos
 + UC-2: Einloggen und Ausloggen
-+ UC-3: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte und Notizen gespeichert werden.
-+ UC-4: Übersichtsdarstellung aller Notizen in einem Dashboard
-+ UC-5: Filtern der angezeigten Notizen nach Schlagwort, Art und Zeitraum
-+ UC-6: Die Notizen können vordefinierten Kategorien zugeordnet werden. Die Kategorien stellen eine weitere Auswahlmöglichkeit bei UC-5 dar.
-+ UC-7: Generierung eines Freigabelinks (als nicht erratbare GUID) und Zugriff auf das Objekt über Aufruf des Links
-
-# Vergleichbare Lösung: 
-+ [PasteBin](https://pastebin.com)PasteBin
-
-# Mindestumfang: 
-Falls Sie das Projekt allein realisieren, sind die Anwendungsfälle UC-1, UC-2, UC-3 und UC-4 erforderlich.
-Bei Bearbeitung als Zweier-Team sollte der komplette Funktionsumfang von UC-1 bis UC-7 (prototypisch) realisiert sein.
-Es ist ausreichend, wenn die Anwendungsfälle grundsätzlich lauffähig sind; es muss keine Fehlerbehandlung aller möglichen Situationen erfolgen (Sie dürfen also davon ausgehen, dass der Benutzer wohlwollend ist und sinnvolle und vollständige Eingaben vornimmt).
++ UC-3: Ablage eines neuen Tasks mit Priorität und Fälligkeitsdatum, erledigte Tasks können optional automatisch gelöscht werden
++ UC-4: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte gespeichert werden
++ UC-5: Notizen und Aufgaben können gelöscht oder bearbeitet werden
++ UC-6: Übersichtsdarstellung aller Notizen und todo-items (hohe Priorität und oder überfällig) in einem Dashboard
++ UC-7: Filtern der angezeigten Notizen/Todo's nach Schlagwort, Art und Zeitraum
++ UC-8: Die Notizen können vordefinierten Kategorien zugeordnet werden. Die Kategorien stellen eine weitere Auswahlmöglichkeit bei UC-5 dar.
++ UC-9: Generierung eines Freigabelinks (als nicht erratbare GUID) und Zugriff auf das Objekt über Aufruf des Links
++ UC-10: Notizen/Task können im Markdown format verfasst werden (optional)
++ UC-11: Möglichkeit Timetracker zu den jeweiligen Aufgaben(optional)
++ UC-12: Falls kein Beschriftung von Notizen vorgegeben wurden, automatisch die erste Zeile als Überschrift übernehmen. (Optional)
++ UC-13: Möglichkeit Sprache zu ändern (Optional)
++ UC-14: Pomodorotimer (Optional)
