@@ -18,18 +18,16 @@ public class RegisterController {
 	@Autowired
 	private AuthenticationService authsvc;
 
-	@GetMapping("/signup")
-	public String showRegiterPage() {
+	@GetMapping("/register")
+	public String showRegisterPage() {
 		log.info("entering showRegisterPage (GET-Method: /register)");
-		return "signup";
+		return "register";
 	}
 
 	@PostMapping("/signup")
 	public String doRegister(RegisterForm form, Model model) {
 		log.info("entering doRegister (POST-Method: /register)");
-	
 		authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
-
 		return "index";
 	}
 }
