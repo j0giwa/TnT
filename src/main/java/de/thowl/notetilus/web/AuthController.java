@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
+import de.thowl.notetilus.storage.entities.User;
 import de.thowl.notetilus.web.forms.LoginForm;
-import de.thowl.notetilus.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,6 +19,9 @@ public class AuthController {
 
 	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	private UserRepository users;
 
 	/**
 	 * Shows the login page
@@ -38,6 +42,8 @@ public class AuthController {
 		log.info("entering doLogin (POST-Method: /login)");
 
 		AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
+		// TODO: nit: would probably be better if we get the user via the token.
+		User tokenUser = this.users.findByEmail(form.getEmail());
 
 		if (null == token){
 			// TODO: add localisation
@@ -45,25 +51,8 @@ public class AuthController {
 			return "index";
 		}
 
-		model.addAttribute("user", token);
-		//TODO: add dynamic route <Username>/notes/
-		return "index";
+		return "redirect:/u/" + tokenUser.getUsername() + "/notes";
 	}
 
-
-	@GetMapping("/signup")
-	public String showRegiterPage() {
-		log.info("entering showRegisterPage (GET-Method: /register)");
-		return "signup";
-	}
-
-	@PostMapping("/signup")
-	public String doRegister(RegisterForm form, Model model) {
-		log.info("entering doRegister (POST-Method: /register)");
-	
-		authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
-
-		return "index";
-	}
 	
 }
