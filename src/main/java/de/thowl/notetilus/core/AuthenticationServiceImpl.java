@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.GroupRepository;
 import de.thowl.notetilus.storage.SessionRepository;
 import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
@@ -27,6 +28,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@Autowired
 	private UserRepository users;
+	@Autowired
+	private GroupRepository groups;
 	@Autowired
 	private SessionRepository sessions;
 
@@ -84,11 +87,56 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return null;
 	}
 
+	public boolean validateEmail(String email){
+		// Source https://ihateregex.io/expr/email/
+		if (email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+")) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Validates that the chosen password is somewhat secure.
+	 * This is to protect the users from their own stupidity
+	 * <p>
+	 * Password requirements: 
+	 * Minimum eight characters, 
+	 * at least one upper case English letter, 
+	 * one lower case English letter, 
+	 * one number and one special character
+	 *
+	 * @param password  Password to validate
+	 */
+	public boolean validatePassword(String password){
+		// Source https://ihateregex.io/expr/password/
+		if (password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void register(String username, String email, String password, String password2){
-		// TODO: Password MUST be BCrypt-encrypted
+
+		if (!validateEmail(email))
+			return;
+
+		if (!validatePassword(password) || !validatePassword(password2))
+			return;
+
+		if (!password.equals(password2))
+			return;
+
+		User usr = new User();
+		usr.setUsername(username);
+		usr.setEmail(email);
+		usr.setPassword(encoder.encode(password));
+		usr.setGroup(this.groups.findById(2));
+
+		this.users.save(usr);
 	}
+
 }

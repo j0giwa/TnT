@@ -19,19 +19,16 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
-
-	@NotNull
-	private String username;
-
-	@NotNull
-	private String email;
-
-	@NotNull
-	private String password;
+	private long id;
 
 	@ManyToOne
 	@JoinColumn(name = "group_id", nullable = false)
 	private Group group;
 
+	@NotNull
+	private String username;
+	@NotNull
+	private String email;
+	@NotNull
+	private String password;
 }

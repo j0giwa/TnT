@@ -18,10 +18,10 @@ public class Session {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private long id;
 	private String authToken;
 	private Date createdAt;
-	private int userId;
+	private long userId;
 
 	public Session(String USID, User usr) {
 		this.authToken = USID;

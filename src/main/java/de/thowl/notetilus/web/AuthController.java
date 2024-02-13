@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import de.thowl.notetilus.core.services.AuthenticationService;
 import de.thowl.notetilus.storage.entities.AccessToken;
 import de.thowl.notetilus.web.forms.LoginForm;
+import de.thowl.notetilus.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,9 +37,6 @@ public class AuthController {
 	public String doLogin(LoginForm form, Model model) {
 		log.info("entering doLogin (POST-Method: /login)");
 
-		log.debug("Email = {}", form.getEmail());
-		log.debug("Password = {}", form.getPassword());
-
 		AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
 
 		if (null == token){
@@ -49,6 +47,22 @@ public class AuthController {
 
 		model.addAttribute("user", token);
 		//TODO: add dynamic route <Username>/notes/
+		return "index";
+	}
+
+
+	@GetMapping("/signup")
+	public String showRegiterPage() {
+		log.info("entering showRegisterPage (GET-Method: /register)");
+		return "signup";
+	}
+
+	@PostMapping("/signup")
+	public String doRegister(RegisterForm form, Model model) {
+		log.info("entering doRegister (POST-Method: /register)");
+	
+		authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
+
 		return "index";
 	}
 	
