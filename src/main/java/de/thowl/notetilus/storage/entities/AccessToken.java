@@ -8,5 +8,5 @@ import lombok.Data;
 public class AccessToken {
 	private String USID; // unique session id
 	private Date lastActive;
-	private int userId;
+	private long userId;
 }

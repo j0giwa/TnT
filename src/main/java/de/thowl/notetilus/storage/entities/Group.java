@@ -3,7 +3,6 @@ package de.thowl.notetilus.storage.entities;
 import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,15 +20,14 @@ public class Group {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private long id;
+
+	@OneToMany(mappedBy = "group")
+	public List<User> members;
 
 	@NotNull
 	private String name;
 
-	@NotNull
 	private boolean admin;
-
-	@OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
-	public List<User> members;
 
 }

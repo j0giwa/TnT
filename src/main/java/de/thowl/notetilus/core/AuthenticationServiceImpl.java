@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.GroupRepository;
 import de.thowl.notetilus.storage.SessionRepository;
 import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
@@ -28,6 +29,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Autowired
 	private UserRepository users;
 	@Autowired
+	private GroupRepository groups;
+	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
@@ -42,6 +45,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	private boolean checkPassword(User user, String password) {
 		log.info("Comparing Form-password with BCrypt-hash");
+
+		if (null == password || password.isBlank())
+			return  false;
+
 		String dbPassword = user.getPassword();
 		return encoder.matches(password, dbPassword);
 	}
@@ -75,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			log.error("E-Mail '{}' does not exist", email);
 			return null;
 		}
-	
+		
 		if (checkPassword(user, password)) {
 			log.info("Password matched, creating user session");
 			return createSession(user);
@@ -84,11 +91,67 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return null;
 	}
 
+	public boolean validateEmail(String email){
+		if (null == email || email.isBlank())
+			return false;
+
+		// Source https://ihateregex.io/expr/email/
+		if (email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validates that the chosen password is somewhat secure.
+	 * This is to protect the users from their own stupidity
+	 * <p>
+	 * Password requirements: 
+	 * Minimum eight characters, 
+	 * at least one upper case English letter, 
+	 * one lower case English letter, 
+	 * one number and one special character
+	 *
+	 * @param password  Password to validate
+	 */
+	public boolean validatePassword(String password){
+		if (null == password || password.isBlank())
+			return false;
+
+		// Source https://ihateregex.io/expr/password/
+		if (password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void register(String username, String email, String password, String password2){
-		// TODO: Password MUST be BCrypt-encrypted
+
+		if (!validateEmail(email))
+			return;
+
+		if (!validatePassword(password))
+			return;
+
+		if (!validatePassword(password2))
+			return;
+
+		if (!password.equals(password2))
+			return;
+
+		User usr = new User();
+		usr.setUsername(username);
+		usr.setEmail(email);
+		usr.setPassword(encoder.encode(password));
+		usr.setGroup(this.groups.findById(2));
+
+		this.users.save(usr);
 	}
+
 }

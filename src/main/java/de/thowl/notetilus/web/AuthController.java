@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
+import de.thowl.notetilus.storage.entities.User;
 import de.thowl.notetilus.web.forms.LoginForm;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +19,9 @@ public class AuthController {
 
 	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	private UserRepository users;
 
 	/**
 	 * Shows the login page
@@ -36,10 +41,9 @@ public class AuthController {
 	public String doLogin(LoginForm form, Model model) {
 		log.info("entering doLogin (POST-Method: /login)");
 
-		log.debug("Email = {}", form.getEmail());
-		log.debug("Password = {}", form.getPassword());
-
 		AccessToken token = authsvc.login(form.getEmail(),form.getPassword());
+		// TODO: nit: would probably be better if we get the user via the token.
+		User tokenUser = this.users.findByEmail(form.getEmail());
 
 		if (null == token){
 			// TODO: add localisation
@@ -47,9 +51,8 @@ public class AuthController {
 			return "index";
 		}
 
-		model.addAttribute("user", token);
-		//TODO: add dynamic route <Username>/notes/
-		return "index";
+		return "redirect:/u/" + tokenUser.getUsername() + "/notes";
 	}
+
 	
 }
