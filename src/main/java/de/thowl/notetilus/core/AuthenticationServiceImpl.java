@@ -45,6 +45,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	private boolean checkPassword(User user, String password) {
 		log.info("Comparing Form-password with BCrypt-hash");
+
+		if (null == password || password.isBlank())
+			return  false;
+
 		String dbPassword = user.getPassword();
 		return encoder.matches(password, dbPassword);
 	}
@@ -78,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			log.error("E-Mail '{}' does not exist", email);
 			return null;
 		}
-	
+		
 		if (checkPassword(user, password)) {
 			log.info("Password matched, creating user session");
 			return createSession(user);
@@ -88,10 +92,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	public boolean validateEmail(String email){
+		if (null == email || email.isBlank())
+			return false;
+
 		// Source https://ihateregex.io/expr/email/
 		if (email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+")) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -108,10 +116,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @param password  Password to validate
 	 */
 	public boolean validatePassword(String password){
+		if (null == password || password.isBlank())
+			return false;
+
 		// Source https://ihateregex.io/expr/password/
 		if (password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -124,7 +136,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (!validateEmail(email))
 			return;
 
-		if (!validatePassword(password) || !validatePassword(password2))
+		if (!validatePassword(password))
+			return;
+
+		if (!validatePassword(password2))
 			return;
 
 		if (!password.equals(password2))

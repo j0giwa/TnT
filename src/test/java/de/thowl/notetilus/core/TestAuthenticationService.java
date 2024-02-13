@@ -41,14 +41,19 @@ public class TestAuthenticationService {
 	@Test
 	public void testLoginInvalidCredetials() {
 		log.info("entering Integration test testLoginInvalidCredetials");
+		assertNull(this.authsvc.login(null, "BringMe115"), "Token should be NULL, one or more inputs were NULL");
+		assertNull(this.authsvc.login(null, null), "Token should be NULL,one or more inputs were NULL");
+		assertNull(this.authsvc.login("ruediger@thowl.de", null), "Token should be NULL,one or more inputs were NULL");
+
 		assertNull(this.authsvc.login("ruediger@thowl.de", "BringMe115"), "Token should be NULL, wrong password");
 		// NOTE: Don't save this test user in the db
 		assertNull(this.authsvc.login("ivar@test.de", "BringMe115"), "Token should be NULL, user does not exist");
-	}
+			}
 	
 	@Test
 	public void testValidatePassword() {
 		log.info("entering test testValidatePassword");
+		assertFalse(this.authsvc.validatePassword(null), "'NULL' should not match the requirements");
 		assertFalse(this.authsvc.validatePassword("1234"), "'1234' should not match the requirements");
 		assertFalse(this.authsvc.validatePassword("lorem"), "'lorm' should not match the requirements");
 		assertFalse(this.authsvc.validatePassword("ipsum"), "'ipsum' should not match the requirements");
@@ -60,6 +65,7 @@ public class TestAuthenticationService {
 	@Test
 	public void testValidateEmail() {
 		log.info("entering test testValidateEmail");
+		assertFalse(this.authsvc.validateEmail(null), "'NULL' should not match the requirements");
 		assertFalse(this.authsvc.validateEmail("john doe"), "'john doe' should not match the requirements");
 		assertFalse(this.authsvc.validateEmail("john doe@test.org"), "'john doe@test.org' should not match the requirements");
 		assertFalse(this.authsvc.validateEmail("@test.org"), "'@test.org' should not match the requirements");
