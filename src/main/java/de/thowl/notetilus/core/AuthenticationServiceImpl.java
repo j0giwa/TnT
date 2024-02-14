@@ -154,4 +154,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.users.save(usr);
 	}
 
+	@Override
+	public void logout(String token) {
+		Session session = this.sessions.findByAuthToken(token.toString());
+		this.sessions.delete(session);
+	}
+
 }

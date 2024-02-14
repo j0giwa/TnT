@@ -1,32 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
-  <head>
-    <title>Notilus</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous">
-  </head>
+
+  <head th:replace="~{fragments/baselayout::htmlhead(pageTitle=Notetilus)}" />
+
   <body>
 
-    <nav class="navbar navbar-light h-50 bg-light">
-      <div class="container-fluid">
-        <img th:src="@{images/thowl_logo.png}" alt="Logo der th-owl" width="100"/>
-      </div>
-    </nav>
+    <div th:replace="~{fragments/baselayout::navbar}" />
 
-    <div class="container mh-100">
-      <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
-        <h1 class="display-4">Notetilus</h1>
-        <p class="lead">Lorem ipsum dolor sit amet</p>
-        <hr class="my-4">
-        <p th:text="#{welcome}">Lorem ipsum</p>
-        <a class="btn btn-primary btn-lg" href="register" role="button" th:text="#{sign_up}">Sign up</a>
-        <a class="btn btn-primary btn-lg" href="login" role="button" th:text="#{login}">Login</a>
+    <main>
+      <div class="container mh-100">
+        <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
+          <h1 class="display-4">Notetilus</h1>
+          <p class="lead">Lorem ipsum dolor sit amet</p>
+          <hr class="my-4">
+          <p th:text="#{welcome}">Lorem ipsum</p>
+          <a class="btn btn-primary btn-lg" href="register" role="button" th:text="#{sign_up}">Sign up</a>
+          <a class="btn btn-primary btn-lg" href="login" role="button" th:text="#{login}">Login</a>
+        </div>
       </div>
-    </div>
+    </main>
 
   </body>
  </html>
