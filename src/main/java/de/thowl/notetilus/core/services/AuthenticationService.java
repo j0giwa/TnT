@@ -37,14 +37,12 @@ public interface AuthenticationService {
 	/**
 	 * Validates the Users Session
 	 * <p>
-	 * Checks if the given ({@link AccessToken} belongs to the given {@link User},
-	 * and if a session with this {@link AccessToken} and {@link User} exists.
+	 * Checks if the given ({@link AccessToken} belongs to a session with this {@link AccessToken}.
 	 *
-	 * @param user   The {@link User} to check.
 	 * @param token  The {@link AccessToken} to check.
 	 *
 	 * @return {@code true} if the conditions match, 
 	 * 	   {@code false} if something does not match
 	 */
-	public boolean validateSession(User user, AccessToken token);
+	public boolean validateSession(AccessToken token);
 }

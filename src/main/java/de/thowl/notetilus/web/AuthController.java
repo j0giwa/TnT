@@ -47,16 +47,16 @@ public class AuthController {
 		String password = form.getPassword();
 
 		AccessToken token = authsvc.login(email, password);
+		
+		if (null == token) {
+			// TODO: add localisation
+			model.addAttribute("error", "E-Mail oder Passwort falsch");
+			return "login";
+		}
+
 		// TODO: nit: would probably be better if we get the user via the token.
 		User user = this.users.findByEmail(form.getEmail());
 
-		if (null == token){
-			// TODO: add localisation
-			model.addAttribute("error", "E-Mail oder Passwort falsch");
-			return "index";
-		}
-
-		httpSession.setAttribute("user", user);
 		httpSession.setAttribute("token", token);
 
 		return "redirect:/u/" + user.getUsername() + "/notes";
@@ -66,9 +66,10 @@ public class AuthController {
 	 * Performs a logout action
 	 */
 	// NOTE: GetMapping was easier than handling this via a post request 
-	@GetMapping("/u/{username}/logout")
-	public String doLogout(@PathVariable("username") String username,
-			@SessionAttribute("token") AccessToken token) {
+	@GetMapping("/logout")
+	public String doLogout(@SessionAttribute("token") AccessToken token) {
+
+		log.info(token.toString());
 		authsvc.logout(token.getUSID());
 		return "index";
 	}
