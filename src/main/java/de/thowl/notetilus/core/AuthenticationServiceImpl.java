@@ -164,15 +164,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean validateSession(AccessToken token) {
+	public boolean validateSession(AccessToken token, String username) {
 		
 		if (token == null)
 			return false;
 
 		Session session = sessions.findByAuthToken(token.getUSID());
 
-
 		if (session == null)
+			return false;
+
+		User user = users.findByUsername(username);
+
+		if (user.getId() != session.getUserId())
 			return false;
 
 		return true;

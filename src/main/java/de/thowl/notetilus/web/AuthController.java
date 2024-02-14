@@ -58,6 +58,7 @@ public class AuthController {
 		User user = this.users.findByEmail(form.getEmail());
 
 		httpSession.setAttribute("token", token);
+		httpSession.setAttribute("username", user.getUsername());
 
 		return "redirect:/u/" + user.getUsername() + "/notes";
 	}

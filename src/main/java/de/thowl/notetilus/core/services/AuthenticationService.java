@@ -40,9 +40,10 @@ public interface AuthenticationService {
 	 * Checks if the given ({@link AccessToken} belongs to a session with this {@link AccessToken}.
 	 *
 	 * @param token  The {@link AccessToken} to check.
+	 * @param username  The name of the {@link User} to check.
 	 *
 	 * @return {@code true} if the conditions match, 
 	 * 	   {@code false} if something does not match
 	 */
-	public boolean validateSession(AccessToken token);
+	public boolean validateSession(AccessToken token, String username);
 }
