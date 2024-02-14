@@ -1,6 +1,7 @@
 package de.thowl.notetilus.core.services;
 
 import de.thowl.notetilus.storage.entities.AccessToken;
+import de.thowl.notetilus.storage.entities.User;
 
 
 /**
@@ -28,7 +29,20 @@ public interface AuthenticationService {
     	public void register(String username, String email, String password, String password2);
 
 	public boolean validatePassword(String password);
+
 	public boolean validateEmail(String email);
 
 	public void logout(String token);
+
+	/**
+	 * Validates the Users Session
+	 * <p>
+	 * Checks if the given ({@link AccessToken} belongs to a session with this {@link AccessToken}.
+	 *
+	 * @param token  The {@link AccessToken} to check.
+	 *
+	 * @return {@code true} if the conditions match, 
+	 * 	   {@code false} if something does not match
+	 */
+	public boolean validateSession(AccessToken token);
 }
