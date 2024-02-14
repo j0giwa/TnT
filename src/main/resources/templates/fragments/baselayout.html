@@ -38,7 +38,9 @@
           <div class="d-flex">
             <div class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                Hallo <span class="text-alert" th:text="${username}">USERNAME</span>
+		<span class="text-alert" th:text="#{greet}">HELLO</span>,
+		<span th:if="${user == null}" th:text="#{userplaceholder}">Placeholder</span>
+		<span th:unless="${user == null}" th:text="${user}"></span>
               </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -51,6 +53,5 @@
       </div>
     </nav>
   </div>
-
 
 </body>
