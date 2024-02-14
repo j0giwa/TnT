@@ -4,6 +4,7 @@ package de.thowl.notetilus.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
@@ -18,11 +19,12 @@ public class NotesController {
 	private AuthenticationService authsvc;
 
 	@GetMapping("/u/{username}/notes")
-	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token) {
+	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username) {
 		log.info("entering showLoginPage (GET-Method: /login)");
 
 		// Prevent unauthrised access
-		if (!this.authsvc.validateSession(token))
+		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		return "notes";
