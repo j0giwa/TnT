@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.SessionRepository;
 import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
+import de.thowl.notetilus.storage.entities.Session;
 import de.thowl.notetilus.storage.entities.User;
 import de.thowl.notetilus.web.forms.LoginForm;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,9 @@ public class AuthController {
 
 	@Autowired
 	private UserRepository users;
+
+	@Autowired
+	private SessionRepository sessions;
 
 	/**
 	 * Shows the login page
@@ -53,6 +59,18 @@ public class AuthController {
 
 		return "redirect:/u/" + tokenUser.getUsername() + "/notes";
 	}
-
+	
+	/**
+	 * Performs a logout action
+	 */
+	// TODO: This implemetation is objectively bullshit but works for now.
+	@GetMapping("/u/{username}/logout")
+	public String doLogout(@PathVariable("username") String username) {
+		User user = this.users.findByUsername(username);
+		Session sesion = this.sessions.findByUserId(user.getId());	
+		String token = sesion.getAuthToken();	
+		authsvc.logout(token);
+		return "index";
+	}
 	
 }
