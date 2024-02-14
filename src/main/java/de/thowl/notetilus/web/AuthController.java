@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.notetilus.core.services.AuthenticationService;
-import de.thowl.notetilus.storage.SessionRepository;
 import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
-import de.thowl.notetilus.storage.entities.Session;
 import de.thowl.notetilus.storage.entities.User;
 import de.thowl.notetilus.web.forms.LoginForm;
 import jakarta.servlet.http.HttpSession;
@@ -26,8 +24,6 @@ public class AuthController {
 	private AuthenticationService authsvc;
 	@Autowired
 	private UserRepository users;
-	@Autowired
-	private SessionRepository sessions;
 
 	/**
 	 * Shows the login page

@@ -160,4 +160,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.sessions.delete(session);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean validateSession(User user, AccessToken token) {
+		
+		if (user == null || token == null)
+			return false;
+
+		Session session = sessions.findByAuthToken(token.getUSID());
+		long userId = user.getId();
+		long tokenUserId = token.getUserId();
+
+		if (userId != tokenUserId)
+			return false;
+
+		if (session.getUserId() != userId) 
+			return false;
+
+		if (session.getAuthToken().equals(token.getUSID()))
+			return false;
+
+		return true;
+	}
+
 }
