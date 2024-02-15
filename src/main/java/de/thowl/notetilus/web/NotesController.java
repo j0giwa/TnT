@@ -1,6 +1,5 @@
 package de.thowl.notetilus.web;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class NotesController {
 
-	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	public NotesController(AuthenticationService authsvc) {
+		this.authsvc = authsvc;
+	}
 
 	@GetMapping("/u/{username}/notes")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,

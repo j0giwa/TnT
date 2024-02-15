@@ -7,6 +7,6 @@ import lombok.experimental.StandardException;
 
 @StandardException
 @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Access Denied")
-class ForbiddenException extends RuntimeException {
+public class ForbiddenException extends RuntimeException {
 
 }

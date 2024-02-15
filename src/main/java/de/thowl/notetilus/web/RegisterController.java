@@ -1,6 +1,5 @@
 package de.thowl.notetilus.web;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class RegisterController {
 
-	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	public RegisterController(AuthenticationService authsvc) {
+		this.authsvc = authsvc;
+	}
 
 	@GetMapping("/register")
 	public String showRegisterPage() {

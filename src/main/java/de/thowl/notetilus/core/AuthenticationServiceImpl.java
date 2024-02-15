@@ -26,14 +26,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-	@Autowired
 	private UserRepository users;
-	@Autowired
 	private GroupRepository groups;
-	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
+
+	@Autowired
+	public AuthenticationServiceImpl(UserRepository users, GroupRepository groups, SessionRepository sessions) {
+		this.users = users;
+		this.groups = groups;
+		this.sessions = sessions;
+	}
 
 	/**
 	 * Checks if the input password matches the {@link User}s password stored in the
@@ -159,13 +163,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 
 		Session session = sessions.findByAuthToken(token.getUsid());
-
-		if (session == null)
-			return false;
-
 		User user = users.findByUsername(username);
 
-		return (user.getId() != session.getUserId());
+		return (user.getId() == session.getUserId());
 	}
 
 }
