@@ -99,7 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	public boolean validateEmail(String email) {
-		if (null == email || email.isBlank())
+		if (null == email)
 			return false;
 		// Source https://ihateregex.io/expr/email/
 		return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
@@ -110,7 +110,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validatePassword(String password) {
-		if (null == password || password.isBlank())
+		if (null == password)
 			return false;
 		// Source = "https://ihateregex.io/expr/password/" (Slightly modified)
 		return password.matches("^(?=[^A-Z]*+)(?=[^a-z]*+)(?=\\D*+)(?=.*?[#?!@$ %^&*-]).{8,}$");
