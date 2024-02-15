@@ -1,5 +1,6 @@
 package de.thowl.notetilus.core.services;
 
+import de.thowl.notetilus.core.exeptions.InvalidCredentialsException;
 import de.thowl.notetilus.storage.entities.AccessToken;
 import de.thowl.notetilus.storage.entities.User;
 
@@ -16,7 +17,7 @@ public interface AuthenticationService {
      	 * @param password The password of the user
      	 * @return permit A38, or @Code{NULL} when credentials are invalid.
      	 */
-    	public AccessToken login(String email, String password);
+    	public AccessToken login(String email, String password) throws InvalidCredentialsException;
     
 	/**
 	 * Registers a new user
@@ -28,6 +29,18 @@ public interface AuthenticationService {
 	 */
     	public void register(String username, String email, String password, String password2);
 
+	/**
+	 * Validates that the chosen password is somewhat secure.
+	 * This is to protect the users from their own stupidity
+	 * <p>
+	 * Password requirements: 
+	 * Minimum eight characters, 
+	 * at least one upper case English letter, 
+	 * one lower case English letter, 
+	 * one number and one special character
+	 *
+	 * @param password  Password to validate
+	 */
 	public boolean validatePassword(String password);
 
 	public boolean validateEmail(String email);

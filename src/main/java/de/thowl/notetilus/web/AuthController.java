@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import de.thowl.notetilus.core.exeptions.InvalidCredentialsException;
 import de.thowl.notetilus.core.services.AuthenticationService;
 import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
@@ -43,13 +43,13 @@ public class AuthController {
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
 		log.info("entering doLogin (POST-Method: /login)");
 
+		AccessToken token;
 		String email = form.getEmail();
 		String password = form.getPassword();
 
-		AccessToken token = authsvc.login(email, password);
-		
-		if (null == token) {
-			// TODO: add localisation
+		try {
+			token = authsvc.login(email, password);
+		} catch (InvalidCredentialsException e) {
 			model.addAttribute("error", "E-Mail oder Passwort falsch");
 			return "login";
 		}

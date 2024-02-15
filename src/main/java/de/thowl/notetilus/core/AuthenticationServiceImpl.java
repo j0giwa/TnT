@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.thowl.notetilus.core.exeptions.InvalidCredentialsException;
 import de.thowl.notetilus.core.services.AuthenticationService;
 import de.thowl.notetilus.storage.GroupRepository;
 import de.thowl.notetilus.storage.SessionRepository;
@@ -73,22 +74,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AccessToken login(String email, String password){
+	public AccessToken login(String email, String password) throws InvalidCredentialsException {
 		log.debug("entering login");
+		
+		if (email == null || password == null) {
+			log.error("One or more params were left empty");
+			throw new InvalidCredentialsException("Params cannot be null");
+		}
 		
 		User user = this.users.findByEmail(email);
 
 		if (user == null) {
 			log.error("E-Mail '{}' does not exist", email);
-			return null;
+			throw new InvalidCredentialsException("User not found");
 		}
 		
 		if (checkPassword(user, password)) {
 			log.info("Password matched, creating user session");
 			return createSession(user);
 		}
-		
-		return null;
+
+		throw new InvalidCredentialsException("Wrong Password");
 	}
 
 	public boolean validateEmail(String email){
@@ -104,17 +110,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	/**
-	 * Validates that the chosen password is somewhat secure.
-	 * This is to protect the users from their own stupidity
-	 * <p>
-	 * Password requirements: 
-	 * Minimum eight characters, 
-	 * at least one upper case English letter, 
-	 * one lower case English letter, 
-	 * one number and one special character
-	 *
-	 * @param password  Password to validate
+	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean validatePassword(String password){
 		if (null == password || password.isBlank())
 			return false;
