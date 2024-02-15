@@ -23,8 +23,8 @@ public class Session {
 	private Date createdAt;
 	private long userId;
 
-	public Session(String USID, User usr) {
-		this.authToken = USID;
+	public Session(String usid, User usr) {
+		this.authToken = usid;
 		this.userId = usr.getId();
 		this.createdAt = new Date();
 	}

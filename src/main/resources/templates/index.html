@@ -1,24 +1,25 @@
 <!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-  <head th:replace="~{fragments/baselayout::htmlhead(pageTitle=Notetilus)}" />
+<head th:replace="~{fragments/baselayout::htmlhead(pageTitle=Notetilus)}" />
 
-  <body>
+<body>
 
-    <div th:replace="~{fragments/baselayout::navbar}" />
+  <div th:replace="~{fragments/baselayout::navbar}" />
 
-    <main>
-      <div class="container mh-100">
-        <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
-          <h1 class="display-4">Notetilus</h1>
-          <p class="lead">Lorem ipsum dolor sit amet</p>
-          <hr class="my-4">
-          <p th:text="#{welcome}">Lorem ipsum</p>
-          <a class="btn btn-primary btn-lg" href="/register" role="button" th:text="#{sign_up}">Sign up</a>
-          <a class="btn btn-primary btn-lg" href="/login" role="button" th:text="#{login}">Login</a>
-        </div>
+  <main>
+    <div class="container mh-100">
+      <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
+        <h1 class="display-4">Notetilus</h1>
+        <p class="lead">Lorem ipsum dolor sit amet</p>
+        <hr class="my-4">
+        <p th:text="#{welcome}">Lorem ipsum</p>
+        <a class="btn btn-primary btn-lg" href="/register" role="button" th:text="#{sign_up}">Sign up</a>
+        <a class="btn btn-primary btn-lg" href="/login" role="button" th:text="#{login}">Login</a>
       </div>
-    </main>
+    </div>
+  </main>
 
-  </body>
- </html>
+</body>
+
+</html>

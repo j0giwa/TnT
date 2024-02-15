@@ -1,30 +1,33 @@
 <!DOCTYPE HTML>
-<html lang="de_DE" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-  <head th:replace="~{fragments/baselayout::htmlhead(pageTitle='Notetilus | Login')}" />
+<head th:replace="~{fragments/baselayout::htmlhead(pageTitle='Notetilus | Login')}" />
 
-  <body>
-    
-    <div th:replace="~{fragments/baselayout::navbar}" />
-    
-    <main>
-      <div class="container-fluid mh-100">
-        <form class="mx-auto w-25 m-5 p-5 bg-light rounded" method="post" action="/login">
-          <h4 class="text-center">Login</h4>
-          <div class="mb-3">
-            <label for="email" class="form-label" th:text="#{email}">E-Mail</label>
-            <input type="email" class="form-control" id="email" aria-describedby="email" name="email" th:placeholder="#{email}">
-            <div id="emailHelp" class="form-text" th:text="#{mail_privacy}">We'll never share your email with anyone else.</div>
+<body>
+
+  <div th:replace="~{fragments/baselayout::navbar}" />
+
+  <main>
+    <div class="container-fluid mh-100">
+      <form class="mx-auto w-25 m-5 p-5 bg-light rounded" method="post" action="/login">
+        <h4 class="text-center">Login</h4>
+        <div class="mb-3">
+          <label for="email" class="form-label" th:text="#{email}">E-Mail</label>
+          <input type="email" class="form-control" id="email" aria-describedby="email" name="email"
+            th:placeholder="#{email}">
+          <div id="emailHelp" class="form-text" th:text="#{mail_privacy}">We'll never share your email with anyone else.
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label" th:text="#{password}">Passwort</label>
-            <input type="password" class="form-control" id="password" name="password" th:placeholder="#{password}">
-          </div>
-          <button type="submit" class="btn btn-primary" th:text="#{login}">login</button>
-          <span class="text-danger m-2" th:text="${error}">ERROR</span>
-        </form>
-      </div>
-    </main>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label" th:text="#{password}">Passwort</label>
+          <input type="password" class="form-control" id="password" name="password" th:placeholder="#{password}">
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="#{login}">login</button>
+        <span class="text-danger m-2" th:text="${error}">ERROR</span>
+      </form>
+    </div>
+  </main>
 
-  </body>
- </html>
+</body>
+
+</html>

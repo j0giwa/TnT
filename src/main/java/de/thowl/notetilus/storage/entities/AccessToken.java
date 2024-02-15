@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class AccessToken {
-	private String USID; // unique session id
+	private String usid; // unique session id
 	private Date lastActive;
 	private long userId;
 }

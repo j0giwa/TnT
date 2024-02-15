@@ -27,6 +27,7 @@ public class AuthController {
 
 	/**
 	 * Shows the login page
+	 * 
 	 * @return index.html
 	 */
 	@GetMapping("/login")
@@ -37,6 +38,7 @@ public class AuthController {
 
 	/**
 	 * Performs a login action
+	 * 
 	 * @return index.html
 	 */
 	@PostMapping("/login")
@@ -62,18 +64,17 @@ public class AuthController {
 
 		return "redirect:/u/" + user.getUsername() + "/notes";
 	}
-	
+
 	/**
 	 * Performs a logout action
 	 */
-	// NOTE: GetMapping was easier than handling this via a post request 
+	// NOTE: GetMapping was easier than handling this via a post request
 	@GetMapping("/logout")
 	public String doLogout(@SessionAttribute("token") AccessToken token) {
 
 		log.info(token.toString());
-		authsvc.logout(token.getUSID());
+		authsvc.logout(token.getUsid());
 		return "index";
 	}
-	
-}
 
+}

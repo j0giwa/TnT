@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
-public class testSessionRepository {
-    
+class TestSessionRepository {
+
     @Autowired
     private SessionRepository sessions;
 
     @Test
-    public void testStoreSession() {
+    void testStoreSession() {
         log.debug("entering testStoreSession()");
         final String sessionId = "1234567890";
         User usr = new User();
@@ -27,7 +27,7 @@ public class testSessionRepository {
         usr.setEmail("godlike@thyart.web");
         usr.setPassword("joinM3In4rmageddon");
         Session session = new Session(sessionId, usr);
-        
+
         this.sessions.save(session);
         assertNotNull(this.sessions.findByAuthToken(sessionId));
     }
