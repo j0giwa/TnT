@@ -120,7 +120,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void register(String username, String email, String password, String password2)
+	public void register(String firstname, String lastname, String username, String email, String password, String password2)
 			throws InvalidCredentialsException {
 
 		if (!validateEmail(email))

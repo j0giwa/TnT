@@ -26,6 +26,12 @@ public class User {
 	private Group group;
 
 	@NotNull
+	private String firstname;
+
+	@NotNull
+	private String lastname;
+	
+	@NotNull
 	private String username;
 	@NotNull
 	private String email;

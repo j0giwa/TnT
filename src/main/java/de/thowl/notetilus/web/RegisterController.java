@@ -29,7 +29,7 @@ public class RegisterController {
 		log.info("entering doRegister (POST-Method: /register)");
 
 		try {
-			authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
+			authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
 		} catch (InvalidCredentialsException e) {
 			model.addAttribute("error", "E-Mail oder Passwort ungültig");
 			return "register";

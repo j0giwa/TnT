@@ -21,12 +21,15 @@ public interface AuthenticationService {
 	/**
 	 * Registers a new user
 	 * 
+	 * 
+	 * @param firstname The First Name of the user
+	 * @param lastname The Last Name of the user
 	 * @param username  The username of the user
 	 * @param email     The E-Mail address of the user
 	 * @param password  The password of the user
 	 * @param password2 The password verification to avoid typos
 	 */
-	public void register(String username, String email, String password, String password2)
+	public void register(String firstname, String lastname, String username, String email, String password, String password2)
 			throws InvalidCredentialsException;
 
 	/**
@@ -42,7 +45,7 @@ public interface AuthenticationService {
 	 * @param password Password to validate
 	 */
 	public boolean validatePassword(String password);
-
+	
 	public boolean validateEmail(String email);
 
 	public void logout(String token);
