@@ -120,7 +120,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password, String password2)
+	public void register(String firstname, String lastname, String username, String email, String password,
+			String password2)
 			throws InvalidCredentialsException {
 
 		if (!validateEmail(email))
@@ -130,10 +131,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throw new InvalidCredentialsException("Password is not valid");
 
 		User usr = new User();
+		usr.setFirstname(firstname);
+		usr.setLastname(lastname);
 		usr.setUsername(username);
 		usr.setEmail(email);
 		usr.setPassword(encoder.encode(password));
-		usr.setGroup(this.groups.findById(0));
+		usr.setGroup(this.groups.findById(1));
 
 		this.users.save(usr);
 	}

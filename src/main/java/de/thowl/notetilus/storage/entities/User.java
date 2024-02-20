@@ -30,7 +30,7 @@ public class User {
 
 	@NotNull
 	private String lastname;
-	
+
 	@NotNull
 	private String username;
 	@NotNull
