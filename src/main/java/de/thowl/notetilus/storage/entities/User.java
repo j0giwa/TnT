@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "Users")
 @NoArgsConstructor
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@ManyToOne

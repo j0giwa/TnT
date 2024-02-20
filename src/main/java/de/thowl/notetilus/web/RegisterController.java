@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import de.thowl.notetilus.core.exeptions.InvalidCredentialsException;
 import de.thowl.notetilus.core.services.AuthenticationService;
 import de.thowl.notetilus.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class RegisterController {
 
-	private AuthenticationService authsvc;
-
 	@Autowired
-	public RegisterController(AuthenticationService authsvc) {
-		this.authsvc = authsvc;
-	}
+	private AuthenticationService authsvc;
 
 	@GetMapping("/register")
 	public String showRegisterPage() {
@@ -30,7 +27,14 @@ public class RegisterController {
 	@PostMapping("/signup")
 	public String doRegister(RegisterForm form, Model model) {
 		log.info("entering doRegister (POST-Method: /register)");
-		authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
-		return "index";
+
+		try {
+			authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
+		} catch (InvalidCredentialsException e) {
+			model.addAttribute("error", "E-Mail oder Passwort ungültig");
+			return "register";
+		}
+
+		return "register";
 	}
 }

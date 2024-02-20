@@ -26,7 +26,8 @@ public interface AuthenticationService {
 	 * @param password  The password of the user
 	 * @param password2 The password verification to avoid typos
 	 */
-	public void register(String username, String email, String password, String password2);
+	public void register(String username, String email, String password, String password2)
+			throws InvalidCredentialsException;
 
 	/**
 	 * Validates that the chosen password is somewhat secure.

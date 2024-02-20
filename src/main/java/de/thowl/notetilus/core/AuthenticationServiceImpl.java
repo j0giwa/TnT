@@ -26,18 +26,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+	@Autowired
 	private UserRepository users;
+	@Autowired
 	private GroupRepository groups;
+	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
-
-	@Autowired
-	public AuthenticationServiceImpl(UserRepository users, GroupRepository groups, SessionRepository sessions) {
-		this.users = users;
-		this.groups = groups;
-		this.sessions = sessions;
-	}
 
 	/**
 	 * Checks if the input password matches the {@link User}s password stored in the
@@ -116,33 +112,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean validatePassword(String password) {
 		if (null == password)
 			return false;
-		// Source = "https://ihateregex.io/expr/password/" (Slightly modified)
-		return password.matches("^(?=[^A-Z]*+)(?=[^a-z]*+)(?=\\D*+)(?=.*?[#?!@$ %^&*-]).{8,}$");
+		// Source = "https://ihateregex.io/expr/password/"
+		return password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void register(String username, String email, String password, String password2) {
+	public void register(String username, String email, String password, String password2)
+			throws InvalidCredentialsException {
 
 		if (!validateEmail(email))
-			return;
+			throw new InvalidCredentialsException("Email is not valid");
 
-		if (!validatePassword(password))
-			return;
-
-		if (!validatePassword(password2))
-			return;
-
-		if (!password.equals(password2))
-			return;
+		if (!validatePassword(password) || !validatePassword(password2) || !password.equals(password2))
+			throw new InvalidCredentialsException("Password is not valid");
 
 		User usr = new User();
 		usr.setUsername(username);
 		usr.setEmail(email);
 		usr.setPassword(encoder.encode(password));
-		usr.setGroup(this.groups.findById(2));
+		usr.setGroup(this.groups.findById(0));
 
 		this.users.save(usr);
 	}

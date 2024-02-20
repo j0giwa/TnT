@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "Groups")
 @NoArgsConstructor
 public class Group {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@OneToMany(mappedBy = "group")
