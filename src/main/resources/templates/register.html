@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -15,33 +15,33 @@
         style="position: absolute;left: 0;right: 0;top: 50%;transform: translateY(-50%);-ms-transform: translateY(-50%);-moz-transform: translateY(-50%);-webkit-transform: translateY(-50%);-o-transform: translateY(-50%);margin-left: auto;margin-right: auto;background: none;border-style: none;margin-top: auto;margin-bottom: 78px;padding-bottom: 0px;padding-top: 88px;">
         <div class="p-5" style="background: #232631;">
             <div class="text-center">
-                <h4 class="text-light mb-4">Create an Account!</h4>
+                <h4 class="text-light mb-4" th:text="#{createaccount}">Create an Account!</h4>
             </div>
             <form class="user" method="post" action="/register">
                 <div class="row mb-3">
                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text"
-                            id="firstname" name="firstname" placeholder="First Name" required=""></div>
+                            id="firstname" name="firstname" th:placeholder="#{first_name}" required=""></div>
                     <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="lastname"
-                            name="lastname" placeholder="Last Name" required=""></div>
+                            name="lastname" th:placeholder="#{last_name}" required=""></div>
                 </div>
                 <div class="mb-3"><input class="form-control form-control-user" type="text" id="username"
-                        name="username" placeholder="Username" required=""></div>
+                        name="username" th:placeholder="#{username}" required=""></div>
                 <div class="mb-3"><input class="form-control form-control-user" type="email" id="email" name="email"
-                        placeholder="Email Address" required=""></div>
+                    th:placeholder="#{email}" required=""></div>
                 <div class="row mb-3">
                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password"
-                            id="password" name="password" placeholder="Password" required=""></div>
+                            id="password" name="password" th:placeholder="#{password}" required=""></div>
                     <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="password2"
-                            name="password2" placeholder="Repeat Password" required=""></div>
+                            name="password2" th:placeholder = "#{password2}" required=""></div>
                 </div>
                 <div class="row mb-3">
-                    <p id="emailErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
-                    <p id="passwordErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
+                    <p id="emailErrorMsg" class="text-danger" style="display:none;">The Email is wrong </p>
+                    <p id="passwordErrorMsg" class="text-danger" style="display:none;">The Password is wrong</p>
                 </div><button class="btn btn-primary d-block btn-user w-100" id="submitBtn" type="submit"
-                    style="background: #059669;">Register Account</button>
+                    style="background: #059669;" th:text="#{accountregister}">Register Account</button>
                 <hr>
             </form>
-            <div class="text-center"><a class="small" href="login">Already have an account? Login!</a></div>
+            <div class="text-center"><a class="small" href="login" th:text="#{askaccount}">Already have an account? Login!</a></div>
         </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
