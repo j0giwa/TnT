@@ -26,6 +26,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+	private final int BCRYPT_COST = 15;
+
 	@Autowired
 	private UserRepository users;
 	@Autowired
@@ -33,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Autowired
 	private SessionRepository sessions;
 
-	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
 
 	/**
 	 * Checks if the input password matches the {@link User}s password stored in the
@@ -101,6 +103,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean validateEmail(String email) {
 		if (null == email)
 			return false;
+
 		// Source https://ihateregex.io/expr/email/
 		return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
 	}
@@ -112,6 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean validatePassword(String password) {
 		if (null == password)
 			return false;
+
 		// Source = "https://ihateregex.io/expr/password/"
 		return password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
 	}
@@ -120,16 +124,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password,
-			String password2)
-			throws InvalidCredentialsException {
-
-		if (!validateEmail(email))
-			throw new InvalidCredentialsException("Email is not valid");
-
-		if (!validatePassword(password) || !validatePassword(password2) || !password.equals(password2))
-			throw new InvalidCredentialsException("Password is not valid");
-
+	public void register(String firstname, String lastname, String username, String email, String password) {
 		User usr = new User();
 		usr.setFirstname(firstname);
 		usr.setLastname(lastname);
@@ -141,6 +136,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		this.users.save(usr);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void logout(String token) {
 		Session session = this.sessions.findByAuthToken(token);

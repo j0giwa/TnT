@@ -23,14 +23,12 @@ public interface AuthenticationService {
 	 * 
 	 * 
 	 * @param firstname The First Name of the user
-	 * @param lastname The Last Name of the user
+	 * @param lastname  The Last Name of the user
 	 * @param username  The username of the user
 	 * @param email     The E-Mail address of the user
 	 * @param password  The password of the user
-	 * @param password2 The password verification to avoid typos
 	 */
-	public void register(String firstname, String lastname, String username, String email, String password, String password2)
-			throws InvalidCredentialsException;
+	public void register(String firstname, String lastname, String username, String email, String password);
 
 	/**
 	 * Validates that the chosen password is somewhat secure.
@@ -45,7 +43,17 @@ public interface AuthenticationService {
 	 * @param password Password to validate
 	 */
 	public boolean validatePassword(String password);
-	
+
+	/**
+	 * Checks if the input password matches the {@link User}s password stored in the
+	 * Database.
+	 *
+	 * @param user     The {@link User} whose Password should be checked against
+	 * @param password The input Password that should be checked
+	 *
+	 * @return {@code true} if the Password matched, {@code false} if the Password
+	 *         did not match
+	 */
 	public boolean validateEmail(String email);
 
 	public void logout(String token);
