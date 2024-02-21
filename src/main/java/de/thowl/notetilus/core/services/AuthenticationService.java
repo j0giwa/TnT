@@ -10,24 +10,16 @@ import de.thowl.notetilus.storage.entities.User;
 public interface AuthenticationService {
 
 	/**
-	 * Performs a login action
-	 * 
-	 * @param email    The E-Mail address of the user
-	 * @param password The password of the user
-	 * @return permit A38, or @Code{NULL} when credentials are invalid.
+	 * Checks if the input password matches the {@link User}s password stored in the
+	 * Database.
+	 *
+	 * @param user     The {@link User} whose Password should be checked against
+	 * @param password The input Password that should be checked
+	 *
+	 * @return {@code true} if the Password matched, {@code false} if the Password
+	 *         did not match
 	 */
-	public AccessToken login(String email, String password) throws InvalidCredentialsException;
-
-	/**
-	 * Registers a new user
-	 * 
-	 * @param firstname The First Name of the user
-	 * @param lastname  The Last Name of the user
-	 * @param username  The username of the user
-	 * @param email     The E-Mail address of the user
-	 * @param password  The password of the user
-	 */
-	public void register(String firstname, String lastname, String username, String email, String password);
+	public boolean validateEmail(String email);
 
 	/**
 	 * Validates that the chosen password is somewhat secure.
@@ -44,20 +36,6 @@ public interface AuthenticationService {
 	public boolean validatePassword(String password);
 
 	/**
-	 * Checks if the input password matches the {@link User}s password stored in the
-	 * Database.
-	 *
-	 * @param user     The {@link User} whose Password should be checked against
-	 * @param password The input Password that should be checked
-	 *
-	 * @return {@code true} if the Password matched, {@code false} if the Password
-	 *         did not match
-	 */
-	public boolean validateEmail(String email);
-
-	public void logout(String token);
-
-	/**
 	 * Validates the Users Session
 	 * <p>
 	 * Checks if the given ({@link AccessToken} belongs to a session with this
@@ -70,4 +48,32 @@ public interface AuthenticationService {
 	 *         {@code false} if something does not match
 	 */
 	public boolean validateSession(AccessToken token, String username);
+
+	/**
+	 * Registers a new user
+	 * 
+	 * @param firstname The First Name of the user
+	 * @param lastname  The Last Name of the user
+	 * @param username  The username of the user
+	 * @param email     The E-Mail address of the user
+	 * @param password  The password of the user
+	 */
+	public void register(String firstname, String lastname, String username, String email, String password);
+
+	/**
+	 * Performs a login action and stores an active {@link Session} in the Database.
+	 * 
+	 * @param email    The E-Mail address of the user
+	 * @param password The password of the user
+	 * @return permit A38, or @Code{NULL} when credentials are invalid.
+	 */
+	public AccessToken login(String email, String password) throws InvalidCredentialsException;
+
+	/**
+	 * Removes an active {@link Session} from the Database.
+	 * 
+	 * @param token The token of the session to remove.
+	 */
+	public void logout(String token);
+
 }
