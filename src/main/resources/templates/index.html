@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -28,7 +28,7 @@
                             <li class="nav-item"></li>
                             <li class="nav-item"></li>
                             <li class="nav-item"></li>
-                        </ul><a class="btn btn-primary ms-md-2" role="button" href="/register" style="background: #059669;">Sign up</a><a class="btn btn-primary ms-md-2" role="button" href="/login" style="background: var(--bs-navbar-active-color);color: var(--bs-primary-bg-subtle);border-color: #059669;">Log in</a>
+                        </ul><a class="btn btn-primary ms-md-2" role="button" href="/register" style="background: #059669;" th:text="#{sign_up}">Sign up</a><a class="btn btn-primary ms-md-2" role="button" href="/login" style="background: var(--bs-navbar-active-color);color: var(--bs-primary-bg-subtle);border-color: #059669;" th:text="#{login}">Log in</a>
                     </div>
                 </div>
             </nav>
@@ -36,7 +36,7 @@
     </section>
     <div class="container-fluid d-flex justify-content-center align-items-center align-content-center justify-content-sm-center" style="margin-top: 204px;">
         <div>
-            <p style="color: var(--bs-body-bg);font-size: 55px;">Let's organize and plan your day with TnT</p>
+            <p style="color: var(--bs-body-bg);font-size: 55px;" th:text="#{startmessage}">Let's organize and plan your day with TnT</p>
         </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
