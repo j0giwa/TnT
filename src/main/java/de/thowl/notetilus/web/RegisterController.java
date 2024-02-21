@@ -28,13 +28,13 @@ public class RegisterController {
 		log.info("entering doRegister (POST-Method: /register)");
 
 		if (!authsvc.validateEmail(form.getEmail()))
-			model.addAttribute("error", "Email is not valid");
+			model.addAttribute("error", "${email_error}");
 
 		if (!authsvc.validatePassword(form.getPassword()))
-			model.addAttribute("error", "Password is not valid");
+			model.addAttribute("error", "${password_error}");
 
 		if (!form.getPassword().equals(form.getPassword2()))
-			model.addAttribute("error", "Passwords did not match");
+			model.addAttribute("error", "${password_match_error}");
 
 		authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
 				form.getPassword());

@@ -21,7 +21,6 @@ public interface AuthenticationService {
 	/**
 	 * Registers a new user
 	 * 
-	 * 
 	 * @param firstname The First Name of the user
 	 * @param lastname  The Last Name of the user
 	 * @param username  The username of the user
