@@ -8,7 +8,6 @@
 	<nav th:replace="~{fragments/baselayout::navbar}" />
 
 	<main class="mt-5">
-
 		<div class="container-fluid">
 			<div class="row mb-5">
 				<div class="col-md-8 col-xl-6 text-center mx-auto">
@@ -35,9 +34,12 @@
 								<div class="mb-3">
 									<input class="form-control" type="email" name="email" th:placeholder="#{email}">
 								</div>
-								<div class="mb-3">
-									<input class="form-control" type="password" name="password" th:placeholder="#{password}">
-								</div>
+								<div class="form-group">
+									<input type="password" th:placeholder="#{password}" data-bs-toggle="tooltip" class="form-control form-control-lg" id="password" required title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen."/>
+									<div>
+										<meter max="4" id="password-strength-meter"></meter>
+										<p id="password-strength-text"></p>
+									</div>
 								<div class="mb-3">
 									<button class="btn btn-primary d-block w-100" type="submit" th:text="#{login}">Login</button>
 								</div>
@@ -59,6 +61,11 @@
 			</div>
 		</div>
 	</main>
+
+	<script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+    <script src="js/Password-Strenght-Checker---Ambrodu-password.js"></script>
 
 </body>
 

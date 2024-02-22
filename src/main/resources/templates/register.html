@@ -37,12 +37,22 @@
 						</div>
 						<div class="row mb-3">
 							<div class="col-sm-6 mb-3 mb-sm-0">
-								<input class="form-control form-control-user" type="password" id="password" name="password"
-									th:placeholder="#{password}" required="">
+								<div class="form-group">
+									<input id="password" class="form-control form-control-lg" type="password" th:placeholder="#{password}" data-bs-toggle="tooltip" required title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen." />
+									<div>
+										<meter id="password-strength-meter" max="4"></meter>
+										<p id="password-strength-text"></p>
+									</div>
+								</div>
 							</div>
 							<div class="col-sm-6">
-								<input class="form-control form-control-user" type="password" id="password2" name="password2"
-									th:placeholder="#{password2}" required="">
+								<div class="form-group">
+									<input id="password" class="form-control form-control-lg" type="password" th:placeholder="#{password2}" data-bs-toggle="tooltip" required title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen." />
+									<div>
+										<meter id="password-strength-meter" max="4"></meter>
+										<p id="password-strength-text"></p>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -64,7 +74,9 @@
 			</div>
 		</div>
 	</main>
-
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+    <script src="js/Password-Strenght-Checker---Ambrodu-password.js"></script>
 </body>
 
 </html>
