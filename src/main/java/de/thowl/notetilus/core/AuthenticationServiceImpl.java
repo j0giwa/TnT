@@ -68,8 +68,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public boolean validateSession(AccessToken token, String username) {
 		log.debug("entering validateSession(token: {}, username: {})", token.toString(), username);
 
-		Session session = sessions.findByAuthToken(token.getUsid());
-		User user = users.findByUsername(username);
+		Session session = this.sessions.findByAuthToken(token.getUsid());
+		User user = this.users.findByUsername(username);
 
 		return user.getId() == session.getUserId();
 	}
@@ -82,8 +82,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("entering register(firstname: {}, lastname: {}, username: {}, email: {}, password: {}",
 				firstname, lastname, username, email, password);
 
-		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
+		User usr = new User();
+		usr.setFirstname(firstname);
+		usr.setLastname(lastname);
+		usr.setUsername(username);
+		usr.setEmail(email);
+		usr.setPassword(encoder.encode(password));
 		usr.setGroup(this.groups.findById(1));
+
 		this.users.save(usr);
 	}
 

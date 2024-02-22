@@ -36,7 +36,7 @@ public class RegisterController {
 		if (!form.getPassword().equals(form.getPassword2()))
 			model.addAttribute("error", "password_match_error");
 
-		authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
+		this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
 				form.getPassword());
 
 		return "register";
