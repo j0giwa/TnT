@@ -55,3 +55,22 @@
   border-radius: 50%;
 }
 
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+.btn-outline-primary {
+  color: #059669;
+  border-color: #059669;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  /* Change text color on hover if needed */
+  background-color: #059669;
+  border-color: #059669;
+}
