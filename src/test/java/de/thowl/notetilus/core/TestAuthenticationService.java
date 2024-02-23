@@ -2,25 +2,56 @@ package de.thowl.notetilus.core;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import de.thowl.notetilus.core.exeptions.InvalidCredentialsException;
 import de.thowl.notetilus.core.services.AuthenticationService;
+import de.thowl.notetilus.storage.GroupRepository;
+import de.thowl.notetilus.storage.UserRepository;
 import de.thowl.notetilus.storage.entities.AccessToken;
+import de.thowl.notetilus.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
+@ActiveProfiles("test")
+@TestInstance(Lifecycle.PER_CLASS)
 class TestAuthenticationService {
 
 	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	private UserRepository users;
+
+	@Autowired
+	private GroupRepository groups;
+
+	/**
+	 * This does inititalise the db this test users.
+	 * 
+	 * {@link register} is skipped on purpose, so the tests dont rely on this method
+	 * working
+	 */
+	@BeforeAll
+	void initDB() {
+		//
+		User usr = new User("ruediger", "schlabonzki", "ruediger", "ruediger@thowl.de",
+				"$2a$15$Vx0wmTIUeQq0T6IqRRKwdOKFXFvfhMfKYIR2c2X0P0LdWcfCpV0C6");
+		usr.setGroup(groups.findById(1));
+		users.save(usr);
+	}
 
 	/**
 	 * Testing if a login whith valid credentials returns an accesstoken
@@ -28,55 +59,45 @@ class TestAuthenticationService {
 	@Test
 	void testLogin() {
 		log.info("entering Integration test testLogin");
-		AccessToken token;
+		AccessToken token = null;
+
 		try {
-			// NOTE: The password of the testuser is concidered insecure for our standards
-			token = this.authsvc.login("ruediger@thowl.de", "SuperSicher1234");
-			assertNotNull(token, "Token should not be NULL");
-			assertNotNull(token.getUsid(), "Session ID should not be NULL");
-			assertEquals(0, token.getUserId(), "Wrong UserID in session token, expected = 0");
+			token = this.authsvc.login("ruediger@thowl.de", "P@ssw0rd");
 		} catch (InvalidCredentialsException e) {
 			fail("login with valid credentials should not throw an exception");
 		}
+
+		assertNotNull(token, "Token should not be NULL");
+		assertNotNull(token.getUsid(), "Session ID should not be NULL");
+		assertEquals(1, token.getUserId(), "Wrong UserID in session token, expected = 1");
 	}
 
 	/**
 	 * Testing if a login whith invalid credentials returns nothing
 	 */
 	@Test
-	@SuppressWarnings("unused") // We are testing for an exeption.
 	void testLoginInvalidCredetials() {
 		log.info("entering Integration test testLoginInvalidCredetials");
 
-		try {
-			AccessToken token = this.authsvc.login(null, null);
-			fail("Token should be NULL, one or more inputs were NULL");
-		} catch (InvalidCredentialsException e) {
-		}
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login(null, "BringMe115");
+		}, "Token should be NULL, one or more inputs were NULL");
 
-		try {
-			AccessToken token = this.authsvc.login(null, "BringMe115");
-			fail("Token should be NULL, one or more inputs were NULL");
-		} catch (InvalidCredentialsException e) {
-		}
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login(null, null);
+		}, "Token should be NULL, one or more inputs were NULL");
 
-		try {
-			AccessToken token = this.authsvc.login("ruediger@thowl.de", null);
-			fail("Token should be NULL, one or more inputs were NULL");
-		} catch (InvalidCredentialsException e) {
-		}
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login("ruediger@thowl.de", null);
+		}, "Token should be NULL, one or more inputs were NULL");
 
-		try {
-			AccessToken token = this.authsvc.login("ruediger@thowl.de", "BringMe115");
-			fail("Token should be NULL, wrong password");
-		} catch (InvalidCredentialsException e) {
-		}
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login("ruediger@thowl.de", "BringMe115");
+		}, "Token should be NULL, wrong password");
 
-		try {
-			AccessToken token = this.authsvc.login("ivar@test.de", "BringMe115");
-			fail("Token should be NULL, user does not exist");
-		} catch (InvalidCredentialsException e) {
-		}
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login("ivar@test.de", "BringMe115");
+		}, "Token should be NULL, user does not exist");
 
 	}
 
@@ -106,22 +127,23 @@ class TestAuthenticationService {
 				"'johndoe@test.org' This should match the requirements");
 	}
 
-	// TODO: this test does not work, the code that is beeing tested does.
-	/*
-	 * @Test
-	 * void testRegister() {
-	 * log.info("entering test testRegister");
-	 * String uname = "test";
-	 * String passwd = "test123";
-	 * String email = "test@th-owl.de";
-	 * 
-	 * this.authsvc.register(uname, email, passwd, passwd);
-	 * 
-	 * User usr = this.users.findByUsername(uname);
-	 * 
-	 * assertNotNull(usr, "User resgistration failed");
-	 * assertEquals(uname, usr.getUsername(), "Wrong username");
-	 * assertEquals(email, usr.getEmail(), "Wrong Email");
-	 * }
-	 */
+	@Test
+	void testRegister() {
+		log.info("entering test testRegister");
+
+		String firstName = "test";
+		String lastName = "user";
+		String uname = "test";
+		String passwd = "test123";
+		String email = "test@th-owl.de";
+
+		this.authsvc.register(firstName, lastName, uname, email, passwd);
+
+		User usr = this.users.findByUsername(uname);
+
+		assertNotNull(usr, "User resgistration failed");
+		assertEquals(uname, usr.getUsername(), "Wrong username");
+		assertEquals(email, usr.getEmail(), "Wrong Email");
+	}
+
 }

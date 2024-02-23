@@ -1,38 +1,85 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/baselayout::htmlhead(pageTitle=Notetilus)}" />
+<head th:replace="~{fragments/baselayout::htmlhead(pageTitle='Register | TnT')}" />
 
-<body>
+<body class="bg-body">
 
-  <div th:replace="~{fragments/baselayout::navbar}" />
+	<nav th:replace="~{fragments/baselayout::navbar}" />
 
-  <div class="container-fluid mh-100">
-    <form class="mx-auto w-25 m-5 p-5 bg-light rounded" method="post" action="/signup">
-      <h4 class="text-center">Login</h4>
-      <div class="mb-3">
-        <label for="username" class="form-label" th:text="#{username}">username</label>
-        <input type="text" class="form-control" id="username" name="username" th:placeholder="#{username}">
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label" th:text="#{email}">email</label>
-        <input type="email" class="form-control" id="email" aria-describedby="email" name="email"
-          th:placeholder="#{email}">
-        <div id="emailHelp" class="form-text" th:text="#{mail_privacy}">We'll never share your email with anyone else.
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label" th:text="#{password}">password</label>
-        <input type="password" class="form-control" id="password" name="password" th:placeholder="#{password}">
-      </div>
-      <div class="mb-3">
-        <label for="password2" class="form-label" th:text="#{password2}">password2</label>
-        <input type="password" class="form-control" id="password2" name="password2" th:placeholder="#{password2}">
-      </div>
-      <button type="submit" class="btn btn-primary" th:text="#{register}">register</button>
-      <span class="text-danger m-2" th:text="${error}">ERROR</span>
-    </form>
-  </div>
+	<main class="mt-5">
+
+		<div class="container-fluid">
+
+			<div class="container bg-body-tertiary mx-auto border-none mb-5 pt-5 pb-0 rounded">
+				<div class="p-5">
+					<div class="text-center">
+						<h4 class="text-light mb-4" th:text="#{createaccount}">Create an Account!</h4>
+					</div>
+					<form class="user" method="post" action="/register">
+						<div class="row mb-3">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<input class="form-control form-control-user" type="text" id="firstname" name="firstname"
+									th:placeholder="#{first_name}" required="">
+							</div>
+							<div class="col-sm-6">
+								<input class="form-control form-control-user" type="text" id="lastname" name="lastname"
+									th:placeholder="#{last_name}" required="">
+							</div>
+						</div>
+						<div class="mb-3">
+							<input class="form-control form-control-user" type="text" id="username" name="username"
+								th:placeholder="#{username}" required="">
+						</div>
+						<div class="mb-3">
+							<input class="form-control form-control-user" type="email" id="email" name="email"
+								th:placeholder="#{email}" required="">
+						</div>
+						<div class="row mb-3">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<div class="form-group">
+									<input type="password" class="form-control form-control-lg" id="password" name="password"
+										th:placeholder="#{password}" data-bs-toggle="tooltip" required
+										title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen." />
+									<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
+										one English
+										lowercase letter, one number and one special
+										character.</p>
+									<div>
+										<meter id="password-strength-meter" max="4"></meter>
+										<p id="password-strength-text"></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<input type="password" id="password2" name="password2" class="form-control form-control-lg"
+										th:placeholder="#{password2}" required />
+								</div>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<p id="emailErrorMsg" class="text-danger" style="display:none;">The Email is wrong </p>
+							<p id="passwordErrorMsg" class="text-danger" style="display:none;">The Password is wrong</p>
+						</div>
+						<div th:if="${error}">
+							<span class="text-danger m-2" th:text="#{${error}}">ERROR</span>
+						</div>
+						<button class="btn btn-primary d-block btn-user w-100" id="submitBtn" type="submit"
+							th:text="#{accountregister}">Register Account</button>
+						<hr>
+					</form>
+					<div class="text-center">
+						<span th:text="#{askaccount}">Already have a Account?</span>
+						<a class="small" href="login" th:text="#{login}">Login!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+	<script src="js/Password-Strenght-Checker---Ambrodu-password.js"></script>
 
 </body>
 

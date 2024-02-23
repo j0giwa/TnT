@@ -1,21 +1,18 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/baselayout::htmlhead(pageTitle=Notetilus)}" />
+<head th:replace="~{fragments/baselayout::htmlhead(pageTitle='TnT')}" />
 
-<body>
+<body class="bg-body">
 
-  <div th:replace="~{fragments/baselayout::navbar}" />
+  <nav th:replace="~{fragments/baselayout::navbar}" />
 
-  <main>
-    <div class="container mh-100">
-      <div class="jumbotron mx-auto m-5 p-5 bg-light rounded">
-        <h1 class="display-4">Notetilus</h1>
-        <p class="lead">Lorem ipsum dolor sit amet</p>
-        <hr class="my-4">
-        <p th:text="#{welcome}">Lorem ipsum</p>
-        <a class="btn btn-primary btn-lg" href="/register" role="button" th:text="#{sign_up}">Sign up</a>
-        <a class="btn btn-primary btn-lg" href="/login" role="button" th:text="#{login}">Login</a>
+  <main class="mt-5">
+    <div
+      class="container-fluid d-flex justify-content-center align-items-center align-content-center justify-content-sm-center">
+      <div>
+        <p style="font-size: 55px;" th:text="#{startmessage}">Let's organize and plan your day
+          with TnT</p>
       </div>
     </div>
   </main>

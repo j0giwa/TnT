@@ -15,12 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class NotesController {
 
-	private AuthenticationService authsvc;
-
 	@Autowired
-	public NotesController(AuthenticationService authsvc) {
-		this.authsvc = authsvc;
-	}
+	private AuthenticationService authsvc;
 
 	@GetMapping("/u/{username}/notes")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
