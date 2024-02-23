@@ -10,11 +10,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "Users")
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class User {
 
 	@Id
@@ -26,15 +29,22 @@ public class User {
 	private Group group;
 
 	@NotNull
+	@NonNull
 	private String firstname;
 
 	@NotNull
+	@NonNull
 	private String lastname;
 
 	@NotNull
+	@NonNull
 	private String username;
+
 	@NotNull
+	@NonNull
 	private String email;
+
 	@NotNull
+	@NonNull
 	private String password;
 }
