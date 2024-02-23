@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Session {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String authToken;
 	private Date createdAt;

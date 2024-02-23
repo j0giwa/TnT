@@ -16,14 +16,20 @@ import lombok.NoArgsConstructor;
 @Table(name = "Users")
 @NoArgsConstructor
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@ManyToOne
 	@JoinColumn(name = "group_id", nullable = false)
 	private Group group;
+
+	@NotNull
+	private String firstname;
+
+	@NotNull
+	private String lastname;
 
 	@NotNull
 	private String username;

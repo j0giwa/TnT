@@ -20,14 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AuthController {
 
-	private AuthenticationService authsvc;
-	private UserRepository users;
-
 	@Autowired
-	public AuthController(AuthenticationService authsvc, UserRepository users) {
-		this.authsvc = authsvc;
-		this.users = users;
-	}
+	private AuthenticationService authsvc;
+	@Autowired
+	private UserRepository users;
 
 	/**
 	 * Shows the login page

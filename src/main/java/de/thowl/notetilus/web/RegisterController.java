@@ -14,12 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class RegisterController {
 
-	private AuthenticationService authsvc;
-
 	@Autowired
-	public RegisterController(AuthenticationService authsvc) {
-		this.authsvc = authsvc;
-	}
+	private AuthenticationService authsvc;
 
 	@GetMapping("/register")
 	public String showRegisterPage() {
@@ -27,10 +23,22 @@ public class RegisterController {
 		return "register";
 	}
 
-	@PostMapping("/signup")
+	@PostMapping("/register")
 	public String doRegister(RegisterForm form, Model model) {
 		log.info("entering doRegister (POST-Method: /register)");
-		authsvc.register(form.getUsername(), form.getEmail(), form.getPassword(), form.getPassword2());
-		return "index";
+
+		if (!authsvc.validateEmail(form.getEmail()))
+			model.addAttribute("error", "email_error");
+
+		if (!authsvc.validatePassword(form.getPassword()))
+			model.addAttribute("error", "password_error");
+
+		if (!form.getPassword().equals(form.getPassword2()))
+			model.addAttribute("error", "password_match_error");
+
+		this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
+				form.getPassword());
+
+		return "register";
 	}
 }

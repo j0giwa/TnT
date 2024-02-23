@@ -26,17 +26,73 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-	private UserRepository users;
-	private GroupRepository groups;
-	private SessionRepository sessions;
-
-	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
+	private final int BCRYPT_COST = 15;
 
 	@Autowired
-	public AuthenticationServiceImpl(UserRepository users, GroupRepository groups, SessionRepository sessions) {
-		this.users = users;
-		this.groups = groups;
-		this.sessions = sessions;
+	private UserRepository users;
+	@Autowired
+	private GroupRepository groups;
+	@Autowired
+	private SessionRepository sessions;
+
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
+
+	public boolean validateEmail(String email) {
+		log.debug("entering validateEmail");
+
+		if (null == email)
+			return false;
+
+		// Source https://ihateregex.io/expr/email/
+		return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean validatePassword(String password) {
+		log.debug("entering validatePassword");
+
+		if (null == password)
+			return false;
+
+		// Source = "https://ihateregex.io/expr/password/"
+		return password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean validateSession(AccessToken token, String username) {
+		log.debug("entering validateSession");
+
+		if (token == null)
+			return false;
+
+		Session session = sessions.findByAuthToken(token.getUsid());
+		User user = users.findByUsername(username);
+
+		return (user.getId() == session.getUserId());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void register(String firstname, String lastname, String username, String email, String password) {
+		log.debug("entering register");
+
+		User usr = new User();
+		usr.setFirstname(firstname);
+		usr.setLastname(lastname);
+		usr.setUsername(username);
+		usr.setEmail(email);
+		usr.setPassword(encoder.encode(password));
+		usr.setGroup(this.groups.findById(1));
+
+		this.users.save(usr);
 	}
 
 	/**
@@ -50,11 +106,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 *         did not match
 	 */
 	private boolean checkPassword(User user, String password) {
-		log.info("Comparing Form-password with BCrypt-hash");
+		log.debug("entering checkPassword");
 
 		if (null == password || password.isBlank())
 			return false;
 
+		log.info("Comparing Form-password with BCrypt-hash");
 		String dbPassword = user.getPassword();
 		return encoder.matches(password, dbPassword);
 	}
@@ -66,6 +123,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @return The {@link User}s {@link AccessToken}
 	 */
 	private AccessToken createSession(User user) {
+		log.debug("entering createSession");
+
 		AccessToken token = new AccessToken();
 		UUID uuid = UUID.randomUUID();
 		token.setUsid(uuid.toString());
@@ -102,70 +161,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		throw new InvalidCredentialsException("Wrong Password");
 	}
 
-	public boolean validateEmail(String email) {
-		if (null == email)
-			return false;
-		// Source https://ihateregex.io/expr/email/
-		return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public boolean validatePassword(String password) {
-		if (null == password)
-			return false;
-		// Source = "https://ihateregex.io/expr/password/" (Slightly modified)
-		return password.matches("^(?=[^A-Z]*+)(?=[^a-z]*+)(?=\\D*+)(?=.*?[#?!@$ %^&*-]).{8,}$");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void register(String username, String email, String password, String password2) {
-
-		if (!validateEmail(email))
-			return;
-
-		if (!validatePassword(password))
-			return;
-
-		if (!validatePassword(password2))
-			return;
-
-		if (!password.equals(password2))
-			return;
-
-		User usr = new User();
-		usr.setUsername(username);
-		usr.setEmail(email);
-		usr.setPassword(encoder.encode(password));
-		usr.setGroup(this.groups.findById(2));
-
-		this.users.save(usr);
-	}
-
 	@Override
 	public void logout(String token) {
+		log.debug("entering logout");
+
 		Session session = this.sessions.findByAuthToken(token);
 		this.sessions.delete(session);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean validateSession(AccessToken token, String username) {
-
-		if (token == null)
-			return false;
-
-		Session session = sessions.findByAuthToken(token.getUsid());
-		User user = users.findByUsername(username);
-
-		return (user.getId() == session.getUserId());
 	}
 
 }
