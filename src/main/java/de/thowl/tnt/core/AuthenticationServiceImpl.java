@@ -55,6 +55,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public boolean validateEmail(String email) {
 		log.debug("entering validateEmail");
 
@@ -92,7 +96,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Session session = sessions.findByAuthToken(token.getUsid());
 		User user = users.findByUsername(username);
 
-		return (user.getId() == session.getUserId());
+		return user.getId() == session.getUserId();
 	}
 
 	/**
@@ -102,12 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public void register(String firstname, String lastname, String username, String email, String password) {
 		log.debug("entering register");
 
-		User usr = new User();
-		usr.setFirstname(firstname);
-		usr.setLastname(lastname);
-		usr.setUsername(username);
-		usr.setEmail(email);
-		usr.setPassword(encoder.encode(password));
+		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
 		usr.setGroup(this.groups.findById(1));
 
 		this.users.save(usr);
@@ -129,8 +128,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (null == password || password.isBlank())
 			return false;
 
-		log.info("Comparing Form-password with BCrypt-hash");
+		log.debug("Comparing Form-password with BCrypt-hash");
 		String dbPassword = user.getPassword();
+
 		return encoder.matches(password, dbPassword);
 	}
 
@@ -143,12 +143,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private AccessToken createSession(User user) {
 		log.debug("entering createSession");
 
+		// Todo: Refactor AccessToken
 		AccessToken token = new AccessToken();
 		UUID uuid = UUID.randomUUID();
 		token.setUsid(uuid.toString());
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
 		this.sessions.save(new Session(token.getUsid(), user));
+
+		log.debug("createSession returned: {}", token.toString());
 		return token;
 	}
 

@@ -96,26 +96,31 @@ class TestAuthenticationService {
 	void testLoginInvalidCredetials() {
 		log.info("entering Integration test testLoginInvalidCredetials");
 
+		log.info("Attempting to login without credentials");
+		assertThrows(InvalidCredentialsException.class, () -> {
+			this.authsvc.login(null, null);
+		}, "Token should be NULL, no credentials");
+
+		log.info("Attempting to login without an email");
 		assertThrows(InvalidCredentialsException.class, () -> {
 			this.authsvc.login(null, "BringMe115");
 		}, "Token should be NULL, one or more inputs were NULL");
 
-		assertThrows(InvalidCredentialsException.class, () -> {
-			this.authsvc.login(null, null);
-		}, "Token should be NULL, one or more inputs were NULL");
-
+		log.info("Attempting to login without an password");
 		assertThrows(InvalidCredentialsException.class, () -> {
 			this.authsvc.login("ruediger@thowl.de", null);
 		}, "Token should be NULL, one or more inputs were NULL");
 
+		log.info("Attempting to login with a wrong password");
 		assertThrows(InvalidCredentialsException.class, () -> {
 			this.authsvc.login("ruediger@thowl.de", "BringMe115");
 		}, "Token should be NULL, wrong password");
 
+		log.info("Attempting to login with a user that does not exist");
 		assertThrows(InvalidCredentialsException.class, () -> {
-			this.authsvc.login("ivar@test.de", "BringMe115");
+			// NOTE: password does not matter
+			this.authsvc.login("ivar@test.de", "1234");
 		}, "Token should be NULL, user does not exist");
-
 	}
 
 	@Test

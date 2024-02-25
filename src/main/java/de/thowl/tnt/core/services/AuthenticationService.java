@@ -28,8 +28,7 @@ import de.thowl.tnt.storage.entities.User;
 public interface AuthenticationService {
 
 	/**
-	 * Checks if the input password matches the {@link User}s password stored in the
-	 * Database.
+	 * Checks if the input matches the format of an E-Mail address.
 	 *
 	 * @param user     The {@link User} whose Password should be checked against
 	 * @param password The input Password that should be checked
@@ -42,14 +41,22 @@ public interface AuthenticationService {
 	/**
 	 * Validates that the chosen password is somewhat secure.
 	 * This is to protect the users from their own stupidity
+	 *
 	 * <p>
+	 *
 	 * Password requirements:
-	 * Minimum eight characters,
-	 * at least one upper case English letter,
-	 * one lower case English letter,
-	 * one number and one special character
+	 * <ul>
+	 * <li>Minimum eight characters</li>
+	 * <li>at least one upper case English letter</li>
+	 * <li>at least one lower case English letter</li>
+	 * <li>at least one number</li>
+	 * <li>at least ne special character</li>
+	 * </ul>
 	 *
 	 * @param password Password to validate
+	 *
+	 * @return {@code true} if the conditions match,
+	 *         {@code false} if something does not match
 	 */
 	public boolean validatePassword(String password);
 
@@ -83,7 +90,10 @@ public interface AuthenticationService {
 	 * 
 	 * @param email    The E-Mail address of the user
 	 * @param password The password of the user
-	 * @return permit A38, or @Code{NULL} when credentials are invalid.
+	 *
+	 * @return permit A38
+	 *
+	 * @throws {@link InvalidCredentialsException} when credentials are invalid.
 	 */
 	public AccessToken login(String email, String password) throws InvalidCredentialsException;
 
