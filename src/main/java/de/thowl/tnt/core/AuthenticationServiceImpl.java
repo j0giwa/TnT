@@ -60,13 +60,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validateEmail(String email) {
-		log.debug("entering validateEmail");
+		log.debug("entering validateEmail(email: {})", email);
 
 		if (null == email)
 			return false;
 
 		// Source https://ihateregex.io/expr/email/
-		return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
+		boolean result = email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
+		log.debug("validateEmail(email: {}) returned: {}",email ,result);
+		return result;
 	}
 
 	/**
@@ -74,13 +76,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validatePassword(String password) {
-		log.debug("entering validatePassword");
+		log.debug("entering validatePassword(password: {})", password);
 
 		if (null == password)
 			return false;
 
 		// Source = "https://ihateregex.io/expr/password/"
-		return password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
+		boolean result =  password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
+		log.debug("validatePassword(password: {}) returned: {}",password ,result);
+		return result;
 	}
 
 	/**
@@ -88,7 +92,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validateSession(AccessToken token, String username) {
-		log.debug("entering validateSession");
+		log.debug("entering validateSession(username: {})", username);
 
 		if (token == null)
 			return false;
@@ -96,7 +100,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Session session = sessions.findByAuthToken(token.getUsid());
 		User user = users.findByUsername(username);
 
-		return user.getId() == session.getUserId();
+		boolean result = user.getId() == session.getUserId();
+
+		log.debug("validateSession(username:{}) returned: {}", username, result);
+		return result;
 	}
 
 	/**
@@ -104,11 +111,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public void register(String firstname, String lastname, String username, String email, String password) {
-		log.debug("entering register");
+		log.debug("entering register()");
 
 		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
 		usr.setGroup(this.groups.findById(1));
 
+		log.info("registering user {} with {}", username, email);
 		this.users.save(usr);
 	}
 
@@ -123,15 +131,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 *         did not match
 	 */
 	private boolean checkPassword(User user, String password) {
-		log.debug("entering checkPassword");
+		log.debug("entering checkPassword()");
 
 		if (null == password || password.isBlank())
 			return false;
 
+		String bHash = user.getPassword();
+		
 		log.debug("Comparing Form-password with BCrypt-hash");
-		String dbPassword = user.getPassword();
+		boolean result = encoder.matches(password, bHash);
 
-		return encoder.matches(password, dbPassword);
+		log.debug("checkPassword() returned: {}", result);
+		return result;
 	}
 
 	/**
@@ -141,7 +152,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @return The {@link User}s {@link AccessToken}
 	 */
 	private AccessToken createSession(User user) {
-		log.debug("entering createSession");
+		log.debug("entering createSession()");
 
 		// Todo: Refactor AccessToken
 		AccessToken token = new AccessToken();
@@ -160,7 +171,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public AccessToken login(String email, String password) throws InvalidCredentialsException {
-		log.debug("entering login");
+		log.debug("entering login(email: {}, password: {})", email, password);
 
 		if (email == null || password == null) {
 			log.error("One or more params were left empty");
@@ -174,6 +185,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throw new InvalidCredentialsException("User not found");
 		}
 
+		log.info("login attempt for user with email: {}", email);
 		if (checkPassword(user, password)) {
 			log.info("Password matched, creating user session");
 			return createSession(user);

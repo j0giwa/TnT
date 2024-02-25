@@ -24,8 +24,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/teapot")
+@Tag(name = "teapot", description = "teapot API")
 public class TeaPotService {
 
 	/**
@@ -33,6 +40,10 @@ public class TeaPotService {
 	 * 
 	 * @return HTTP-Status 418 "I'm a teapot"
 	 */
+	@Operation(summary = "I'm a teapot")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "418", description = "I'm a teapot", content = @Content)
+	})
 	@GetMapping("/")
 	public ResponseEntity<String> teapot() {
 		return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("IM A TEAPOT");
