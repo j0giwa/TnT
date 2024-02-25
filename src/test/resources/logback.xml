@@ -26,7 +26,6 @@
     <logger name="com.zaxxer.hikari" level="ERROR" />
 
     <!-- Own packages -->
-    <!-- TODO: lower to ERROR when shipping -->
-    <logger name="de.thowl" level="ERROR" />
+    <logger name="de.thowl" level="DEBUG" />
 
 </configuration>
