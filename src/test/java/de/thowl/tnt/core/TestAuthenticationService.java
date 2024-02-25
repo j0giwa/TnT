@@ -58,6 +58,7 @@ class TestAuthenticationService {
 
 	/**
 	 * This does inititalise the db this test users.
+
 	 * 
 	 * {@link register} is skipped on purpose, so the tests dont rely on this method
 	 * working
@@ -94,7 +95,7 @@ class TestAuthenticationService {
 	 */
 	@Test
 	void testLoginInvalidCredetials() {
-		log.info("entering Integration test testLoginInvalidCredetials");
+		log.info("entering Integration test testLoginInvalidCredetials, there should be errors");
 
 		log.info("Attempting to login without credentials");
 		assertThrows(InvalidCredentialsException.class, () -> {
