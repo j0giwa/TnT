@@ -65,6 +65,7 @@ class TestAuthenticationService {
 	 */
 	@BeforeAll
 	void initDB() {
+		log.info("initialising Testdatabase");
 		User usr = new User("ruediger", "schlabonzki", "ruediger", "ruediger@thowl.de",
 				"$2a$15$Vx0wmTIUeQq0T6IqRRKwdOKFXFvfhMfKYIR2c2X0P0LdWcfCpV0C6");
 		usr.setGroup(groups.findById(1));
@@ -165,6 +166,8 @@ class TestAuthenticationService {
 		User usr = this.users.findByUsername(uname);
 
 		assertNotNull(usr, "User resgistration failed");
+		assertEquals(firstName, usr.getFirstname(), "Wrong first name");
+		assertEquals(lastName, usr.getLastname(), "Wrong last name");
 		assertEquals(uname, usr.getUsername(), "Wrong username");
 		assertEquals(email, usr.getEmail(), "Wrong Email");
 	}

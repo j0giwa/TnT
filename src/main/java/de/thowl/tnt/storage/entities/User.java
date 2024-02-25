@@ -30,6 +30,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -44,6 +45,7 @@ public class User {
 
 	@ManyToOne
 	@JoinColumn(name = "group_id", nullable = false)
+	@ToString.Exclude
 	private Group group;
 
 	@NotNull

@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validateEmail(String email) {
-		log.debug("entering validateEmail(email: {})", email);
+		log.debug("entering validateEmail");
 
 		if (null == email)
 			return false;
@@ -76,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validatePassword(String password) {
-		log.debug("entering validatePassword(password: {})", password);
+		log.debug("entering validatePassword");
 
 		if (null == password)
 			return false;
@@ -92,17 +92,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validateSession(AccessToken token, String username) {
-		log.debug("entering validateSession(username: {})", username);
+		log.debug("entering validateSession");
 
-		if (token == null)
+		if (token == null) {
+			log.error("token was null");
 			return false;
+		}
 
 		Session session = sessions.findByAuthToken(token.getUsid());
+		if (session == null) {
+			log.error("a session could not be found");
+			return false;
+		}
+
 		User user = users.findByUsername(username);
+		if (user == null) {
+			log.error("user: {} could not be found", username);
+			return false;
+		}
 
 		boolean result = user.getId() == session.getUserId();
 
-		log.debug("validateSession(username:{}) returned: {}", username, result);
+		// THis might bug out
+		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
 		return result;
 	}
 
@@ -111,7 +123,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public void register(String firstname, String lastname, String username, String email, String password) {
-		log.debug("entering register()");
+		log.debug("entering register");
 
 		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
 		usr.setGroup(this.groups.findById(1));
@@ -131,7 +143,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 *         did not match
 	 */
 	private boolean checkPassword(User user, String password) {
-		log.debug("entering checkPassword()");
+		log.debug("entering checkPassword");
 
 		if (null == password || password.isBlank())
 			return false;
@@ -141,7 +153,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("Comparing Form-password with BCrypt-hash");
 		boolean result = encoder.matches(password, bHash);
 
-		log.debug("checkPassword() returned: {}", result);
+		log.debug("checkPassword(user: {}, password: {}) returned: {}", user.toString(), password, result);
 		return result;
 	}
 
@@ -152,7 +164,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @return The {@link User}s {@link AccessToken}
 	 */
 	private AccessToken createSession(User user) {
-		log.debug("entering createSession()");
+		log.debug("entering createSession");
 
 		// Todo: Refactor AccessToken
 		AccessToken token = new AccessToken();
@@ -171,7 +183,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public AccessToken login(String email, String password) throws InvalidCredentialsException {
-		log.debug("entering login(email: {}, password: {})", email, password);
+		log.debug("entering login");
 
 		if (email == null || password == null) {
 			log.error("One or more params were left empty");
@@ -202,6 +214,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("entering logout");
 
 		Session session = this.sessions.findByAuthToken(token);
+		log.info("user with id: {} logged out", session.getUserId());
+
+		log.debug("deleting session: {} from Database", session.toString());
 		this.sessions.delete(session);
 	}
 
