@@ -28,6 +28,7 @@ import de.thowl.tnt.storage.entities.User;
 
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Long> {
+
 	public Task findById(long id);
 
 	public List<Task> findByUser(User User);
