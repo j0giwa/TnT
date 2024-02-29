@@ -24,10 +24,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.Task;
+import de.thowl.tnt.storage.entities.User;
 
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Long> {
 	public Task findById(long id);
 
-	public List<Task> findByUser(String User);
+	public List<Task> findByUser(User User);
 }
