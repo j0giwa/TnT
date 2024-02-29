@@ -18,7 +18,7 @@ public class NotesController {
 	@Autowired
 	private AuthenticationService authsvc;
 
-	@GetMapping("/u/{username}/notes")
+	@GetMapping("/u/{username}/todo")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showLoginPage (GET-Method: /login)");
@@ -29,6 +29,6 @@ public class NotesController {
 
 		model.addAttribute("user", username);
 
-		return "notes";
+		return "todo";
 	}
 }
