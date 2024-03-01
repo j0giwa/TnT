@@ -18,11 +18,11 @@
 
 package de.thowl.tnt.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -58,7 +58,7 @@ class TestAuthenticationService {
 
 	/**
 	 * This does inititalise the db this test users.
-
+	 * 
 	 * 
 	 * {@link register} is skipped on purpose, so the tests dont rely on this method
 	 * working
@@ -67,7 +67,7 @@ class TestAuthenticationService {
 	void initDB() {
 		log.info("initialising Testdatabase");
 		User usr = new User("ruediger", "schlabonzki", "ruediger", "ruediger@thowl.de",
-				"$2a$15$Vx0wmTIUeQq0T6IqRRKwdOKFXFvfhMfKYIR2c2X0P0LdWcfCpV0C6");
+				"$2a$15$Vx0wmTIUeQq0T6IqRRKwdOKFXFvfhMfKYIR2c2X0P0LdWcfCpV0C6", "superrandom");
 		usr.setGroup(groups.findById(1));
 		users.save(usr);
 	}

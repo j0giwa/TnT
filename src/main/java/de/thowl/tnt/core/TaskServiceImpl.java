@@ -42,13 +42,30 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	private TaskRepository tasks;
 
+	public Priority setPriority(String priority) {
+
+		switch (priority) {
+			case "low":
+				return Priority.LOW;
+			case "medium":
+				return Priority.MEDIUM;
+			case "high":
+				return Priority.HIGH;
+			default:
+				break;
+		}
+
+		return null;
+
+	}
+	
 	@Override
-	public void add(String username, String name, String content, Priority priority, Date dueDate) {
+	public void add(String username, String name, String content, String priority, Date dueDate) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
 		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date()).dueDate(dueDate)
-				.priority(priority).build();
+				.priority(setPriority(priority)).build();
 
 		this.tasks.save(task);
 	}

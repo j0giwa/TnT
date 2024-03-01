@@ -75,23 +75,7 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		Priority priority = null;
-
-		switch (form.getPriority()) {
-			case "low":
-				priority = Priority.LOW;
-				break;
-			case "medium":
-				priority = Priority.MEDIUM;
-				break;
-			case "high":
-				priority = Priority.HIGH;
-				break;
-			default:
-				break;
-		}
-
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), priority, new Date());
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date());
 
 		return "todo";
 	}

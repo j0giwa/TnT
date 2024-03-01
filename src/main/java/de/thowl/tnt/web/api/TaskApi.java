@@ -29,7 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.thowl.tnt.core.services.TaskService;
-import de.thowl.tnt.storage.entities.Priority;
+import de.thowl.tnt.storage.UserRepository;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.forms.TaskForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,7 +44,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class TaskApi {
 
 	@Autowired
+	private UserRepository users;
+
+	@Autowired
 	private TaskService tasksvc;
+
 
 	@Operation(summary = "Adds a task to the database")
 	@ApiResponses(value = {
@@ -53,24 +58,10 @@ public class TaskApi {
 	@PostMapping("/add")
 	public ResponseEntity<String> add(@RequestBody TaskForm form) {
 
-		Priority priority = null;
+		User user = users.findByApiToken(form.getApiToken());
+		String username = user.getUsername();
 
-		switch (form.getPriority()) {
-			case "low":
-				priority = Priority.LOW;
-				break;
-			case "medium":
-				priority = Priority.MEDIUM;
-				break;
-			case "high":
-				priority = Priority.HIGH;
-				break;
-			default:
-				break;
-		}
-		String username = "igor";
-
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), priority, new Date());
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}

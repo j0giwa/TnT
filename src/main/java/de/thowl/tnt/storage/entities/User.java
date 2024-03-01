@@ -67,4 +67,9 @@ public class User {
 	@NotNull
 	@NonNull
 	private String password;
+
+	@NotNull
+	@NonNull
+	private String apiToken;
+
 }

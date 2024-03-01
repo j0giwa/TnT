@@ -118,6 +118,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return result;
 	}
 
+	public String generateToken() {
+		return UUID.randomUUID().toString();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -125,7 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public void register(String firstname, String lastname, String username, String email, String password) {
 		log.debug("entering register");
 
-		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
+		User usr = new User(firstname, lastname, username, email, encoder.encode(password), generateToken());
 		usr.setGroup(this.groups.findById(1));
 
 		log.info("registering user {} with {}", username, email);

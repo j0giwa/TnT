@@ -23,6 +23,9 @@ import lombok.Data;
 @Data
 public class TaskForm {
 
+
+	private String apiToken; // For API only
+
 	// Change datatype where needed
 	private String taskName;
 	private String taskContent;
