@@ -14,19 +14,4 @@
         <appender-ref ref="CONSOLE" />
     </root>
 
-    <!-- setup log levels -->
-    <!-- Tomcat server -->
-    <logger name="org.apache.catalina" level="ERROR" />
-    <logger name="org.apache.coyote" level="ERROR" />
-
-    <!-- Spring framework -->
-    <logger name="org.springframework" level="ERROR" />
-
-    <!-- Database connection pool -->
-    <logger name="com.zaxxer.hikari" level="ERROR" />
-
-    <!-- Own packages -->
-    <!-- TODO: lower to ERROR when shipping -->
-    <logger name="de.thowl" level="ERROR" />
-
 </configuration>

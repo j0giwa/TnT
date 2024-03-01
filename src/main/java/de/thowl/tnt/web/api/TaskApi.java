@@ -24,12 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.Priority;
+import de.thowl.tnt.web.forms.TaskForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +39,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/task")
-@Tag(name = "teapot", description = "teapot API")
+@Tag(name = "task", description = "task API")
 public class TaskApi {
 
 	@Autowired
@@ -47,15 +48,14 @@ public class TaskApi {
 	@Operation(summary = "Adds a task to the database")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "success", content = @Content),
-			@ApiResponse(responseCode = "403", description = "I'm a teapot", content = @Content)
+			@ApiResponse(responseCode = "403", description = "Unauthorised", content = @Content)
 	})
-
 	@PostMapping("/add")
-	public ResponseEntity<String> add(@RequestBody String username, @RequestBody String taskName,
-			@RequestBody String taskContent, @RequestBody String taskPriority, @RequestBody Date date) {
+	public ResponseEntity<String> add(@RequestBody TaskForm form) {
 
 		Priority priority = null;
-		switch (taskPriority) {
+
+		switch (form.getPriority()) {
 			case "low":
 				priority = Priority.LOW;
 				break;
@@ -68,8 +68,9 @@ public class TaskApi {
 			default:
 				break;
 		}
+		String username = "igor";
 
-		this.tasksvc.add(username, taskName, taskContent, priority, date);
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), priority, new Date());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
