@@ -16,27 +16,18 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.storage.entities;
+package de.thowl.tnt.web.forms;
 
-import java.util.Date;
+import lombok.Data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import lombok.NonNull;
-import lombok.experimental.SuperBuilder;
+@Data
+public class TaskForm {
 
-@Entity
-@Table(name = "Tasks")
-@SuperBuilder
-public class Task extends Entry {
-
-	@NotNull
-	@NonNull
-	private Priority priority;
-
-	@NotNull
-	@NonNull
-	private Date dueDate;
+	// Change datatype where needed
+	private String taskName;
+	private String taskContent;
+	private String date;
+	private String time;
+	private String priority;
 
 }

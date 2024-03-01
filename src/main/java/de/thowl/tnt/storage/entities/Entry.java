@@ -30,11 +30,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @MappedSuperclass
 @NoArgsConstructor
+@RequiredArgsConstructor
+@SuperBuilder
 public abstract class Entry {
 
 	@Id
@@ -56,6 +60,6 @@ public abstract class Entry {
 
 	@NotNull
 	@NonNull
-	private Date date;
+	private Date createdAt;
 
 }

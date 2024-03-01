@@ -5,16 +5,27 @@
   <title th:text="${pageTitle}">PLACEHOLDER</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface&amp;display=swap">
+  <link rel="stylesheet" th:href="@{/css/Navbar-Centered-Brand-Dark-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/Password-Strenght-Checker---Ambrodu-password.css}">
+  <link rel="stylesheet" th:href="@{/css/Password-Strenght-Checker---Ambrodu.css}">
+  <script th:src="@{/bootstrap/js/bootstrap.min.js}" defer></script>
+</head>
+
+<head th:fragment="htmlhead_postlogin (pageTitle)">
+  <title th:text="${pageTitle}">PLACEHOLDER</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface&amp;display=swap">
+  <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
   <link rel="stylesheet" th:href="@{/css/Material-Text-Input.css}">
-  <link rel="stylesheet" href="css/Navbar-Centered-Brand-Dark-icons.css">
-  <link rel="stylesheet" href="css/Password-Strenght-Checker---Ambrodu-password.css">
-  <link rel="stylesheet" href="css/Password-Strenght-Checker---Ambrodu.css">
-  <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
-  <script src="bootstrap/js/bootstrap.min.js" defer></script>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <script th:src="@{/bootstrap/js/bootstrap.min.js}" defer></script>
+  <script th:src="@{/js/Material-Text-Input-material.min.js}" defer></script>
+  <script th:src="@{/js/navbar-sidebar-theme.js}" defer></script>
 </head>
 
 <body>

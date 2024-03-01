@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>tnt_task</title>
-	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
-	<link rel="stylesheet" th:href="@{/css/Material-Text-Input.css}">
-	<link rel="stylesheet" th:href="@{/css/styles.css}">
-</head>
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle=Notetilus)}" />
 
 <body id="bod" style="background: rgb(33, 37, 41);">
 	<div id="wrapper" style="padding-bottom: 100%;">
@@ -17,165 +9,145 @@
 		<nav th:replace="~{fragments/baselayout::sidebar}" />
 
 		<div id="content-wrapper">
-			<div>
 
-				<nav th:replace="~{fragments/baselayout::topbar}" />
+			<nav th:replace="~{fragments/baselayout::topbar}" />
 
-				<div class="container" style="margin-top: 95px;">
-					<header>
-						<div>
-							<p style="color: var(--bs-body-bg);font-weight: bold;" th:text="#{letsgo}">Let's go!!</p>
-						</div>
-					</header>
-					<div class="card" style="background: #252a2f;color: rgb(255,255,255);height: 273.4px;">
-						<div class="card-body">
-							<div id="container_textinput">
-								<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"><input
-										type="text" id="FormInput-1" class="mdl-textfield__input"
-										style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}">
-									<label class="form-label mdl-textfield__label" for="emailFormInput"></label>
-								</div>
-								<div id="textinput2" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<textarea th:placeholder="#{description}"
-										style="background: #252a2f;color: var(--bs-body-bg);border-color: #059669;">
+			<div class="container" style="margin-top: 95px;">
+				<header>
+					<h2 style="color: var(--bs-body-bg);font-weight: bold;" th:text="#{letsgo}">Let's go!!</h2>
+				</header>
+				<form class="card" method="post" style="background: #252a2f;color: rgb(255,255,255);height: 273.4px;">
+					<div class="card-body">
+						<div id="container_textinput">
+							<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input type="text" id="FormInput-1" name="taskName" class="mdl-textfield__input"
+									style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}">
+								<label class="form-label mdl-textfield__label" for="emailFormInput"></label>
+							</div>
+							<div id="textinput2" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<textarea id="taskContent" name="taskContent" th:placeholder="#{description}"
+									style="background: #252a2f;color: var(--bs-body-bg);border-color: #059669;">
 									</textarea>
-								</div>
 							</div>
-							<div class="d-flex justify-content-between" id="div_dropdown" style="margin-top: 14px;">
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-primary datum" aria-expanded="false" data-bs-toggle="dropdown" type="button"
-											style="border-color: #059669;border-left-color: #059669;" th:text="#{expirydate}">
-											<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-												fill="currentColor" style="margin-right: 5px;margin-top: -5px;">
-												<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-												<path
-													d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z">
-												</path>
-											</svg>
-											<span>Fälligkeitsdatum</span>
-										</button>
-										<div class="dropdown-menu" style="background: #c0e5d9;">
-											<a class="dropdown-item" href="#">
-												<input type="date"
-													style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
-											</a>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-primary priorität" aria-expanded="false" data-bs-toggle="dropdown"
-											type="button" style="border-color: #059669;" th:text="#{priority}">
-											<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-												fill="currentColor" style="margin-right: 5px;margin-top: -5px;">
-												<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-												<path
-													d="M48 24C48 10.7 37.3 0 24 0S0 10.7 0 24V64 350.5 400v88c0 13.3 10.7 24 24 24s24-10.7 24-24V388l80.3-20.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L48 52V24zm0 77.5l96.6-24.2c27-6.7 55.5-3.6 80.4 8.8c54.9 27.4 118.7 29.7 175 6.8V334.7l-24.4 9.1c-33.7 12.6-71.2 10.7-103.4-5.4c-48.2-24.1-103.3-30.1-155.6-17.1L48 338.5v-237z">
-												</path>
-											</svg>
-											<span>Prioritäten</span>
-										</button>
-										<div class="dropdown-menu" style="background: #c0e5d9;">
-											<a class="dropdown-item" href="#">
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-													fill="currentColor" class="text-danger" style="margin-right: 5px;margin-top: -5px;">
-													<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-													<path
-														d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"
-														th:text="#{P1}">
-													</path>
-												</svg>
-												<span>Priorität 1</span>
-											</a>
-											<a class="dropdown-item" href="#">
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-													fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(220,125,15);">
-													<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-													<path
-														d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"
-														th:text="#{P2}">
-													</path>
-												</svg>
-												<span>Priorität 2</span>
-											</a>
-											<a class="dropdown-item" href="#">
-												<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-													fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(20,91,162);">
-													<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-													<path
-														d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"
-														th:text="#{P3}">
-													</path>
-												</svg>
-												<span>Priorität 3</span>
-											</a>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-primary zeit" aria-expanded="false" data-bs-toggle="dropdown" type="button"
-											style="border-color: #059669;" th:text="#{time}">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-												viewBox="0 0 16 16" class="bi bi-clock" style="margin-right: 5px;margin-top: -5px;">
-												<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z">
-												</path>
-												<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0">
-												</path>
-											</svg>
-											<span>Zeit</span>
-										</button>
-										<div class="dropdown-menu" style="background: #c0e5d9;">
-											<a class="dropdown-item" href="#" type="">
-												<input type="time"
-													style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="d-flex justify-content-center" style="margin-top: 12px;">
-								<button class="btn border rounded-circle border-0" id="add_button" type="button">
-									<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-										viewBox="0 0 16 16" class="bi bi-plus-square" style="font-size: 29px;">
+						</div>
+						<div class="d-flex justify-content-between" id="div_dropdown" style="margin-top: 14px;">
+
+							<div class="dropdown">
+								<button class="btn btn-primary datum" aria-expanded="false" data-bs-toggle="dropdown" type="button"
+									style="border-color: #059669;border-left-color: #059669;" th:text="#{expirydate}">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+										fill="currentColor" style="margin-right: 5px;margin-top: -5px;">
+										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
 										<path
-											d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z">
-										</path>
-										<path
-											d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
+											d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z">
 										</path>
 									</svg>
+									<span>Fälligkeitsdatum</span>
 								</button>
+								<div class="dropdown-menu" style="background: #c0e5d9;">
+									<a class="dropdown-item" href="#">
+										<input type="date" id="date" name="date"
+											style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
+									</a>
+								</div>
+							</div>
+
+							<!-- This is the only dropdown that actualy serves a purpose -->
+							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
+								<!-- This is a placholder(for looks), should not be selected -->
+								<option>
+									<span>Prioritäten</span>
+								</option>
+								<!-- Theese are actual values -->
+								<option value="low">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+										fill="currentColor" class="text-danger" style="margin-right: 5px;margin-top: -5px;">
+										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+										<path
+											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
+										</path>
+									</svg>
+									<span th:text="#{P1}">Priorität 1</span>
+								</option>
+								<option value="medium">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+										fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(220,125,15);">
+										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+										<path
+											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
+										</path>
+									</svg>
+									<span th:text="#{P2}">Priorität 2</span>
+								</option>
+								<option value="high">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+										fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(20,91,162);">
+										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+										<path
+											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
+										</path>
+									</svg>
+									<span th:text="#{P3}">Priorität 3</span>
+								</option>
+							</select>
+
+							<div class="dropdown">
+								<button class="btn btn-primary zeit" aria-expanded="false" data-bs-toggle="dropdown" type="button"
+									style="border-color: #059669;" th:text="#{time}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+										viewBox="0 0 16 16" class="bi bi-clock" style="margin-right: 5px;margin-top: -5px;">
+										<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z">
+										</path>
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0">
+										</path>
+									</svg>
+									<span>Zeit</span>
+								</button>
+								<div class="dropdown-menu" style="background: #c0e5d9;">
+									<a class="dropdown-item" href="#" type="">
+										<input type="time" id="time" name="time"
+											style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-
-					<!-- Todo List -->
-					<div class="card" style="margin-top: 57px;background: #252a2f;">
-						<div class="card-body" style="color: var(--bs-body-bg);">
-							<h4 class="card-title" th:text="#{today}">Heute</h4>
-							<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
-								hast du vor?</h6>
-							<ul class="list-unstyled">
-
-								<li th:replace="~{fragments/todo::task}" />
-								<li th:replace="~{fragments/todo::task}" />
-								<li th:replace="~{fragments/todo::task}" />
-								<li th:replace="~{fragments/todo::task}" />
-
-							</ul>
+						<div class="d-flex justify-content-center" style="margin-top: 12px;">
+							<button class="btn border rounded-circle border-0" id="add_button" type="submit">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+									class="bi bi-plus-square" style="font-size: 29px;">
+									<path
+										d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z">
+									</path>
+									<path
+										d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
+									</path>
+								</svg>
+							</button>
 						</div>
 					</div>
+				</form>
 
+				<!-- Todo List -->
+				<div class="card" style="margin-top: 57px;background: #252a2f;">
+					<div class="card-body" style="color: var(--bs-body-bg);">
+						<h4 class="card-title" th:text="#{today}">Heute</h4>
+						<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
+							hast du vor?</h6>
+						<ul class="list-unstyled">
+
+							<li th:replace="~{fragments/todo::task}" />
+							<li th:replace="~{fragments/todo::task}" />
+							<li th:replace="~{fragments/todo::task}" />
+							<li th:replace="~{fragments/todo::task}" />
+
+						</ul>
+					</div>
 				</div>
+
 			</div>
 		</div>
-	</div>
 
-	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{/js/Material-Text-Input-material.min.js}"></script>
-	<script th:src="@{/js/navbar-sidebar-theme.js}"></script>
+	</div>
 
 </body>
 

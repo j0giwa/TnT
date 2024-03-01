@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RestController
 @RequestMapping("/api/teapot")
 @Tag(name = "teapot", description = "teapot API")
-public class TeaPotService {
+public class TeaPotapi {
 
 	/**
 	 * This is absolutely useless and exists just for fun

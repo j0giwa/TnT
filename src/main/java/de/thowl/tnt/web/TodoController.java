@@ -18,15 +18,22 @@
 
 package de.thowl.tnt.web;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
+import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.Priority;
+import de.thowl.tnt.web.forms.TaskForm;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,16 +43,55 @@ public class TodoController {
 	@Autowired
 	private AuthenticationService authsvc;
 
+	@Autowired
+	private TaskService tasksvc;
+
 	@GetMapping("/u/{username}/todo")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
-		log.info("entering showLoginPage (GET-Method: /login)");
+		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
+
+		return "todo";
+	}
+
+	/**
+	 * Performs a login action
+	 * 
+	 * @return index.html
+	 */
+	@PostMapping("/u/{username}/todo")
+	public String doLogin(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering doLogin (POST-Method: /u/{username}/todo)");
+
+		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		Priority priority = null;
+
+		switch (form.getPriority()) {
+			case "low":
+				priority = Priority.LOW;
+				break;
+			case "medium":
+				priority = Priority.MEDIUM;
+				break;
+			case "high":
+				priority = Priority.HIGH;
+				break;
+			default:
+				break;
+		}
+
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), priority, new Date());
 
 		return "todo";
 	}
