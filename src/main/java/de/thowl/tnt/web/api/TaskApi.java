@@ -59,6 +59,10 @@ public class TaskApi {
 	public ResponseEntity<String> add(@RequestBody TaskForm form) {
 
 		User user = users.findByApiToken(form.getApiToken());
+
+		if (user == null)
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
+
 		String username = user.getUsername();
 
 		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date());
