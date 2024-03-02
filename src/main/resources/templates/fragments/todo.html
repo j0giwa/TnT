@@ -1,4 +1,4 @@
-<li th:fragment="task" style="margin-bottom: 3px;">
+<li th:fragment="taskItem (title)" style="margin-bottom: 3px;">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex">
 			<span>
@@ -6,8 +6,7 @@
 			</span>
 			<div>
 				<div>
-					<span style="margin-left: 10px;font-weight: bold;font-size: 16px;" th:text="#{t1}">Task
-						1</span>
+					<span style="margin-left: 10px;font-weight: bold;font-size: 16px;" th:text="${title}">Task</span>
 				</div>
 			</div>
 		</div>

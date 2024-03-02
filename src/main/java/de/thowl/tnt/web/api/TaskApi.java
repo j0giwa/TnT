@@ -18,8 +18,6 @@
 
 package de.thowl.tnt.web.api;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +32,9 @@ import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.forms.TaskForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/task")
@@ -48,7 +46,6 @@ public class TaskApi {
 
 	@Autowired
 	private TaskService tasksvc;
-
 
 	@Operation(summary = "Adds a task to the database")
 	@ApiResponses(value = {
@@ -65,7 +62,8 @@ public class TaskApi {
 
 		String username = user.getUsername();
 
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), form.getDate(), form.getTime());
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
+				form.getDate(), form.getTime());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}

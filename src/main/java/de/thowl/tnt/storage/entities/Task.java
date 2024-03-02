@@ -23,12 +23,14 @@ import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "Tasks")
 @SuperBuilder
+@NoArgsConstructor // Add this line
 public class Task extends Entry {
 
 	@NotNull
@@ -42,5 +44,15 @@ public class Task extends Entry {
 	@NotNull
 	@NonNull
 	private Date time;
+
+	/*
+	 * public Task(Priority priority, Date dueDate, Date time, String name, String
+	 * content, Date createdAt) {
+	 * super(name, content, createdAt); // Call superclass constructor
+	 * this.priority = priority;
+	 * this.dueDate = dueDate;
+	 * this.time = time;
+	 * }
+	 */
 
 }

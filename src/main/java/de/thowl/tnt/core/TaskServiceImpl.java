@@ -52,10 +52,8 @@ public class TaskServiceImpl implements TaskService {
 			case "high":
 				return Priority.HIGH;
 			default:
-				break;
+				return Priority.LOW; // Assume it was low priority
 		}
-
-		return null;
 
 	}
 	
@@ -72,14 +70,16 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'delete'");
 	}
 
 	@Override
 	public List<Task> getAll(String username) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+		log.debug("entering getAll");
+
+		User user = users.findByUsername(username);
+
+		return this.tasks.findByUser(user);
 	}
 
 }

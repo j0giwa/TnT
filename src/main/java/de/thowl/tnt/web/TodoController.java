@@ -18,10 +18,6 @@
 
 package de.thowl.tnt.web;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,6 +53,8 @@ public class TodoController {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
+
+		model.addAttribute("tasks", this.tasksvc.getAll(username));
 
 		return "todo";
 	}

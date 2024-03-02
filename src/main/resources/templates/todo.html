@@ -133,12 +133,9 @@
 						<h4 class="card-title" th:text="#{today}">Heute</h4>
 						<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
 							hast du vor?</h6>
-						<ul class="list-unstyled">
+						<ul class="list-unstyled" th:each="task: ${tasks}" >
 
-							<li th:replace="~{fragments/todo::task}" />
-							<li th:replace="~{fragments/todo::task}" />
-							<li th:replace="~{fragments/todo::task}" />
-							<li th:replace="~{fragments/todo::task}" />
+							<li th:replace="~{fragments/todo::taskItem(title=${task.name})}" />
 
 						</ul>
 					</div>
