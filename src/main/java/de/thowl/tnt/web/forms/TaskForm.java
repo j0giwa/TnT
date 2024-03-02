@@ -18,6 +18,10 @@
 
 package de.thowl.tnt.web.forms;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -29,8 +33,13 @@ public class TaskForm {
 	// Change datatype where needed
 	private String taskName;
 	private String taskContent;
-	private String date;
-	private String time;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date date;
+
+	@DateTimeFormat(pattern = "hh:mm")
+	private Date time;
+
 	private String priority;
 
 }

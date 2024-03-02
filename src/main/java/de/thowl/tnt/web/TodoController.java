@@ -21,7 +21,6 @@ package de.thowl.tnt.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,7 @@ public class TodoController {
 	private TaskService tasksvc;
 
 	@GetMapping("/u/{username}/todo")
-	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String showTodoPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
@@ -68,29 +67,16 @@ public class TodoController {
 	 * @return index.html
 	 */
 	@PostMapping("/u/{username}/todo")
-	public String doLogin(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String doSaveTodo(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model,
 			HttpSession httpSession) {
-		log.info("entering doLogin (POST-Method: /u/{username}/todo)");
+		log.info("entering doLogin (POST-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		log.info("Date: {}", form.getDate());
-		log.info("Time: {}", form.getTime());
-
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm");
-
-		try {
-			Date date = dateFormatter.parse(form.getDate());
-			Date time = timeFormatter.parse(form.getDate());
-
-			this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), date, time);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), form.getDate(), form.getTime());
 
 		return "todo";
 	}
