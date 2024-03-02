@@ -62,15 +62,19 @@ public class TaskServiceImpl implements TaskService {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
-		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date()).dueDate(dueDate).time(time)
-				.priority(setPriority(priority)).build();
+		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date())
+				.dueDate(dueDate).time(time).priority(setPriority(priority)).build();
 
 		this.tasks.save(task);
 	}
 
 	@Override
-	public void delete() {
-		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	public void delete(long id) {
+		log.debug("entering delete");
+
+		Task task = this.tasks.findById(id);	
+		log.info("deleting task id: {}", id);
+		this.tasks.delete(task);
 	}
 
 	@Override

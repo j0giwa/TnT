@@ -27,6 +27,7 @@ import lombok.Data;
 @Data
 public class TaskForm {
 
+	private long id; 
 
 	private String apiToken; // For API only
 

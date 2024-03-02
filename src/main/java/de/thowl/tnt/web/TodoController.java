@@ -21,6 +21,7 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,17 +66,38 @@ public class TodoController {
 	 * @return index.html
 	 */
 	@PostMapping("/u/{username}/todo")
-	public String doSaveTodo(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String doAddTask(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model,
 			HttpSession httpSession) {
-		log.info("entering doLogin (POST-Method: /u/{}/todo)", username);
+		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), form.getDate(), form.getTime());
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
+				form.getDate(), form.getTime());
 
-		return "todo";
+		//return "todo";
+		return "redirect:/u/" + username + "/todo";
 	}
+
+
+	@DeleteMapping("/u/{username}/todo")
+	public String doDeleteTask(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model,
+			HttpSession httpSession) {
+
+		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
+
+		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.tasksvc.delete(form.getId());
+
+		//return "todo";
+		return "redirect:/u/" + username + "/todo";
+	}
+
 }
