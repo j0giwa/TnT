@@ -39,4 +39,8 @@ public class Task extends Entry {
 	@NonNull
 	private Date dueDate;
 
+	@NotNull
+	@NonNull
+	private Date time;
+
 }

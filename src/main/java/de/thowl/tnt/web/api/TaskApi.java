@@ -65,7 +65,7 @@ public class TaskApi {
 
 		String username = user.getUsername();
 
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date());
+		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date(), new Date());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}

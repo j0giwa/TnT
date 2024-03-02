@@ -60,11 +60,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	@Override
-	public void add(String username, String name, String content, String priority, Date dueDate) {
+	public void add(String username, String name, String content, String priority, Date dueDate, Date time) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
-		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date()).dueDate(dueDate)
+		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date()).dueDate(dueDate).time(time)
 				.priority(setPriority(priority)).build();
 
 		this.tasks.save(task);

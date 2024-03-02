@@ -18,7 +18,10 @@
 
 package de.thowl.tnt.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
-import de.thowl.tnt.storage.entities.Priority;
 import de.thowl.tnt.web.forms.TaskForm;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +77,20 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), new Date());
+		log.info("Date: {}", form.getDate());
+		log.info("Time: {}", form.getTime());
+
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm");
+
+		try {
+			Date date = dateFormatter.parse(form.getDate());
+			Date time = timeFormatter.parse(form.getDate());
+
+			this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(), date, time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		return "todo";
 	}
