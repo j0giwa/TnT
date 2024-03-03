@@ -24,7 +24,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class NotetilusApplicationTests {
+class TntApplicationTests {
 
 	@Test
 	void contextLoads() {

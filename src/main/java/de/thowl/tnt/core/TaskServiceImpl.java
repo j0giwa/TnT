@@ -51,7 +51,8 @@ public class TaskServiceImpl implements TaskService {
 			case "high":
 				return Priority.HIGH;
 			default:
-				return Priority.LOW; // Assume it was low priority
+				// Assume it was low priority
+				return Priority.LOW; 		
 		}
 	}
 	
@@ -63,6 +64,7 @@ public class TaskServiceImpl implements TaskService {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
+
 		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date())
 				.dueDate(dueDate).time(time).priority(setPriority(priority))
 				.overdue(false).done(false).build();
