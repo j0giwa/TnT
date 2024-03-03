@@ -79,7 +79,6 @@ public class TaskServiceImpl implements TaskService {
 
 		Task task = this.tasks.findById(id);	
 
-
 		log.info("marking task id: {} as done", id);
 		task.setDone(true);
 	}

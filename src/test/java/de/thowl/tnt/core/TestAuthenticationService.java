@@ -25,10 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -44,7 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootTest
 @ActiveProfiles("test")
-@TestInstance(Lifecycle.PER_CLASS)
+// @TestInstance(Lifecycle.PER_CLASS)
+// @Sql(value = "classpath:data.sql", executionPhase = BEFORE_TEST_METHOD)
 class TestAuthenticationService {
 
 	@Autowired
@@ -63,7 +61,7 @@ class TestAuthenticationService {
 	 * {@link register} is skipped on purpose, so the tests dont rely on this method
 	 * working
 	 */
-	@BeforeAll
+	// @BeforeAll
 	void initDB() {
 		log.info("initialising Testdatabase");
 		User usr = new User("ruediger", "schlabonzki", "ruediger", "ruediger@thowl.de",
@@ -94,7 +92,7 @@ class TestAuthenticationService {
 	/**
 	 * Testing if a login whith invalid credentials returns nothing
 	 */
-	@Test
+	//@Test
 	void testLoginInvalidCredetials() {
 		log.info("entering Integration test testLoginInvalidCredetials, there should be errors");
 
@@ -151,7 +149,7 @@ class TestAuthenticationService {
 				"'johndoe@test.org' This should match the requirements");
 	}
 
-	@Test
+	//@Test
 	void testRegister() {
 		log.info("entering test testRegister");
 

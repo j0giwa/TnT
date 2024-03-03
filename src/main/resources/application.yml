@@ -1,0 +1,43 @@
+#server:
+#  address: 192.168.68.171
+#logging:
+#  level:
+#    web: DEBUG
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #url: jdbc:h2:mem:authdb
+    #url: jdbc:h2:tcp://localhost/authdb
+    url: jdbc:mysql://localhost:3306/tnt
+    username: root
+    password:
+    sql:
+      init:
+        mode: always
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  doc:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-docs
+    operationsSorter: method
+
+  messages:
+    basename: messages.messages
