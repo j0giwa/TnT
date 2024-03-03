@@ -23,14 +23,18 @@ import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Tasks")
 @SuperBuilder
-@NoArgsConstructor // Add this line
+@NoArgsConstructor 
 public class Task extends Entry {
 
 	@NotNull
@@ -45,14 +49,10 @@ public class Task extends Entry {
 	@NonNull
 	private Date time;
 
-	/*
-	 * public Task(Priority priority, Date dueDate, Date time, String name, String
-	 * content, Date createdAt) {
-	 * super(name, content, createdAt); // Call superclass constructor
-	 * this.priority = priority;
-	 * this.dueDate = dueDate;
-	 * this.time = time;
-	 * }
-	 */
+	@NotNull
+	private boolean done;
+
+	@NotNull
+	private boolean overdue;
 
 }

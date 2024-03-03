@@ -43,7 +43,6 @@ public class TaskServiceImpl implements TaskService {
 	private TaskRepository tasks;
 
 	public Priority setPriority(String priority) {
-
 		switch (priority) {
 			case "low":
 				return Priority.LOW;
@@ -54,20 +53,40 @@ public class TaskServiceImpl implements TaskService {
 			default:
 				return Priority.LOW; // Assume it was low priority
 		}
-
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void add(String username, String name, String content, String priority, Date dueDate, Date time) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
 		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date())
-				.dueDate(dueDate).time(time).priority(setPriority(priority)).build();
+				.dueDate(dueDate).time(time).priority(setPriority(priority))
+				.overdue(false).done(false).build();
 
 		this.tasks.save(task);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDone(long id) {
+		log.debug("entering add");
 
+		Task task = this.tasks.findById(id);	
+
+
+		log.info("marking task id: {} as done", id);
+		task.setDone(true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete(long id) {
 		log.debug("entering delete");
@@ -77,6 +96,9 @@ public class TaskServiceImpl implements TaskService {
 		this.tasks.delete(task);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> getAll(String username) {
 		log.debug("entering getAll");
