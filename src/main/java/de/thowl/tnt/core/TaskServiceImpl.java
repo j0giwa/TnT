@@ -52,10 +52,10 @@ public class TaskServiceImpl implements TaskService {
 				return Priority.HIGH;
 			default:
 				// Assume it was low priority
-				return Priority.LOW; 		
+				return Priority.LOW;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -71,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
 
 		this.tasks.save(task);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -79,10 +79,12 @@ public class TaskServiceImpl implements TaskService {
 	public void setDone(long id) {
 		log.debug("entering add");
 
-		Task task = this.tasks.findById(id);	
+		Task task = this.tasks.findById(id);
 
 		log.info("marking task id: {} as done", id);
 		task.setDone(true);
+
+		this.tasks.save(task);
 	}
 
 	/**
@@ -92,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
 	public void delete(long id) {
 		log.debug("entering delete");
 
-		Task task = this.tasks.findById(id);	
+		Task task = this.tasks.findById(id);
 		log.info("deleting task id: {}", id);
 		this.tasks.delete(task);
 	}

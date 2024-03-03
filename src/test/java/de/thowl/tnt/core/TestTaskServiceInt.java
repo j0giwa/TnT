@@ -42,11 +42,11 @@ public class TestTaskServiceInt {
 
 	@Test
 	void testSetDone() {
-		log.info("entering test testValidatePassword");
+		log.info("entering test testSetDone");
 
-		this.tasksvc.setDone(0);
+		this.tasksvc.setDone(1);
 
-		assertTrue(this.tasks.findById(0).isDone(), "This should be true");
+		assertTrue(this.tasks.findById(1).isDone(), "This should be true");
 	}
 
 }

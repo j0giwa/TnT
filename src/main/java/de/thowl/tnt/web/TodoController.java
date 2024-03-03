@@ -78,10 +78,9 @@ public class TodoController {
 		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
 				form.getDate(), form.getTime());
 
-		//return "todo";
+		// return "todo";
 		return "redirect:/u/" + username + "/todo";
 	}
-
 
 	@DeleteMapping("/u/{username}/todo")
 	public String doDeleteTask(@SessionAttribute(name = "token", required = false) AccessToken token,
@@ -96,7 +95,7 @@ public class TodoController {
 
 		this.tasksvc.delete(form.getId());
 
-		//return "todo";
+		// return "todo";
 		return "redirect:/u/" + username + "/todo";
 	}
 
