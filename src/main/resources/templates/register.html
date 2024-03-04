@@ -46,6 +46,27 @@
 										<i class="far fa-eye-slash" id="hide"></i>
 									</div>	
 								</div>
+								<div class="tooltip"> 
+									<span th:text="#{passwordpolicy}">
+										Your password muss contain:
+									</span>
+									<div>
+										At least 6 Characters  : <span class="passfail passfailSix"><span class="fail">Fail</span></span>
+									</div>
+									<div>
+										At least Lower case letters (a-z)  : <span class="passfail passfailLower"><span class="fail">Fail</span></span>
+									</div>
+									<div>
+										At least Upper case letters (A-Z)  : <span class="passfail passfailUpper"><span class="fail">Fail</span></span>
+									</div>
+									<div>
+										At least one Numbers (0-9)  : <span class="passfail passfailNum"><span class="fail">Fail</span></span>
+									</div>
+									<div>
+										At least one Special character (e.g. !@#$%^&*)  : <span class="passfail passfailSpecial"><span class="fail">Fail</span></span>
+									</div>
+									<hr />
+								</div>
 								<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
 									one English
 									lowercase letter, one number and one special
