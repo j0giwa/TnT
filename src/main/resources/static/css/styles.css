@@ -1,221 +1,223 @@
 .form-control {
-    height: 51.6px;
+  height: 51.6px;
 }
+
 #wrapper {
-    display: flex;
-  }
-  
-  a {
-    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
-    text-decoration: none;
-  }
-  
-  .dropdown-item:focus, .dropdown-item:hover {
-    color: var(--bs-dropdown-link-hover-color);
-    background-color: rgba(5,150,105,0.42);
-  }
-  
-  .dropdown-toggle:hover {
-    color: rgba(3,250,102,0.79);
-  }
-  
-  #wrapper #content-wrapper {
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
-  
-  .dropdown-toggle {
-    color: rgb(5,150,105);
-  }
-  
-  #dropdown_language:hover {
-    color: #c0e5d9;
-  }
-  
-  #dropdown_language {
-    color: red;
-  }
-  
-  a:hover {
-    /*--bs-link-color-rgb: var(--bs-link-hover-color-rgb);*/
-  }
-  
+  display: flex;
+}
+
+a {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+  text-decoration: none;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: var(--bs-dropdown-link-hover-color);
+  background-color: rgba(5, 150, 105, 0.42);
+}
+
+.dropdown-toggle:hover {
+  color: rgba(3, 250, 102, 0.79);
+}
+
+#wrapper #content-wrapper {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.dropdown-toggle {
+  color: rgb(5, 150, 105);
+}
+
+#dropdown_language:hover {
+  color: #c0e5d9;
+}
+
+#dropdown_language {
+  color: red;
+}
+
+a:hover {
+  /*--bs-link-color-rgb: var(--bs-link-hover-color-rgb);*/
+}
+
+#navbar_menu {
+  background: rgb(5, 150, 105);
+  min-height: 100vh;
+  width: 50.075px;
+}
+
+@media (min-width: 576px) {
   #navbar_menu {
-    background: rgb(5,150,105);
+    background: rgb(5, 150, 105);
     min-height: 100vh;
-    width: 50.075px;
+    width: 136.075px;
   }
-  
-  @media (min-width: 576px) {
-    #navbar_menu {
-      background: rgb(5,150,105);
-      min-height: 100vh;
-      width: 136.075px;
-    }
-  }
-  
+}
+
+#accordionSidebar {
+  width: 57px;
+  margin-right: 59px;
+}
+
+@media (min-width: 576px) {
   #accordionSidebar {
-    width: 57px;
-    margin-right: 59px;
+    width: 136px;
+    margin-right: 38px;
   }
-  
-  @media (min-width: 576px) {
-    #accordionSidebar {
-      width: 136px;
-      margin-right: 38px;
-    }
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+@media (min-width: 576px) {
+  .visible {
+    visibility: visible !important;
   }
-  
-  .invisible {
-    visibility: hidden!important;
-  }
-  
-  @media (min-width: 576px) {
-    .visible {
-      visibility: visible!important;
-    }
-  }
-  
+}
+
+.span_item {
+  visibility: hidden !important;
+}
+
+@media (min-width: 576px) {
   .span_item {
-    visibility: hidden!important;
+    visibility: visible !important;
   }
-  
-  @media (min-width: 576px) {
-    .span_item {
-      visibility: visible!important;
-    }
+}
+
+@media (min-width: 576px) {
+  #span_item {
+    visibility: visible !important;
   }
-  
-  @media (min-width: 576px) {
-    #span_item {
-      visibility: visible!important;
-    }
-  }
-  
-  #container_textinput #textinput1 {
-    width: 100%;
-  }
-  
-  #container_textinput #textinput2 {
-    width: 100%;
-  }
-  
-  #div_dropdown {
-    /*overflow-x: auto;*/
-  }
-  
-  .datum {
-    background-color: #212529;
-  }
-  
-  .datum:hover {
-    background-color: #059669;
-  }
-  
-  .priorität {
-    background-color: #212529;
-  }
-  
-  .priorität:hover {
-    background-color: #059669;
-  }
-  
-  .zeit {
-    background-color: #212529;
-  }
-  
-  .zeit:hover {
-    background-color: #059669;
-  }
-  
+}
+
+#container_textinput #textinput1 {
+  width: 100%;
+}
+
+#container_textinput #textinput2 {
+  width: 100%;
+}
+
+#div_dropdown {
+  /*overflow-x: auto;*/
+}
+
+.datum {
+  background-color: #212529;
+}
+
+.datum:hover {
+  background-color: #059669;
+}
+
+.priorität {
+  background-color: #212529;
+}
+
+.priorität:hover {
+  background-color: #059669;
+}
+
+.zeit {
+  background-color: #212529;
+}
+
+.zeit:hover {
+  background-color: #059669;
+}
+
+#content-wrapper {
+  margin-left: 51px;
+}
+
+@media (min-width: 576px) {
   #content-wrapper {
-    margin-left: 51px;
+    margin-left: 137px;
   }
-  
-  @media (min-width: 576px) {
-    #content-wrapper {
-      margin-left: 137px;
-    }
-  }
-  
-  #navbar_top {
-    /*position: fixed;*/
-  }
-  
+}
+
+#navbar_top {
+  /*position: fixed;*/
+}
+
+#navbar_top {
+  background: #2b3035;
+  height: 72.6px;
+  margin-left: 50px;
+}
+
+@media (min-width: 576px) {
   #navbar_top {
     background: #2b3035;
     height: 72.6px;
-    margin-left: 50px;
+    margin-left: 136px;
   }
-  
-  @media (min-width: 576px) {
-    #navbar_top {
-      background: #2b3035;
-      height: 72.6px;
-      margin-left: 136px;
-    }
-  }
-  
-  textarea {
-    resize: none;
-    width: 100%;
-  }
-  
-  .delete:hover {
-    color: red;
-  }
-  
-  .delete {
-    color: var(--bs-secondary);
-  }
-  
-  #dropdown_language {
-    color: #8ed0bb;
-  }
-  
-  #world_icon {
-    font-size: 26px;
-    /*color: #8ed0bb;*/
-  }
-  
-  #world_icon:hover {
-    /*font-size: 26px;*/
-    /*color: #c0e5d9;*/
-  }
-  
-  #add_button {
-    background: #8ed0bb;
-    height: 53px;
-    width: 56px;
-  }
-  
-  #add_button:hover {
-    background: #059669;
-    height: 53px;
-    width: 56px;
-  }
-  
-  #bod {
-    height: 100%;
-  }
-  
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+}
+
+.delete:hover {
+  color: red;
+}
+
+.delete {
+  color: var(--bs-secondary);
+}
+
+#dropdown_language {
+  color: #8ed0bb;
+}
+
+#world_icon {
+  font-size: 26px;
+  /*color: #8ed0bb;*/
+}
+
+#world_icon:hover {
+  /*font-size: 26px;*/
+  /*color: #c0e5d9;*/
+}
+
+#add_button {
+  background: #8ed0bb;
+  height: 53px;
+  width: 56px;
+}
+
+#add_button:hover {
+  background: #059669;
+  height: 53px;
+  width: 56px;
+}
+
+#bod {
+  height: 100%;
+}
+
 
 #show {
   display: none;
   cursor: pointer;
-  color:white;
-  
+  color: white;
+
 }
 
 #hide {
-  color:white;
+  color: white;
   cursor: pointer;
-  
+
 }
 
 .eye {
-  position:absolute;
+  position: absolute;
   cursor: pointer;
 }
 
@@ -223,15 +225,15 @@
   width: 93%;
   background-color: transparent;
   border: none;
-  
-  
+
+
 }
 
 .eye_control {
-  right:0;
-  bottom:0;
-  top:0;
-  width:50px;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
