@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="3 seconds">
+    <contextName>layouts</contextName>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%yellow(%d{MM/dd HH:mm:ss.SSS}) [%highlight(%-5level)] in %cyan(%logger{5}@[%-4.30thread]) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <jmxConfigurator />
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- setup log levels -->
+    <!-- Tomcat server -->
+    <logger name="org.apache.catalina" level="ERROR" />
+    <logger name="org.apache.coyote" level="ERROR" />
+
+    <!-- Spring framework -->
+    <logger name="org.springframework" level="ERROR" />
+
+    <!-- Database connection pool -->
+    <logger name="com.zaxxer.hikari" level="ERROR" />
+
+    <!-- Own packages -->
+    <logger name="de.thowl" level="DEBUG" />
+
+</configuration>

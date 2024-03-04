@@ -1,0 +1,36 @@
+#server:
+#  address: 192.168.68.171
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tnt
+    username: root
+    password:
+    sql:
+      init:
+        mode: always
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  messages:
+    basename: messages.messages
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-docs
+    operationsSorter: method
