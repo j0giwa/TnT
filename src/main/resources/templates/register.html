@@ -37,24 +37,32 @@
 						</div>
 						<div class="row mb-3">
 							<div class="col-sm-6 mb-3 mb-sm-0">
-								<div class="form-group">
-									<input type="password" class="form-control form-control-lg" id="password" name="password"
+								<div class="form-group position-relative">
+									<input class="form-control" type="password" id="password" name="password" style="padding-right: 40px"
 										th:placeholder="#{password}" data-bs-toggle="tooltip" required
 										title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen." />
-									<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
-										one English
-										lowercase letter, one number and one special
-										character.</p>
-									<div>
-										<meter id="password-strength-meter" max="4"></meter>
-										<p id="password-strength-text"></p>
-									</div>
+									<div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility1()">
+										<i class="far fa-eye" id="show"></i>
+										<i class="far fa-eye-slash" id="hide"></i>
+									</div>	
+								</div>
+								<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
+									one English
+									lowercase letter, one number and one special
+									character.</p>
+								<div>
+									<meter id="password-strength-meter" max="4"></meter>
+									<p id="password-strength-text"></p>
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="password" id="password2" name="password2" class="form-control form-control-lg"
+								<div class="form-group position-relative">
+									<input class="form-control" type="password" id="password2" name="password2" style="padding-right: 40px"
 										th:placeholder="#{password2}" required />
+									<div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility2()">
+										<i class="far fa-eye" id="show"></i>
+										<i class="far fa-eye-slash" id="hide"></i>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -80,7 +88,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	<script src="js/Password-Strenght-Checker---Ambrodu-password.js"></script>
-
+	<script src="js/passwd.js"></script>
 </body>
 
 </html>

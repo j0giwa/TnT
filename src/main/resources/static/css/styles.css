@@ -200,4 +200,39 @@
     height: 100%;
   }
   
+
+#show {
+  display: none;
+  cursor: pointer;
+  color:white;
   
+}
+
+#hide {
+  color:white;
+  cursor: pointer;
+  
+}
+
+.eye {
+  position:absolute;
+  cursor: pointer;
+}
+
+.pass {
+  width: 93%;
+  background-color: transparent;
+  border: none;
+  
+  
+}
+
+.eye_control {
+  right:0;
+  bottom:0;
+  top:0;
+  width:50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

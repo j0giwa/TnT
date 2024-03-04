@@ -34,8 +34,12 @@
 								<div class="mb-3">
 									<input class="form-control" type="email" name="email" th:placeholder="#{email}">
 								</div>
-								<div class="mb-3">
-									<input class="form-control" type="password" name="password" th:placeholder="#{password}">
+								<div class="mb-3 position-relative" id="passwordWrapp">
+									<input class="form-control" type="password" id="passwd" name="password" style="padding-right: 40px" th:placeholder="#{password}">
+									<div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility()">
+										<i class="far fa-eye" id="show"></i>
+										<i class="far fa-eye-slash" id="hide"></i>
+									</div>
 								</div>
 								<div class="mb-3">
 									<button class="btn btn-primary d-block w-100" type="submit" th:text="#{login}">Login</button>
@@ -58,7 +62,7 @@
 			</div>
 		</div>
 	</main>
-
+	<script src="js/passwd.js"></script>
 </body>
 
 </html>
