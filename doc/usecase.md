@@ -8,8 +8,8 @@ Weiterhin können einzelne Notizen durch Generierung eindeutiger Links freigegeb
 
 ## Die folgenden Use-Cases sind erforderlich:
 + UC-0: Homepage (grobe Präsentation Webapp)
-+ UC-1: Neuanlage eines Benutzerkontos
-+ UC-2: Einloggen und Ausloggen
++ UC-1: Neuanlage eines Benutzerkontos [x]
++ UC-2: Einloggen und Ausloggen [x]
 + UC-3: Ablage eines neuen Tasks mit Priorität und Fälligkeitsdatum, erledigte Tasks können optional automatisch gelöscht werden
 + UC-4: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte gespeichert werden
 + UC-5: Notizen und Aufgaben können gelöscht oder bearbeitet werden
