@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.core.exeptions;
+package de.thowl.tnt.core.exceptions;
 
 import lombok.experimental.StandardException;
 

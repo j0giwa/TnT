@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.AccessToken;

@@ -44,6 +44,11 @@ public class TodoController {
 	@Autowired
 	private TaskService tasksvc;
 
+	/**
+	 * Shows the todo page
+	 * 
+	 * @return todo.html
+	 */
 	@GetMapping("/u/{username}/todo")
 	public String showTodoPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
@@ -54,16 +59,15 @@ public class TodoController {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-
 		model.addAttribute("tasks", this.tasksvc.getAll(username));
 
 		return "todo";
 	}
 
 	/**
-	 * Performs a login action
+	 * Adds a new task
 	 * 
-	 * @return index.html
+	 * @return todo.html
 	 */
 	@PostMapping("/u/{username}/todo")
 	public String doAddTask(@SessionAttribute(name = "token", required = false) AccessToken token,
@@ -78,15 +82,38 @@ public class TodoController {
 		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
 				form.getDate(), form.getTime());
 
-		// return "todo";
 		return "redirect:/u/" + username + "/todo";
 	}
 
+	/**
+	 * Marks a task as done
+	 * 
+	 * @return todo.html
+	 */
+	@PostMapping("/u/{username}/todo/done")
+	public String doMarkAsDone(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
+
+		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.tasksvc.setDone(form.getId());
+
+		return "redirect:/u/" + username + "/todo";
+	}
+
+	/**
+	 * Deletes a task
+	 * 
+	 * @return todo.html
+	 */
 	@DeleteMapping("/u/{username}/todo")
 	public String doDeleteTask(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model,
 			HttpSession httpSession) {
-
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
@@ -95,7 +122,6 @@ public class TodoController {
 
 		this.tasksvc.delete(form.getId());
 
-		// return "todo";
 		return "redirect:/u/" + username + "/todo";
 	}
 

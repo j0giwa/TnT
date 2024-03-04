@@ -18,8 +18,8 @@
 
 package de.thowl.tnt.core.services;
 
-import de.thowl.tnt.core.exeptions.DuplicateUserException;
-import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.DuplicateUserException;
+import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Session;
 import de.thowl.tnt.storage.entities.User;

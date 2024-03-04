@@ -24,7 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import de.thowl.tnt.core.exeptions.DuplicateUserException;
+import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +36,11 @@ public class RegisterController {
 	@Autowired
 	private AuthenticationService authsvc;
 
+	/**
+	 * Shows the register page
+	 * 
+	 * @return register.html
+	 */
 	@GetMapping("/register")
 	public String showRegisterPage() {
 		log.info("entering showRegisterPage (GET-Method: /register)");

@@ -24,8 +24,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.thowl.tnt.core.exeptions.DuplicateUserException;
-import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.DuplicateUserException;
+import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.GroupRepository;
 import de.thowl.tnt.storage.SessionRepository;
