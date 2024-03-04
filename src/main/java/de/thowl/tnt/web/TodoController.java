@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.TaskForm;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;

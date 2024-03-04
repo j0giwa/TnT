@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.web.exceptions.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class NotesController {
 	@GetMapping("/u/{username}/notes")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
-		log.info("entering showLoginPage (GET-Method: /login)");
+		log.info("entering showNotePage (GET-Method: /notes)");
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))

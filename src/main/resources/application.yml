@@ -6,13 +6,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/tnt
     username: root
-    password:
-    sql:
-      init:
-        mode: always
-  h2:
-    console:
-      enabled: true
+    password: # no password
   jpa:
     hibernate:
       ddl-auto: update
@@ -30,7 +24,7 @@ spring:
 
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /api/api-docs
   swagger-ui:
-    path: /swagger-docs
+    path: /api/docs
     operationsSorter: method

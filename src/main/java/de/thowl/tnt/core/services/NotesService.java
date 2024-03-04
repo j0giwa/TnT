@@ -16,28 +16,13 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.web.forms;
+package de.thowl.tnt.core.services;
 
-import java.util.Date;
+public interface NotesService {
 
-import org.springframework.format.annotation.DateTimeFormat;
+	public void add();
 
-import lombok.Data;
+	public void edit();
 
-@Data
-public class TaskForm {
-
-	private long id;
-
-	private String taskName;
-	private String taskContent;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date date;
-
-	@DateTimeFormat(pattern = "hh:mm")
-	private Date time;
-
-	private String priority;
-
+	public void delete();
 }

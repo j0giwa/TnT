@@ -32,6 +32,10 @@ import de.thowl.tnt.storage.entities.Task;
 import de.thowl.tnt.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementaion of the {@link TaskService} interface
+ * {@inheritDoc}
+ */
 @Slf4j
 @Service
 public class TaskServiceImpl implements TaskService {
