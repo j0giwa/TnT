@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import de.thowl.tnt.core.exeptions.DuplicateUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,13 @@ public class RegisterController {
 		if (!form.getPassword().equals(form.getPassword2()))
 			model.addAttribute("error", "password_match_error");
 
-		this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
-				form.getPassword());
+		try {
+			this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(),
+					form.getEmail(),
+					form.getPassword());
+		} catch (DuplicateUserException e) {
+			model.addAttribute("error", "duplicate_user_error");
+		}
 
 		return "register";
 	}

@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import de.thowl.tnt.core.exeptions.DuplicateUserException;
 import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.UserRepository;
@@ -109,7 +110,11 @@ class TestAuthenticationServiceInt {
 		String passwd = "test123";
 		String email = "test@th-owl.de";
 
-		this.authsvc.register(firstName, lastName, uname, email, passwd);
+		try {
+			this.authsvc.register(firstName, lastName, uname, email, passwd);
+		} catch (DuplicateUserException e) {
+			fail("this user alredy exists");
+		}
 
 		User usr = this.users.findByUsername(uname);
 

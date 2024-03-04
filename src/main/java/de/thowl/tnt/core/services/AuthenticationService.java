@@ -18,8 +18,10 @@
 
 package de.thowl.tnt.core.services;
 
+import de.thowl.tnt.core.exeptions.DuplicateUserException;
 import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.Session;
 import de.thowl.tnt.storage.entities.User;
 
 /**
@@ -83,7 +85,8 @@ public interface AuthenticationService {
 	 * @param email     The E-Mail address of the user
 	 * @param password  The password of the user
 	 */
-	public void register(String firstname, String lastname, String username, String email, String password);
+	public void register(String firstname, String lastname, String username, String email, String password)
+			throws DuplicateUserException;
 
 	/**
 	 * Performs a login action and stores an active {@link Session} in the Database.

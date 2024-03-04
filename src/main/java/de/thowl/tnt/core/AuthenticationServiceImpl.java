@@ -24,6 +24,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.thowl.tnt.core.exeptions.DuplicateUserException;
 import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.GroupRepository;
@@ -67,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		// Source https://ihateregex.io/expr/email/
 		boolean result = email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
-		log.debug("validateEmail(email: {}) returned: {}",email ,result);
+		log.debug("validateEmail(email: {}) returned: {}", email, result);
 		return result;
 	}
 
@@ -82,8 +83,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 
 		// Source = "https://ihateregex.io/expr/password/"
-		boolean result =  password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
-		log.debug("validatePassword(password: {}) returned: {}",password ,result);
+		boolean result = password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
+		log.debug("validatePassword(password: {}) returned: {}", password, result);
 		return result;
 	}
 
@@ -124,10 +125,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @throws DuplicateUserException
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password) {
+	public void register(String firstname, String lastname, String username, String email, String password)
+			throws DuplicateUserException {
 		log.debug("entering register");
+
+		if (this.users.findByEmail(email) != null)
+			throw new DuplicateUserException("A User with this Email already exists");
+
+		if (this.users.findByUsername(username) != null)
+			throw new DuplicateUserException("A User with this Username already exists");
 
 		User usr = new User(firstname, lastname, username, email, encoder.encode(password), generateToken());
 		usr.setGroup(this.groups.findById(1));
@@ -153,7 +163,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 
 		String bHash = user.getPassword();
-		
+
 		log.debug("Comparing Form-password with BCrypt-hash");
 		boolean result = encoder.matches(password, bHash);
 
