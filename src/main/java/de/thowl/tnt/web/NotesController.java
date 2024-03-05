@@ -23,11 +23,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
+import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
+import de.thowl.tnt.web.forms.NoteForm;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,6 +40,9 @@ public class NotesController {
 
 	@Autowired
 	private AuthenticationService authsvc;
+
+	@Autowired
+	private NotesService notessvc;
 
 	@GetMapping("/u/{username}/notes")
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
@@ -49,5 +56,26 @@ public class NotesController {
 		model.addAttribute("user", username);
 
 		return "notes";
+	}
+
+	/**
+	 * Adds a new note
+	 * 
+	 * @return todo.html
+	 */
+	@PostMapping("/u/{username}/notes")
+	public String doAddTask(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
+
+		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.notessvc.add(username, form.getTitle(), form.getSubtitle(), form.getContent(),
+				"text", form.getKategory(), form.getTags());
+
+		return "redirect:/u/" + username + "/notes";
 	}
 }

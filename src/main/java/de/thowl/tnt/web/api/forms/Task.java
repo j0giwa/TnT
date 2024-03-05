@@ -16,15 +16,25 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.web.api.forms.task;
+package de.thowl.tnt.web.api.forms;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
 @Data
-public class TaskForm {
+public class Task {
 
-	private String apiToken;
+	private String taskName;
+	private String taskContent;
 
-	private long id;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date date;
 
+	@DateTimeFormat(pattern = "hh:mm")
+	private Date time;
+
+	private String priority;
 }

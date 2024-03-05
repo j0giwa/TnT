@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
 	private TaskRepository tasks;
 
 	public Priority setPriority(String priority) {
-		switch (priority) {
+		switch (priority.toLowerCase()) {
 			case "low":
 				return Priority.LOW;
 			case "medium":

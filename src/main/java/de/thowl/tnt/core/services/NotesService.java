@@ -20,7 +20,8 @@ package de.thowl.tnt.core.services;
 
 public interface NotesService {
 
-	public void add();
+	public void add(String username, String title, String subtitle, String content, String type, String kategory,
+			String tags);
 
 	public void edit();
 
