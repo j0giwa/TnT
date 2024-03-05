@@ -2,6 +2,11 @@
 #  address: 192.168.68.171
 
 spring:
+  task:
+    scheduling:
+      thread-name-prefix: scheduling-
+      pool:
+        size: 10
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/tnt

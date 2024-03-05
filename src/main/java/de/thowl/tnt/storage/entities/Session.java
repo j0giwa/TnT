@@ -39,11 +39,13 @@ public class Session {
 	private long id;
 	private String authToken;
 	private Date createdAt;
+	private Date expiresAt; // TODO: probaly better to calculate
 	private long userId;
 
-	public Session(String usid, User usr) {
+	public Session(String usid, User usr, Date expiryTime) {
 		this.authToken = usid;
 		this.userId = usr.getId();
 		this.createdAt = new Date();
+		this.expiresAt = expiryTime;
 	}
 }

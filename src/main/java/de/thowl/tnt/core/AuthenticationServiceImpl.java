@@ -18,10 +18,14 @@
 
 package de.thowl.tnt.core;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
@@ -43,18 +47,38 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Slf4j
 @Service
+@EnableScheduling
 public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final int BCRYPT_COST = 15;
 
 	@Autowired
 	private UserRepository users;
+
 	@Autowired
 	private GroupRepository groups;
+
 	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
+
+	/**
+	 * Deletes rouge(incative) sessions
+	 */
+	@Scheduled(fixedRate = 60000) // Run every minute (adjust as needed)
+	public void cleanupExpiredSessions() {
+		log.info("Starting session cleanup job...");
+
+		Date currentTime = new Date();
+		List<Session> expiredSessions = sessions.findByExpiresAtBefore(currentTime);
+
+		if (!expiredSessions.isEmpty()) {
+			log.info("Found {} expired sessions. Deleting...", expiredSessions.size());
+			sessions.deleteAll(expiredSessions);
+			log.info("Expired sessions deleted successfully.");
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -119,10 +143,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return result;
 	}
 
-	public String generateToken() {
-		return UUID.randomUUID().toString();
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -139,7 +159,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (this.users.findByUsername(username) != null)
 			throw new DuplicateUserException("A User with this Username already exists");
 
-		User usr = new User(firstname, lastname, username, email, encoder.encode(password), generateToken());
+		User usr = new User(firstname, lastname, username, email, encoder.encode(password),
+				UUID.randomUUID().toString());
 		usr.setGroup(this.groups.findById(1));
 
 		log.info("registering user {} with {}", username, email);
@@ -180,13 +201,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private AccessToken createSession(User user) {
 		log.debug("entering createSession");
 
+		// Set expiry time (e.g., 30 minutes from now)
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 30);
+		Date expiryTime = cal.getTime();
+
 		// Todo: Refactor AccessToken
 		AccessToken token = new AccessToken();
 		UUID uuid = UUID.randomUUID();
 		token.setUsid(uuid.toString());
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
-		this.sessions.save(new Session(token.getUsid(), user));
+		// this.sessions.save(new Session(token.getUsid(), user));
+		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());
 		return token;
