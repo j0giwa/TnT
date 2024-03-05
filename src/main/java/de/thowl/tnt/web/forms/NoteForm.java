@@ -1,7 +1,5 @@
 package de.thowl.tnt.web.forms;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
