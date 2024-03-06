@@ -207,13 +207,36 @@ textarea {
   display: none;
   cursor: pointer;
   color: white;
-
 }
 
 #hide {
   color: white;
   cursor: pointer;
 
+}
+
+#show1 {
+  display: none;
+  cursor: pointer;
+  color: white;
+}
+
+#hide1 {
+  color: white;
+  cursor: pointer;
+  
+}
+
+#show2 {
+  display: none;
+  cursor: pointer;
+  color: white;
+}
+
+#hide2 {
+  color: white;
+  cursor: pointer;
+  
 }
 
 .eye {
@@ -225,8 +248,6 @@ textarea {
   width: 93%;
   background-color: transparent;
   border: none;
-
-
 }
 
 .eye_control {
