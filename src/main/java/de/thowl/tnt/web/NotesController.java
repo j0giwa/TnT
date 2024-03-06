@@ -54,6 +54,7 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
 		model.addAttribute("notes", this.notessvc.getAllNotes(username));
 

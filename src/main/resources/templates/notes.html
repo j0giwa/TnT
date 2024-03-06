@@ -19,16 +19,14 @@
 					</div>
 				</header>
 
-				<div th:if="${editing} == FALSE">
-					<form th:replace="~{fragments/note::noteForm}">
-						</from>
+				<div th:if="${editing} == false">
+					<form th:replace="~{fragments/note::noteForm}" />
 				</div>
-				<div th:if="${editing} == TRUE">
-					<form th:replace="~{fragments/note::noteEditForm}">
-						</from>
+				<div th:if="${editing} == true">
+					<form th:replace="~{fragments/note::noteEditForm}" />
 				</div>
 
-				<div class="container" style="margin-top: 95px;">
+				<div th:unless="${editing} == true" class="container" style="margin-top: 95px;">
 					<h1>Notes</h1>
 					<ul class="list-unstyled" th:each="note: ${notes}">
 						<li
