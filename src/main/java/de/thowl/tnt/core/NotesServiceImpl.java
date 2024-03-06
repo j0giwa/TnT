@@ -113,6 +113,12 @@ public class NotesServiceImpl implements NotesService {
 	}
 
 	@Override
+	public Note getNote(long id) {
+		log.debug("entering getAllNotes");
+		return this.notes.findById(id);
+	}
+
+	@Override
 	public List<Note> getAllNotes(String username) {
 		log.debug("entering getAllNotes");
 
@@ -128,9 +134,28 @@ public class NotesServiceImpl implements NotesService {
 	}
 
 	@Override
-	public void editNote() {
+	public void editNote(long id, String username, String title, String subtitle,
+			String content, String type, String kategory, String tags) {
 
-		throw new UnsupportedOperationException("Unimplemented method 'edit'");
+		log.debug("entering add");
+
+		User user = users.findByUsername(username);
+
+		Note note = Note.builder()
+				.id(id)
+				.user(user)
+				.name(title)
+				.subtitle(subtitle)
+				.content(content)
+				.createdAt(new Date())
+				.type(setType(type))
+				.kategory(setKategory(kategory))
+				.tags(formatTags(tags))
+				.build();
+
+		if (null != note) {
+			this.notes.save(note);
+		}
 	}
 
 	@Override

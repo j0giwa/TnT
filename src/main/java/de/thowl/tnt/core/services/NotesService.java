@@ -43,12 +43,30 @@ public interface NotesService {
 			String kategory,
 			String tags);
 
+	public Note getNote(long id);
+
 	public List<Note> getAllNotes(String username);
 
 	public List<Note> getAllNotesByTags(String username, String tags);
 
-	// TODO: remove duplicate
-	public void editNote();
+	/**
+	 * Overwrites a {@link Note} in the Database.
+	 *
+	 * @param id       The id of the {@link Note} to Overwrite
+	 * @param username New name of the {@link User}
+	 * @param title    New title of the {@link Note}.
+	 * @param subtitle New title of the {@link Note}.
+	 * @param content  New content of the {@link Note}
+	 * @param type     New {@link Type} of the {@link Note}, valid values:
+	 *                 {@code text}, {@code audio}, {@code video}
+	 * @param kategory New {@link Type} of the {@link Note}, valid values:
+	 *                 {@code lecture}, {@code litterature}, {@code misc}
+	 * @param tags     New whitespace speprated list of keywords assosiated with the
+	 *                 {@link Note}
+	 */
+	public void editNote(long id, String username, String title, String subtitle, String content, String type,
+			String kategory,
+			String tags);
 
 	public void delete();
 }

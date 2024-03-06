@@ -5,5 +5,89 @@
 			<h6 class="card-subtitle mb-2 text-muted" th:text="${subtitle}">Card subtitle</h6>
 			<p class="card-text" th:text="${content}">Lorem Ipsum</p>
 		</div>
+
+		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
+			<input type="hidden" th:value="${id}" name="id">
+			<button class="btn btn-transparent" type="submit">
+				<span>Edit</span>
+			</button>
+		</form>
 	</div>
 </li>
+
+<form th:fragment="noteForm" class="card" method="post" style="background: #2b3035;">
+	<div class="card-body">
+		<h4 class="card-title">
+			<input type="text" name="title" id="title" style="background: transparent;border-style: none;width: 100%;"
+				placeholder="Titel" width="">
+		</h4>
+		<h6 class="text-secondary card-subtitle mb-2">
+			<input type="text" name="subtitle" id="subtitle" style="background: transparent;border-style: none;width: 100%;"
+				placeholder="Untertitel">
+		</h6>
+		<h6 class="text-secondary mb-2">
+			<input type="text" name="tags" id="tags" style="background: transparent;border-style: none;width: 100%;"
+				placeholder="tags">
+		</h6>
+		<br>
+		<select name="kategory" id="kategory">
+			<option value="lecture" selected>
+				<span>Vorlesung</span>
+			</option>
+			<option value="litterature">
+				<span>litteratur</span>
+			</option>
+			<option value="misc">
+				<span>andere</span>
+			</option>
+		</select>
+		<textarea name="content" id="content" style="background: #2b3035; border-color: #059669;height: 75.6px;"
+			placeholder="Schreib deine Notiz hier"></textarea>
+		<div class="d-flex flex-column">
+			<input type="file" style="margin-top: 4px;">
+			<div style="margin-top: 7px;">
+				<a class="btn btn-outline-primary ms-md-" role="button" href="#">Abbrechen</a>
+				<button type="submit" class="btn btn-primary ms-md-2" role="button">Hinzufügen</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form th:fragment="noteEditForm" class="card" method="post" style="background: #2b3035;">
+	<div class="card-body">
+		<h4 class="card-title">
+			<input type="text" name="title" id="title" th:value="${noteTitle}"
+				style="background: transparent;border-style: none;width: 100%;" placeholder="Titel" width="">
+		</h4>
+		<h6 class="text-secondary card-subtitle mb-2">
+			<input type="text" name="subtitle" id="subtitle" th:value="${noteSubtitle}"
+				style="background: transparent;border-style: none;width: 100%;" placeholder="Untertitel">
+		</h6>
+		<h6 class="text-secondary mb-2">
+			<input type="text" name="tags" id="tags" style="background: transparent;border-style: none;width: 100%;"
+				placeholder="tags">
+		</h6>
+		<br>
+		<select name="kategory" id="kategory">
+			<option value="lecture" selected>
+				<span>Vorlesung</span>
+			</option>
+			<option value="litterature">
+				<span>litteratur</span>
+			</option>
+			<option value="misc">
+				<span>andere</span>
+			</option>
+		</select>
+		<textarea name="content" id="content" th:text="${noteContent}"
+			style="background: #2b3035; border-color: #059669;height: 75.6px;"
+			placeholder="Schreib deine Notiz hier"></textarea>
+		<div class="d-flex flex-column">
+			<input type="file" style="margin-top: 4px;">
+			<div style="margin-top: 7px;">
+				<a class="btn btn-outline-primary ms-md-" role="button" href="../">Abbrechen</a>
+				<button type="submit" class="btn btn-primary ms-md-2" role="button">Speichern</button>
+			</div>
+		</div>
+	</div>
+</form>

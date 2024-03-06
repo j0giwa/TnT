@@ -29,6 +29,8 @@ import de.thowl.tnt.storage.entities.User;
 @Repository
 public interface NotesRepository extends CrudRepository<Note, Long> {
 
+	Note findById(long id);
+
 	List<Note> findByUser(User user);
 
 	List<Note> findByUserAndTags(User user, List<String> tags);

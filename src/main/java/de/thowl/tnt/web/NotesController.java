@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpSession;
@@ -65,12 +66,11 @@ public class NotesController {
 	 * @return todo.html
 	 */
 	@PostMapping("/u/{username}/notes")
-	public String doAddTask(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String doAddNote(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model,
 			HttpSession httpSession) {
-		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
+		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -79,4 +79,50 @@ public class NotesController {
 
 		return "redirect:/u/" + username + "/notes";
 	}
+
+	/**
+	 * Adds a new note
+	 * 
+	 * @return todo.html
+	 */
+	@GetMapping("/u/{username}/notes/edit")
+	public String showEditPage(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
+
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		Note note = this.notessvc.getNote(form.getId());
+
+		model.addAttribute("editing", true);
+		model.addAttribute("noteTitle", note.getName());
+		model.addAttribute("noteSubtitle", note.getSubtitle());
+		model.addAttribute("noteContent", note.getContent());
+
+		return "notes";
+	}
+
+	/**
+	 * Adds a new note
+	 * 
+	 * @return todo.html
+	 */
+	@PostMapping("/u/{username}/notes/edit")
+	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
+
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.notessvc.editNote(form.getId(), username, form.getTitle(),
+				form.getSubtitle(), form.getContent(),
+				"text", form.getKategory(), form.getTags());
+
+		return "redirect:/u/" + username + "/notes";
+	}
+
 }
