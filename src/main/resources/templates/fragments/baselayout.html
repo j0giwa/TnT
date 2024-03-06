@@ -96,7 +96,6 @@
       </a>
       <hr class="sidebar-divider my-0">
       <ul class="navbar-nav text-light" id="accordionSidebar">
-
         <li class="nav-item">
           <a class="nav-link d-flex flex-column align-items-center" href="todo">
             <i class="far fa-list-alt" style="font-size: 26px;"></i>
@@ -136,12 +135,14 @@
               </svg>
               <span class="span_item" th:text="#{language}">Language</span>
             </a>
-            <div class="dropdown-menu" style="background: #c0e5d9;">
+            <div class="dropdown-menu">
               <a class="dropdown-item" href="#">
-                <img th:src="@{/images/germany.png}" width="21" height="22" th:text="#{german}">&nbsp;
+                <img th:src="@{/images/germany.png}" width="21" height="22">
+                <span class="ml-1" th:text="#{german}">german</span>
               </a>
               <a class="dropdown-item" href="#">
-                <img th:src="@{/images/united-kingdom.png}" width="21" height="22" th:text="#{english}">&nbsp;
+                <img th:src="@{/images/united-kingdom.png}" width="21" height="22">
+                <span class="ml-1" th:text="#{english}">english</span>
               </a>
             </div>
           </div>
@@ -205,7 +206,7 @@
                 log
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="/logout">
                 <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout
               </a>
             </div>

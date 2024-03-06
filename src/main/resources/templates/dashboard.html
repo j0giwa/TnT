@@ -14,8 +14,8 @@
 
 			<!-- Todo List -->
 			<div class="container" style="margin-top: 95px;">
-				<div class="card" style="margin-top: 57px;background: #252a2f;">
-					<div class="card-body" style="color: var(--bs-body-bg);">
+				<div class="card" style="margin-top: 57px; background: #252a2f;">
+					<div class="card-body">
 						<h4 class="card-title" th:text="#{today}">Heute</h4>
 						<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
 							hast du vor?</h6>
@@ -25,16 +25,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="container" style="margin-top: 95px;">
-			<h1>Notes</h1>
-			<ul class="list-unstyled" th:each="note: ${notes}">
-				<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}"></li>
-			</ul>
-		</div>
+			<div class="container" style="margin-top: 95px;">
+				<h1>Notes</h1>
+				<ul class="list-unstyled" th:each="note: ${notes}">
+					<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}"></li>
+				</ul>
+			</div>
 
-	</div>
+		</div>
 
 </body>
 

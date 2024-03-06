@@ -136,11 +136,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 		}
 
+		refreshSession(session);
+
 		boolean result = user.getId() == session.getUserId();
 
-		// THis might bug out
 		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
 		return result;
+	}
+
+	private void refreshSession(Session session) {
+		// Set expiry time (e.g., 30 minutes from now)
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 30);
+		Date expiryTime = cal.getTime();
+
+		session.setExpiresAt(expiryTime);
+
+		this.sessions.save(session);
 	}
 
 	/**
@@ -213,7 +225,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		token.setUsid(uuid.toString());
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
-		// this.sessions.save(new Session(token.getUsid(), user));
+
 		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());

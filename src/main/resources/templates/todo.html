@@ -50,15 +50,9 @@
 									</a>
 								</div>
 							</div>
-
 							<!-- This is the only dropdown that actualy serves a purpose -->
 							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
-								<!-- This is a placholder(for looks), should not be selected -->
-								<option>
-									<span>Prioritäten</span>
-								</option>
-								<!-- Theese are actual values -->
-								<option value="low">
+								<option value="low" selected>
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
 										fill="currentColor" class="text-danger" style="margin-right: 5px;margin-top: -5px;">
 										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
@@ -126,24 +120,20 @@
 				</form>
 
 				<!-- Todo List -->
-				<div class="card" style="margin-top: 57px;background: #252a2f;">
+				<div class="card" style="margin-top: 57px; background: #252a2f;">
 					<div class="card-body">
 						<h4 class="card-title" th:text="#{today}">Heute</h4>
 						<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
 							hast du vor?</h6>
 						<ul class="list-unstyled" th:each="task: ${tasks}">
-
-							<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}" />
-
+							<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}"></li>
 						</ul>
 					</div>
 				</div>
 
 			</div>
 		</div>
-
 	</div>
-
 </body>
 
 </html>

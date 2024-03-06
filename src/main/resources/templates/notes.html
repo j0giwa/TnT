@@ -4,83 +4,67 @@
 <head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='Notes | TnT')}"></head>
 
 <body style="background: rgb(33, 37, 41);">
-    <div id="wrapper" style="padding-bottom: 100%;">
+	<div id="wrapper" style="padding-bottom: 100%;">
 
-        <nav th:replace="~{fragments/baselayout::sidebar}">
+		<nav th:replace="~{fragments/baselayout::sidebar}"></nav>
 
-            <div id="content-wrapper">
+		<div id="content-wrapper">
 
-                <nav th:replace="~{fragments/baselayout::topbar}"></nav>
+			<nav th:replace="~{fragments/baselayout::topbar}"></nav>
 
-                <div class="container" style="margin-top: 95px;">
-                    <header>
-                        <div>
-                            <p style="color: var(--bs-body-bg);font-weight: bold;">Let's go!!</p>
-                        </div>
-                    </header>
-                    <div>
-                        <form class="card" method="post" style="background: #2b3035;">
-                            <div class="card-body" style="color: var(--bs-body-bg);">
-                                <h4 class="card-title">
-                                    <input type="text" name="title" id="title"
-                                        style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-                                        placeholder="Titel" width="">
-                                </h4>
-                                <h6 class="text-secondary card-subtitle mb-2">
-                                    <input type="text" name="subtitle" id="subtitle"
-                                        style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-                                        placeholder="Untertitel">
-                                </h6>
-                                <h6 class="text-secondary mb-2">
-                                    <input type="text" name="tags" id="tags" th:value="${string}"
-                                        style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-                                        placeholder="tags">
-                                </h6>
-                                <br>
-                                <select name="kategory" id="kategory">
-                                    <!-- This is a placholder(for looks), should not be selected -->
-                                    <option>
-                                        <span>kategorien</span>
-                                    </option>
-                                    <!-- Theese are actual values -->
-                                    <option value="lecture">
-                                        <span>Vorlesung</span>
-                                    </option>
-                                    <option value="litterature">
-                                        <span>litteratur</span>
-                                    </option>
-                                    <option value="misc">
-                                        <span>andere</span>
-                                    </option>
-                                </select>
-                                <textarea name="content" id="content"
-                                    style="background: #2b3035;color: var(--bs-body-bg);border-color: #059669;height: 75.6px;"
-                                    placeholder="Schreib deine Notiz hier">
-                            </textarea>
-                                <div class="d-flex flex-column">
-                                    <input type="file" style="margin-top: 4px;">
-                                    <div style="margin-top: 7px;">
-                                        <a class="btn btn-outline-primary ms-md-2" role="button" href="#">Abbrechen</a>
-                                        <button type="submit" class="btn btn-primary ms-md-2"
-                                            role="button">Hinzufügen</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div>
-                    <h1>Deine Notizen</h1>
-                    <ul class="list-unstyled" th:each="note: ${notes}">
-
-                        <li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}" />
-
-                    </ul>
-                </div>
-
-            </div>
-    </div>
+			<div class="container" style="margin-top: 95px;">
+				<header>
+					<div>
+						<p style="color: var(--bs-body-bg);font-weight: bold;">Let's go!!</p>
+					</div>
+				</header>
+				<div>
+					<form class="card" method="post" style="background: #2b3035;">
+						<div class="card-body" style="color: var(--bs-body-bg);">
+							<h4 class="card-title">
+								<input type="text" name="title" id="title"
+									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
+									placeholder="Titel" width="">
+							</h4>
+							<h6 class="text-secondary card-subtitle mb-2">
+								<input type="text" name="subtitle" id="subtitle"
+									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
+									placeholder="Untertitel">
+							</h6>
+							<h6 class="text-secondary mb-2">
+								<input type="text" name="tags" id="tags" th:value="${string}"
+									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
+									placeholder="tags">
+							</h6>
+							<br>
+							<select name="kategory" id="kategory">
+								<option value="lecture" selected>
+									<span>Vorlesung</span>
+								</option>
+								<option value="litterature">
+									<span>litteratur</span>
+								</option>
+								<option value="misc">
+									<span>andere</span>
+								</option>
+							</select>
+							<textarea name="content" id="content"
+								style="background: #2b3035;color: var(--bs-body-bg);border-color: #059669;height: 75.6px;"
+								placeholder="Schreib deine Notiz hier"></textarea>
+							<div class="d-flex flex-column">
+								<input type="file" style="margin-top: 4px;">
+								<div style="margin-top: 7px;">
+									<a class="btn btn-outline-primary ms-md-" role="button" href="#">Abbrechen</a>
+									<button type="submit" class="btn btn-primary ms-md-2" role="button">Hinzufügen</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 
 </body>
 
