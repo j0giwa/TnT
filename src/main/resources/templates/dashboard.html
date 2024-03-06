@@ -29,7 +29,9 @@
 			<div class="container" style="margin-top: 95px;">
 				<h1>Notes</h1>
 				<ul class="list-unstyled" th:each="note: ${notes}">
-					<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}"></li>
+					<li
+						th:replace="~{fragments/note::noteItem(id=${note.id}, title=${note.name}, subtitle=${note.subtitle}, content=${note.content})}">
+					</li>
 				</ul>
 			</div>
 

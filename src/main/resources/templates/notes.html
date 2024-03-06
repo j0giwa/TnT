@@ -20,21 +20,18 @@
 				</header>
 				<div>
 					<form class="card" method="post" style="background: #2b3035;">
-						<div class="card-body" style="color: var(--bs-body-bg);">
+						<div class="card-body">
 							<h4 class="card-title">
 								<input type="text" name="title" id="title"
-									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-									placeholder="Titel" width="">
+									style="background: transparent;border-style: none;width: 100%;" placeholder="Titel" width="">
 							</h4>
 							<h6 class="text-secondary card-subtitle mb-2">
 								<input type="text" name="subtitle" id="subtitle"
-									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-									placeholder="Untertitel">
+									style="background: transparent;border-style: none;width: 100%;" placeholder="Untertitel">
 							</h6>
 							<h6 class="text-secondary mb-2">
 								<input type="text" name="tags" id="tags" th:value="${string}"
-									style="background: transparent;border-style: none;width: 100%;color: var(--bs-body-bg);"
-									placeholder="tags">
+									style="background: transparent;border-style: none;width: 100%;" placeholder="tags">
 							</h6>
 							<br>
 							<select name="kategory" id="kategory">
@@ -48,8 +45,7 @@
 									<span>andere</span>
 								</option>
 							</select>
-							<textarea name="content" id="content"
-								style="background: #2b3035;color: var(--bs-body-bg);border-color: #059669;height: 75.6px;"
+							<textarea name="content" id="content" style="background: #2b3035; border-color: #059669;height: 75.6px;"
 								placeholder="Schreib deine Notiz hier"></textarea>
 							<div class="d-flex flex-column">
 								<input type="file" style="margin-top: 4px;">
@@ -62,6 +58,16 @@
 					</form>
 				</div>
 			</div>
+
+			<div class="container" style="margin-top: 95px;">
+				<h1>Notes</h1>
+				<ul class="list-unstyled" th:each="note: ${notes}">
+					<li
+						th:replace="~{fragments/note::noteItem(id=${note.id}, title=${note.name}, subtitle=${note.subtitle}, content=${note.content})}">
+					</li>
+				</ul>
+			</div>
+
 		</div>
 	</div>
 	</div>

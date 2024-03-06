@@ -113,6 +113,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	/**
+	 * Sets expiry time (e.g., 30 minutes from now)
+	 * 
+	 * @param session The session to refresh
+	 */
+	private void refreshSession(Session session) {
+		// Set expiry time (e.g., 30 minutes from now)
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 30);
+		Date expiryTime = cal.getTime();
+
+		session.setExpiresAt(expiryTime);
+
+		this.sessions.save(session);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -142,17 +158,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
 		return result;
-	}
-
-	private void refreshSession(Session session) {
-		// Set expiry time (e.g., 30 minutes from now)
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, 30);
-		Date expiryTime = cal.getTime();
-
-		session.setExpiresAt(expiryTime);
-
-		this.sessions.save(session);
 	}
 
 	/**
@@ -214,7 +219,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private AccessToken createSession(User user) {
 		log.debug("entering createSession");
 
-		// Set expiry time (e.g., 30 minutes from now)
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, 30);
 		Date expiryTime = cal.getTime();
