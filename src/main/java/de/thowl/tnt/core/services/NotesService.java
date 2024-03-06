@@ -18,29 +18,37 @@
 
 package de.thowl.tnt.core.services;
 
+import java.util.List;
+
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.User;
 
 public interface NotesService {
 
 	/**
 	 * Adds a new {@link Note} to the Database.
 	 *
-	 * @param username  Name of the {@link User}
-	 * @param title     Title of the {@link Note}.
-	 * @param subtitle  Title of the {@link Note}.
-	 * @param content   Content of the {@link Note}
-	 * @param type      {@link Type} of the {@link Note}, valid values:
-	 *                  {@code text}, {@code audio}, {@code video}
-	 * @param kategory  {@link Type} of the {@link Note}, valid values:
-	 *                  {@code lecture}, {@code litterature}, {@code misc}
-	 * @param tags	    Whitespace speprated list of keywords assosiated with the {@link Note}
+	 * @param username Name of the {@link User}
+	 * @param title    Title of the {@link Note}.
+	 * @param subtitle Title of the {@link Note}.
+	 * @param content  Content of the {@link Note}
+	 * @param type     {@link Type} of the {@link Note}, valid values:
+	 *                 {@code text}, {@code audio}, {@code video}
+	 * @param kategory {@link Type} of the {@link Note}, valid values:
+	 *                 {@code lecture}, {@code litterature}, {@code misc}
+	 * @param tags     Whitespace speprated list of keywords assosiated with the
+	 *                 {@link Note}
 	 */
-	public void add(String username, String title, String subtitle, String content, String type, String kategory,
+	public void addNote(String username, String title, String subtitle, String content, String type,
+			String kategory,
 			String tags);
 
-	public Note load();
+	public List<Note> getAllNotes(String username);
 
-	public void edit();
+	public List<Note> getAllNotesByTags(String username, String tags);
+
+	// TODO: remove duplicate
+	public void editNote();
 
 	public void delete();
 }

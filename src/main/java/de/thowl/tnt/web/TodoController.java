@@ -60,7 +60,7 @@ public class TodoController {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAll(username));
+		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
 
 		return "todo";
 	}

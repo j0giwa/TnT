@@ -54,6 +54,7 @@ public class NotesController {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
+		model.addAttribute("notes", this.notessvc.getAllNotes(username));
 
 		return "notes";
 	}
@@ -73,7 +74,7 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.notessvc.add(username, form.getTitle(), form.getSubtitle(), form.getContent(),
+		this.notessvc.addNote(username, form.getTitle(), form.getSubtitle(), form.getContent(),
 				"text", form.getKategory(), form.getTags());
 
 		return "redirect:/u/" + username + "/notes";

@@ -69,8 +69,8 @@ public class NotesServiceImpl implements NotesService {
 				return NoteKategory.LECTURE;
 			case "litterature":
 				return NoteKategory.LITTERATURE;
-			case "misc":
 			default:
+			case "misc":
 				return NoteKategory.MISC;
 		}
 	}
@@ -90,37 +90,53 @@ public class NotesServiceImpl implements NotesService {
 	}
 
 	@Override
-	public void add(String username, String title, String subtitle, String content, String type, String kategory,
-			String tags) {
+	public void addNote(String username, String title, String subtitle,
+			String content, String type, String kategory, String tags) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
 
-		Note note = Note.builder().user(user).name(title)
-				.subtitle(subtitle).content(content)
-				.createdAt(new Date()).type(setType(type))
+		Note note = Note.builder()
+				.user(user)
+				.name(title)
+				.subtitle(subtitle)
+				.content(content)
+				.createdAt(new Date())
+				.type(setType(type))
 				.kategory(setKategory(kategory))
-				.tags(formatTags(tags)).build();
+				.tags(formatTags(tags))
+				.build();
 
-		this.notes.save(note);
+		if (null != note) {
+			this.notes.save(note);
+		}
 	}
 
 	@Override
-	public void edit() {
+	public List<Note> getAllNotes(String username) {
+		log.debug("entering getAllNotes");
+
+		User user = users.findByUsername(username);
+
+		return this.notes.findByUser(user);
+	}
+
+	@Override
+	public List<Note> getAllNotesByTags(String username, String tags) {
 		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getAllNoteByTags'");
+	}
+
+	@Override
+	public void editNote() {
+
 		throw new UnsupportedOperationException("Unimplemented method 'edit'");
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'delete'");
-	}
 
-	@Override
-	public Note load() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'load'");
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
 	}
 
 }

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en">
+
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='calendar | TnT')}"></head>
+
+<body style="background: rgb(33, 37, 41);">
+
+    <div id="wrapper" style="padding-bottom: 100%;">
+
+        <nav th:replace="~{fragments/baselayout::sidebar}"></nav>
+
+        <div id="content-wrapper">
+
+            <nav th:replace="~{fragments/baselayout::topbar}"></nav>
+
+            <div class="container" style="margin-top: 95px;background: #8ed0bb;">
+                <div class="calendar" style="background: #8ed0bb;">
+                    <div class="d-flex align-items-center"><i class="far fa-calendar fa-3x me-3"></i>
+                        <h1 class="month fw-bold mb-0 text-uppercase">October 2020</h1>
+                    </div>
+                    <p class="fst-italic text-muted mb-5">No events for this day.<br></p>
+                    <ol class="day-names list-unstyled">
+                        <li class="fw-bold text-uppercase">Sunday</li>
+                        <li class="fw-bold text-uppercase">Monday</li>
+                        <li class="fw-bold text-uppercase">Tuesday</li>
+                        <li class="fw-bold text-uppercase">Wednesday</li>
+                        <li class="fw-bold text-uppercase">thursday</li>
+                        <li class="fw-bold text-uppercase">Friday</li>
+                        <li class="fw-bold text-uppercase">Saturday</li>
+                    </ol>
+                    <ol class="days list-unstyled">
+                        <li class="outside">
+                            <div class="date"><span>27</span></div>
+                            <div class="event bg-success"><span>Event with Long Name</span></div>
+                        </li>
+                        <li class="outside">
+                            <div class="date"><span>28</span></div>
+                        </li>
+                        <li class="outside">
+                            <div class="date"><span>29</span></div>
+                        </li>
+                        <li class="outside">
+                            <div class="date"><span>30</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>1</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>2</span></div>
+                            <div class="event span-2 bg-warning"><span>span event</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>3</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>4</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>5</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>6</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>7</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>8</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>9</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>10</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>11</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>12</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>13</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>14</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>15</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>16</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>17</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>18</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>19</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>20</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>21</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>22</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>23</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>24</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>25</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>26</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>27</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>28</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>29</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>30</span></div>
+                        </li>
+                        <li>
+                            <div class="date"><span>31</span></div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/Material-Text-Input-material.min.js"></script>
+    <script src="assets/js/navbar-sidebar-theme.js"></script>
+</body>
+
+</html>

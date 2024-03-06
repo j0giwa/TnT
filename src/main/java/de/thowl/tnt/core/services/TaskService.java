@@ -21,7 +21,9 @@ package de.thowl.tnt.core.services;
 import java.util.Date;
 import java.util.List;
 
+import de.thowl.tnt.storage.entities.Priority;
 import de.thowl.tnt.storage.entities.Task;
+import de.thowl.tnt.storage.entities.User;
 
 public interface TaskService {
 
@@ -60,5 +62,5 @@ public interface TaskService {
 	 * @return A list of {@link Task}s,
 	 *         {@code null} if the user did not create any tasks,
 	 */
-	public List<Task> getAll(String username);
+	public List<Task> getAllTasks(String username);
 }

@@ -65,18 +65,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	/**
 	 * Deletes rouge(incative) sessions
+	 * 
+	 * Runs once every minute
 	 */
-	@Scheduled(fixedRate = 60000) // Run every minute (adjust as needed)
+	@Scheduled(fixedRate = 60000)
 	public void cleanupExpiredSessions() {
-		log.info("Starting session cleanup job...");
 
-		Date currentTime = new Date();
-		List<Session> expiredSessions = sessions.findByExpiresAtBefore(currentTime);
+		Date now = new Date();
+		List<Session> expired = sessions.findByExpiresAtBefore(now);
 
-		if (!expiredSessions.isEmpty()) {
-			log.info("Found {} expired sessions. Deleting...", expiredSessions.size());
-			sessions.deleteAll(expiredSessions);
-			log.info("Expired sessions deleted successfully.");
+		if (!expired.isEmpty()) {
+			log.info("Found {} expired sessions. Deleting...", expired.size());
+			sessions.deleteAll(expired);
 		}
 	}
 
@@ -149,8 +149,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @throws DuplicateUserException
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password)
-			throws DuplicateUserException {
+	public void register(String firstname, String lastname, String username,
+			String email, String password) throws DuplicateUserException {
+
 		log.debug("entering register");
 
 		if (this.users.findByEmail(email) != null)

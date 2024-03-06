@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="htmlhead (pageTitle)">
   <title th:text="${pageTitle}">PLACEHOLDER</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface&amp;display=swap">
   <link rel="stylesheet" th:href="@{/css/Navbar-Centered-Brand-Dark-icons.css}">
@@ -12,6 +13,7 @@
   <link rel="stylesheet" th:href="@{/css/Password-Strenght-Checker---Ambrodu.css}">
   <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+
   <script th:src="@{/bootstrap/js/bootstrap.min.js}" defer></script>
 </head>
 
@@ -19,11 +21,13 @@
   <title th:text="${pageTitle}">PLACEHOLDER</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface&amp;display=swap">
   <link rel="stylesheet" th:href="@{/fonts/fontawesome-all.min.css}">
   <link rel="stylesheet" th:href="@{/css/Material-Text-Input.css}">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+
   <script th:src="@{/bootstrap/js/bootstrap.min.js}" defer></script>
   <script th:src="@{/js/Material-Text-Input-material.min.js}" defer></script>
   <script th:src="@{/js/navbar-sidebar-theme.js}" defer></script>
@@ -92,14 +96,32 @@
       </a>
       <hr class="sidebar-divider my-0">
       <ul class="navbar-nav text-light" id="accordionSidebar">
+
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center active" href="todo.html">
+          <a class="nav-link d-flex flex-column align-items-center" href="todo">
             <i class="far fa-list-alt" style="font-size: 26px;"></i>
             <span class="span_item" th:text="#{task}">Task</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center" href="kalendar.html">
+          <a class="nav-link d-flex flex-column align-items-center" href="notes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+              class="bi bi-journal-text" style="font-size: 26px;">
+              <path
+                d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5">
+              </path>
+              <path
+                d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2">
+              </path>
+              <path
+                d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z">
+              </path>
+            </svg>
+            <span class="span_item" th:text="#{note}">Note</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center" href="calendar">
             <i class="far fa-calendar-alt" style="font-size: 26px;"></i>
             <span class="span_item" th:text="#{calendar}">Kalendar</span>
           </a>
@@ -123,21 +145,6 @@
               </a>
             </div>
           </div>
-          <a class="nav-link d-flex flex-column align-items-center" href="note">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
-              class="bi bi-journal-text" style="font-size: 26px;">
-              <path
-                d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5">
-              </path>
-              <path
-                d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2">
-              </path>
-              <path
-                d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z">
-              </path>
-            </svg>
-            <span class="span_item" th:text="#{note}">Note</span>
-          </a>
         </li>
       </ul>
       <div class="text-center d-none d-md-inline">
@@ -154,7 +161,7 @@
       </button>
       <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
-          <input class="bg-light form-control border-0 small" type="text" th:placeholder="#{Searchfor}">
+          <input class="form-control border-0 small" type="text" th:placeholder="#{Searchfor}">
           <button class="btn btn-primary py-0" type="button" style="background: rgb(5,150,105);">
             <i class="fas fa-search"></i>
           </button>
@@ -169,7 +176,7 @@
             style="background: #2b3035;width: 262px;margin-right: -56px;">
             <form class="me-auto navbar-search w-100">
               <div class="input-group">
-                <input class="bg-light form-control border-0 small" type="text" th:placeholder="#{Searchfor}">
+                <input class="form-control border-0 small" type="text" th:placeholder="#{Searchfor}">
                 <div class="input-group-append">
                   <button class="btn btn-primary py-0" type="button" style="background: #059669;height: 37.6px;">
                     <i class="fas fa-search"></i>
@@ -184,7 +191,7 @@
           <div class="nav-item dropdown no-arrow" style="color: #059669;">
             <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
               <span class="d-none d-lg-inline me-2 text-gray-600 small"
-                style="color: var(--bs-light-bg-subtle);font-weight: bold;" th:text="#{username}">Username</span>
+                style="color: var(--bs-emphasis-color);font-weight: bold;" th:text="${user}">Username</span>
               <img class="border rounded-circle img-profile" th:src="@{/images/avatars/avatar1.jpeg}">
             </a>
             <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">

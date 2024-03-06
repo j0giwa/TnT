@@ -18,12 +18,19 @@
 
 package de.thowl.tnt.storage;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.User;
 
 @Repository
 public interface NotesRepository extends CrudRepository<Note, Long> {
+
+	List<Note> findByUser(User user);
+
+	List<Note> findByUserAndTags(User user, List<String> tags);
 
 }
