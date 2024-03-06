@@ -20,11 +20,11 @@ public class Calendarcontroller {
 	private AuthenticationService authsvc;
 
 	@GetMapping("/u/{username}/calendar")
-	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String showCalendarPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
-		log.info("entering showNotePage (GET-Method: /notes)");
+		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
 
-		// Prevent unauthrised access
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 

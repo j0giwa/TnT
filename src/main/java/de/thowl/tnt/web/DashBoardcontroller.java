@@ -32,7 +32,7 @@ public class DashBoardcontroller {
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showNotePage (GET-Method: /notes)");
 
-		// Prevent unauthrised access
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 

@@ -55,7 +55,7 @@ public class TodoController {
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
-		// Prevent unauthrised access
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -76,7 +76,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -97,7 +97,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -117,7 +117,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 

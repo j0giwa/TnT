@@ -50,7 +50,7 @@ public class NotesController {
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showNotePage (GET-Method: /notes)");
 
-		// Prevent unauthrised access
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -71,6 +71,7 @@ public class NotesController {
 			HttpSession httpSession) {
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -91,6 +92,7 @@ public class NotesController {
 			HttpSession httpSession) {
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
 
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -113,11 +115,12 @@ public class NotesController {
 	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model,
 			HttpSession httpSession) {
-		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
+		log.info("entering doEditNote (POST-Method: /u/{}/notes/edit)", username);
 
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		// Prevent unauthrised access / extend session
 		this.notessvc.editNote(form.getId(), username, form.getTitle(),
 				form.getSubtitle(), form.getContent(),
 				"text", form.getKategory(), form.getTags());

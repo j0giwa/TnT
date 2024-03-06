@@ -65,8 +65,11 @@ public interface AuthenticationService {
 	/**
 	 * Validates the Users Session
 	 * <p>
-	 * Checks if the given ({@link AccessToken} belongs to a session with this
+	 * Checks if the given {@link AccessToken} belongs to a session with this
 	 * {@link AccessToken}.
+	 * <p>
+	 * The Session expires 30 Minutes after its creation / Validation.
+	 * Running this resets the timer.
 	 *
 	 * @param token    The {@link AccessToken} to check.
 	 * @param username The name of the {@link User} to check.
@@ -90,6 +93,8 @@ public interface AuthenticationService {
 
 	/**
 	 * Performs a login action and stores an active {@link Session} in the Database.
+	 * <p>
+	 * The Session expires 30 Minutes after its creation / Validation.
 	 * 
 	 * @param email    The E-Mail address of the user
 	 * @param password The password of the user
