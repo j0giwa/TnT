@@ -3,10 +3,7 @@
 		<div class="card-body">
 			<h5 class="card-title" th:text="${title}">Card title</h5>
 			<h6 class="card-subtitle mb-2 text-muted" th:text="${subtitle}">Card subtitle</h6>
-			<script>
-				document.getElementById('content').innerHTML = marked.parse(document.getElementById('content').innerHTML);
-			</script>
-			<p class="card-text" id="content" th:text="${content}">Lorem Ipsum</p>
+			<p class="card-text md-content" id="content" th:text="${content}">Lorem Ipsum</p>
 		</div>
 
 		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
