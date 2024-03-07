@@ -18,6 +18,8 @@
 
 package de.thowl.tnt.web;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +58,7 @@ public class NotesController {
 
 		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
+
 		model.addAttribute("notes", this.notessvc.getAllNotes(username));
 
 		return "notes";
@@ -76,8 +79,18 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		byte[] fileContent = null;
+		String mimeType = null;
+
+		try {
+			fileContent = form.getFile().getBytes();
+			mimeType = form.getFile().getContentType();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		this.notessvc.addNote(username, form.getTitle(), form.getSubtitle(), form.getContent(),
-				"text", form.getKategory(), form.getTags());
+				fileContent, mimeType, form.getKategory(), form.getTags());
 
 		return "redirect:/u/" + username + "/notes";
 	}
@@ -112,21 +125,25 @@ public class NotesController {
 	 * 
 	 * @return todo.html
 	 */
-	@PostMapping("/u/{username}/notes/edit")
-	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, NoteForm form, Model model,
-			HttpSession httpSession) {
-		log.info("entering doEditNote (POST-Method: /u/{}/notes/edit)", username);
-
-		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
-
-		// Prevent unauthrised access / extend session
-		this.notessvc.editNote(form.getId(), username, form.getTitle(),
-				form.getSubtitle(), form.getContent(),
-				"text", form.getKategory(), form.getTags());
-
-		return "redirect:/u/" + username + "/notes";
-	}
+	/*
+	 * @PostMapping("/u/{username}/notes/edit")
+	 * public String doEditNote(@SessionAttribute(name = "token", required = false)
+	 * AccessToken token,
+	 * 
+	 * @PathVariable("username") String username, NoteForm form, Model model,
+	 * HttpSession httpSession) {
+	 * log.info("entering doEditNote (POST-Method: /u/{}/notes/edit)", username);
+	 * 
+	 * if (!this.authsvc.validateSession(token, username))
+	 * throw new ForbiddenException("Unathorised access");
+	 * 
+	 * // Prevent unauthrised access / extend session
+	 * this.notessvc.editNote(form.getId(), username, form.getTitle(),
+	 * form.getSubtitle(), form.getContent(),
+	 * "text", form.getKategory(), form.getTags());
+	 * 
+	 * return "redirect:/u/" + username + "/notes";
+	 * }
+	 */
 
 }

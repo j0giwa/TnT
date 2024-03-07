@@ -19,6 +19,7 @@
 package de.thowl.tnt.core;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,6 @@ import de.thowl.tnt.storage.NotesRepository;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.storage.entities.NoteKategory;
-import de.thowl.tnt.storage.entities.NoteType;
 import de.thowl.tnt.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,19 +48,6 @@ public class NotesServiceImpl implements NotesService {
 
 	@Autowired
 	private NotesRepository notes;
-
-	public NoteType setType(String type) {
-
-		switch (type.toLowerCase()) {
-			case "text":
-			default:
-				return NoteType.TEXT;
-			case "audio":
-				return NoteType.AUDIO;
-			case "video":
-				return NoteType.VIDEO;
-		}
-	}
 
 	public NoteKategory setKategory(String kategory) {
 
@@ -91,7 +78,7 @@ public class NotesServiceImpl implements NotesService {
 
 	@Override
 	public void addNote(String username, String title, String subtitle,
-			String content, String type, String kategory, String tags) {
+			String content, byte[] attachment, String mimeType, String kategory, String tags) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
@@ -101,8 +88,9 @@ public class NotesServiceImpl implements NotesService {
 				.name(title)
 				.subtitle(subtitle)
 				.content(content)
+				.attachment(attachment)
+				.mimeType(mimeType)
 				.createdAt(new Date())
-				.type(setType(type))
 				.kategory(setKategory(kategory))
 				.tags(formatTags(tags))
 				.build();
@@ -114,7 +102,7 @@ public class NotesServiceImpl implements NotesService {
 
 	@Override
 	public Note getNote(long id) {
-		log.debug("entering getAllNotes");
+		log.debug("entering getNote");
 		return this.notes.findById(id);
 	}
 
@@ -124,7 +112,13 @@ public class NotesServiceImpl implements NotesService {
 
 		User user = users.findByUsername(username);
 
-		return this.notes.findByUser(user);
+		List<Note> notes = this.notes.findByUser(user);
+
+		for (Note note : notes) {
+			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+		}
+
+		return notes;
 	}
 
 	@Override
@@ -135,7 +129,7 @@ public class NotesServiceImpl implements NotesService {
 
 	@Override
 	public void editNote(long id, String username, String title, String subtitle,
-			String content, String type, String kategory, String tags) {
+			String content, byte[] attachment, String mimeType, String kategory, String tags) {
 
 		log.debug("entering add");
 
@@ -147,8 +141,8 @@ public class NotesServiceImpl implements NotesService {
 				.name(title)
 				.subtitle(subtitle)
 				.content(content)
+				.attachment(attachment)
 				.createdAt(new Date())
-				.type(setType(type))
 				.kategory(setKategory(kategory))
 				.tags(formatTags(tags))
 				.build();

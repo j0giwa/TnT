@@ -37,7 +37,9 @@ public class DashBoardcontroller {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
+
 		model.addAttribute("notes", this.notessvc.getAllNotes(username));
+
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
 
 		return "dashboard";

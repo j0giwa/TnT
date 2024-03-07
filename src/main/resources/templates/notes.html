@@ -19,19 +19,55 @@
 					</div>
 				</header>
 
-				<div th:if="${editing} == false">
-					<form th:replace="~{fragments/note::noteForm}" />
-				</div>
-				<div th:if="${editing} == true">
-					<form th:replace="~{fragments/note::noteEditForm}" />
-				</div>
+				<form class="card" method="post" style="background: #2b3035;" enctype="multipart/form-data">
+					<div class="card-body">
+						<h4 class="card-title">
+							<input type="text" name="title" id="title" style="background: transparent;border-style: none;width: 100%;"
+								placeholder="Titel" width="">
+						</h4>
+						<h6 class="text-secondary card-subtitle mb-2">
+							<input type="text" name="subtitle" id="subtitle"
+								style="background: transparent;border-style: none;width: 100%;" placeholder="Untertitel">
+						</h6>
+						<h6 class="text-secondary mb-2">
+							<input type="text" name="tags" id="tags" style="background: transparent;border-style: none;width: 100%;"
+								placeholder="tags">
+						</h6>
+						<br>
+						<select name="kategory" id="kategory">
+							<option value="lecture" selected>
+								<span>Vorlesung</span>
+							</option>
+							<option value="litterature">
+								<span>Litteratur</span>
+							</option>
+							<option value="misc">
+								<span>Andere</span>
+							</option>
+						</select>
+						<textarea name="content" id="content" style="background: #2b3035; border-color: #059669;height: 75.6px;"
+							placeholder="Schreib deine Notiz hier"></textarea>
+						<div class="d-flex flex-column">
+							<input class="form-control-file" type="file" name="file" style="margin-top: 4px;">
+							<div style="margin-top: 7px;">
+								<a class="btn btn-outline-primary ms-md-" role="button" href="#">Abbrechen</a>
+								<button type="submit" class="btn btn-primary ms-md-2" role="button">
+									<div th:if="${editing} == false">
+										<span>Hinzufügen</span>
+									</div>
+									<div th:if="${editing} == true">
+										<span>Aktualisieren</span>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
 
 				<div th:unless="${editing} == true" class="container" style="margin-top: 95px;">
 					<h1>Notes</h1>
 					<ul class="list-unstyled" th:each="note: ${notes}">
-						<li
-							th:replace="~{fragments/note::noteItem(id=${note.id}, title=${note.name}, subtitle=${note.subtitle}, content=${note.content})}">
-						</li>
+						<li th:replace="~{fragments/note::noteItem(note=${note})}">
 					</ul>
 				</div>
 

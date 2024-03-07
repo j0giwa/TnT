@@ -2,7 +2,9 @@ package de.thowl.tnt.storage.entities;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -23,9 +25,13 @@ public class Note extends Entry {
 	@NonNull
 	private String subtitle;
 
-	@NotNull
-	@NonNull
-	private NoteType type;
+	@Lob
+	@Column(columnDefinition = "mediumblob")
+	private byte[] attachment;
+
+	private String mimeType;
+
+	private String encodedAttachment;
 
 	@NotNull
 	@NonNull

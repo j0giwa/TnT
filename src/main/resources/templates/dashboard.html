@@ -20,7 +20,9 @@
 						<h6 class="card-subtitle mb-2" style="color: var(--bs-gray-500);" th:text="#{vorhaben}">Was
 							hast du vor?</h6>
 						<ul class="list-unstyled" th:each="task: ${tasks}">
-							<li th:replace="~{fragments/todo::taskItem(id=${task.id}, title=${task.name})}"></li>
+							<li
+								th:replace="~{fragments/todo::taskItem(id=${task.id}, done=${task.done}, title=${task.name}, content=${task.content})}">
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -29,9 +31,7 @@
 			<div class="container" style="margin-top: 95px;">
 				<h1>Notes</h1>
 				<ul class="list-unstyled" th:each="note: ${notes}">
-					<li
-						th:replace="~{fragments/note::noteItem(id=${note.id}, title=${note.name}, subtitle=${note.subtitle}, content=${note.content})}">
-					</li>
+					<li th:replace="~{fragments/note::noteItem(note=${note})}">
 				</ul>
 			</div>
 
