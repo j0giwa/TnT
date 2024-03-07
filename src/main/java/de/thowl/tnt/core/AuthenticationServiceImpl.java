@@ -18,10 +18,14 @@
 
 package de.thowl.tnt.core;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
@@ -43,18 +47,38 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Slf4j
 @Service
+@EnableScheduling
 public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final int BCRYPT_COST = 15;
 
 	@Autowired
 	private UserRepository users;
+
 	@Autowired
 	private GroupRepository groups;
+
 	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
+
+	/**
+	 * Deletes rouge(incative) sessions
+	 * 
+	 * Runs once every minute
+	 */
+	@Scheduled(fixedRate = 60000)
+	public void cleanupExpiredSessions() {
+
+		Date now = new Date();
+		List<Session> expired = sessions.findByExpiresAtBefore(now);
+
+		if (!expired.isEmpty()) {
+			log.info("Found {} expired sessions. Deleting...", expired.size());
+			sessions.deleteAll(expired);
+		}
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -89,6 +113,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	/**
+	 * Sets expiry time (e.g., 30 minutes from now)
+	 * 
+	 * @param session The session to refresh
+	 */
+	private void refreshSession(Session session) {
+		// Set expiry time (e.g., 30 minutes from now)
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 30);
+		Date expiryTime = cal.getTime();
+
+		session.setExpiresAt(expiryTime);
+
+		this.sessions.save(session);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -112,15 +152,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return false;
 		}
 
+		refreshSession(session);
+
 		boolean result = user.getId() == session.getUserId();
 
-		// THis might bug out
 		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
 		return result;
-	}
-
-	public String generateToken() {
-		return UUID.randomUUID().toString();
 	}
 
 	/**
@@ -129,8 +166,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @throws DuplicateUserException
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password)
-			throws DuplicateUserException {
+	public void register(String firstname, String lastname, String username,
+			String email, String password) throws DuplicateUserException {
+
 		log.debug("entering register");
 
 		if (this.users.findByEmail(email) != null)
@@ -139,7 +177,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (this.users.findByUsername(username) != null)
 			throw new DuplicateUserException("A User with this Username already exists");
 
-		User usr = new User(firstname, lastname, username, email, encoder.encode(password), generateToken());
+		User usr = new User(firstname, lastname, username, email, encoder.encode(password),
+				UUID.randomUUID().toString());
 		usr.setGroup(this.groups.findById(1));
 
 		log.info("registering user {} with {}", username, email);
@@ -180,13 +219,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private AccessToken createSession(User user) {
 		log.debug("entering createSession");
 
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 30);
+		Date expiryTime = cal.getTime();
+
 		// Todo: Refactor AccessToken
 		AccessToken token = new AccessToken();
 		UUID uuid = UUID.randomUUID();
 		token.setUsid(uuid.toString());
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
-		this.sessions.save(new Session(token.getUsid(), user));
+
+		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());
 		return token;

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.TaskForm;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -54,12 +55,12 @@ public class TodoController {
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
-		// Prevent unauthrised access
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAll(username));
+		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
 
 		return "todo";
 	}
@@ -75,7 +76,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -96,7 +97,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
@@ -116,7 +117,7 @@ public class TodoController {
 			HttpSession httpSession) {
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access (in theory redundant, but i keep this anyway)
+		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 

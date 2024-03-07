@@ -27,7 +27,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -37,10 +36,9 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @MappedSuperclass
-@NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
+@NoArgsConstructor
 public abstract class Entry {
 
 	@Id

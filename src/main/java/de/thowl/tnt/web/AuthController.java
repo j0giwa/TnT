@@ -80,7 +80,7 @@ public class AuthController {
 		httpSession.setAttribute("token", token);
 		httpSession.setAttribute("username", user.getUsername());
 
-		return "redirect:/u/" + user.getUsername() + "/todo";
+		return "redirect:/u/" + user.getUsername() + "/";
 	}
 
 	/**

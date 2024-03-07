@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.web.forms;
+package de.thowl.tnt.web.api.forms;
 
 import java.util.Date;
 
@@ -25,9 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class TaskForm {
-
-	private long id;
+public class Task {
 
 	private String taskName;
 	private String taskContent;
@@ -39,5 +37,4 @@ public class TaskForm {
 	private Date time;
 
 	private String priority;
-
 }

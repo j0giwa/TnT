@@ -32,6 +32,10 @@ import de.thowl.tnt.storage.entities.Task;
 import de.thowl.tnt.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementaion of the {@link TaskService} interface
+ * {@inheritDoc}
+ */
 @Slf4j
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -43,16 +47,14 @@ public class TaskServiceImpl implements TaskService {
 	private TaskRepository tasks;
 
 	public Priority setPriority(String priority) {
-		switch (priority) {
+		switch (priority.toLowerCase()) {
+			default:
 			case "low":
 				return Priority.LOW;
 			case "medium":
 				return Priority.MEDIUM;
 			case "high":
 				return Priority.HIGH;
-			default:
-				// Assume it was low priority
-				return Priority.LOW;
 		}
 	}
 
@@ -60,16 +62,26 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void add(String username, String name, String content, String priority, Date dueDate, Date time) {
+	public void add(String username, String name, String content,
+			String priority, Date dueDate, Date time) {
 		log.debug("entering add");
 
 		User user = users.findByUsername(username);
 
-		Task task = Task.builder().user(user).name(name).content(content).createdAt(new Date())
-				.dueDate(dueDate).time(time).priority(setPriority(priority))
-				.overdue(false).done(false).build();
+		Task task = Task.builder()
+				.user(user)
+				.name(name)
+				.content(content)
+				.createdAt(new Date())
+				.dueDate(dueDate)
+				.time(time)
+				.priority(setPriority(priority))
+				.overdue(false)
+				.done(false)
+				.build();
 
-		this.tasks.save(task);
+		if (null != task)
+			this.tasks.save(task);
 	}
 
 	/**
@@ -95,15 +107,18 @@ public class TaskServiceImpl implements TaskService {
 		log.debug("entering delete");
 
 		Task task = this.tasks.findById(id);
-		log.info("deleting task id: {}", id);
-		this.tasks.delete(task);
+
+		if (null != task) {
+			log.info("deleting task id: {}", id);
+			this.tasks.delete(task);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Task> getAll(String username) {
+	public List<Task> getAllTasks(String username) {
 		log.debug("entering getAll");
 
 		User user = users.findByUsername(username);

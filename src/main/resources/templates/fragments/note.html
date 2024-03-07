@@ -1,0 +1,18 @@
+<li th:fragment="noteItem (note)" style="margin-bottom: 3px;">
+	<div class="card" style="width: 18rem;">
+		<img th:if="${note.mimeType.startsWith('image/')}" class="card-img-top"
+			th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" alt="Attachment">
+		<div class="card-body">
+			<h5 class="card-title" th:text="${note.name}">Card title</h5>
+			<h6 class="card-subtitle mb-2 text-muted" th:text="${note.subtitle}">Card subtitle</h6>
+			<p class="card-text md-content" id="content" th:text="${note.content}">Lorem
+				Ipsum</p>
+		</div>
+		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
+			<input type="hidden" th:value="${id}" name="id">
+			<button class="btn btn-transparent" type="submit">
+				<span>Edit</span>
+			</button>
+		</form>
+	</div>
+</li>

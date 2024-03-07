@@ -16,28 +16,23 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.web.forms;
+package de.thowl.tnt.storage;
 
-import java.util.Date;
+import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import lombok.Data;
+import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.User;
 
-@Data
-public class TaskForm {
+@Repository
+public interface NotesRepository extends CrudRepository<Note, Long> {
 
-	private long id;
+	Note findById(long id);
 
-	private String taskName;
-	private String taskContent;
+	List<Note> findByUser(User user);
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date date;
-
-	@DateTimeFormat(pattern = "hh:mm")
-	private Date time;
-
-	private String priority;
+	List<Note> findByUserAndTags(User user, List<String> tags);
 
 }

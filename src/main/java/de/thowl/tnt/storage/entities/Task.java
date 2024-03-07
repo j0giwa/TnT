@@ -34,7 +34,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "Tasks")
 @SuperBuilder
-@NoArgsConstructor 
+@NoArgsConstructor
 public class Task extends Entry {
 
 	@NotNull

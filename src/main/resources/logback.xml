@@ -15,6 +15,10 @@
     </root>
 
     <!-- setup log levels -->
+
+    <!-- Logback -->
+    <logger name="ch.qos.logback" level="WARN"/>
+
     <!-- Tomcat server -->
     <logger name="org.apache.catalina" level="ERROR" />
     <logger name="org.apache.coyote" level="ERROR" />
