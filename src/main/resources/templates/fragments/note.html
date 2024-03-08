@@ -2,6 +2,9 @@
 	<div class="card" style="width: 18rem;">
 		<img th:if="${note.mimeType.startsWith('image/')}" class="card-img-top"
 			th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" alt="Attachment">
+		<audio th:if="${note.mimeType.startsWith('audio/')}" controls>
+			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">
+		</audio>
 		<div class="card-body">
 			<h5 class="card-title" th:text="${note.name}">Card title</h5>
 			<h6 class="card-subtitle mb-2 text-muted" th:text="${note.subtitle}">Card subtitle</h6>
