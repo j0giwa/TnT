@@ -10,8 +10,8 @@ Weiterhin können einzelne Notizen durch Generierung eindeutiger Links freigegeb
 + UC-0: Homepage (grobe Präsentation Webapp)
 + UC-1: Neuanlage eines Benutzerkontos :godmode:
 + UC-2: Einloggen und Ausloggen :godmode:
-+ UC-3: Ablage eines neuen Tasks mit Priorität und Fälligkeitsdatum, erledigte Tasks können optional automatisch gelöscht werden
-+ UC-4: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte gespeichert werden 
++ UC-3: Ablage eines neuen Tasks mit Priorität und Fälligkeitsdatum :godmode:, erledigte Tasks können optional automatisch gelöscht werden
++ UC-4: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte gespeichert werden :godmode:
 + UC-5: Notizen und Aufgaben können gelöscht oder bearbeitet werden :godmode:
 + UC-6: Übersichtsdarstellung aller Notizen und todo-items (hohe Priorität und oder überfällig) in einem Dashboard
 + UC-7: Filtern der angezeigten Notizen/Todo's nach Schlagwort, Art und Zeitraum
