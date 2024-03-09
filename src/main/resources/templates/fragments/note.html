@@ -5,6 +5,9 @@
 		<audio th:if="${note.mimeType.startsWith('audio/')}" controls>
 			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">
 		</audio>
+		<video th:if="${note.mimeType.startsWith('video/')}" controls>
+			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">
+		</video>
 		<div class="card-body">
 			<h5 class="card-title" th:text="${note.name}">Card title</h5>
 			<h6 class="card-subtitle mb-2 text-muted" th:text="${note.subtitle}">Card subtitle</h6>
