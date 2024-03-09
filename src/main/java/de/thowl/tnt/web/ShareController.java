@@ -18,6 +18,9 @@
 
 package de.thowl.tnt.web;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +33,23 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class ShareController {
 
-	//@Autowired
-	//private ShareService sharesvc;
+	@Autowired
+	private ShareService sharesvc;
 
 	@GetMapping("/share/{uuid}")
-	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
+	public String showSharePage(@PathVariable("uuid") UUID uuid, Model model) {
 		log.info("entering showNotePage (GET-Method: /notes)");
+
+		model.addAttribute("note", this.sharesvc.getSharedNote(uuid));
+
+		return "share";
+	}
+
+	@GetMapping("/share/add/{id}")
+	public String showSharePage(@PathVariable("id") long id, Model model) {
+		log.info("entering showNotePage (GET-Method: /notes)");
+
+		this.sharesvc.startSharing(id);
 
 		return "share";
 	}

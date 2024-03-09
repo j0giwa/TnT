@@ -26,19 +26,30 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "Shares")
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class SharedNote {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@NonNull
+	@NotNull
 	private UUID guid;
 
+	@NonNull
+	@NotNull
 	@OneToOne
 	private Note note;
 

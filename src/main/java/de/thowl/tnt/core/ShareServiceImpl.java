@@ -18,10 +18,51 @@
 
 package de.thowl.tnt.core;
 
-import de.thowl.tnt.core.services.ShareService;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import de.thowl.tnt.core.services.ShareService;
+import de.thowl.tnt.storage.NotesRepository;
+import de.thowl.tnt.storage.SharedNotesRepository;
+import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.SharedNote;
+import lombok.extern.slf4j.Slf4j;
+
+
+/**
+ * Implementaion of the {@link ShareService} interface
+ * {@inheritDoc}
+ */
+@Slf4j
+@Service
 public class ShareServiceImpl implements ShareService {
 
+	@Autowired
+	private NotesRepository notes;
+
+	@Autowired
+	private SharedNotesRepository sharedNotes;
+
+	@Override
+	public void startSharing(long noteId) {
+		log.debug("entering startSharing");
+
+		Note note = this.notes.findById(noteId);
+
+		SharedNote shared = new SharedNote(UUID.randomUUID(), note);
+
+		this.sharedNotes.save(shared);
+
+	}
 	
+	@Override
+	public SharedNote getSharedNote(UUID id) {
+		log.debug("entering getSharedNote");
+		return this.sharedNotes.findByGuid(id);
+	}
+
+
 }
  
