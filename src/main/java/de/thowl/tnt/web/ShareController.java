@@ -18,15 +18,17 @@
 
 package de.thowl.tnt.web;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.core.services.ShareService;
+import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.web.forms.NoteForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,20 +38,25 @@ public class ShareController {
 	@Autowired
 	private ShareService sharesvc;
 
-	@GetMapping("/share/{uuid}")
-	public String showSharePage(@PathVariable("uuid") UUID uuid, Model model) {
-		log.info("entering showNotePage (GET-Method: /notes)");
+	@Autowired
+	private NotesService notesvc;
 
-		model.addAttribute("note", this.sharesvc.getSharedNote(uuid));
+	@GetMapping("/share/{uuid}")
+	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
+		log.info("entering showSharePage (GET-Method: /share)");
+
+		long id = this.sharesvc.getSharedNote(uuid).getNote().getId();
+		Note note = this.notesvc.getNote(id);
+		model.addAttribute("note", note);
 
 		return "share";
 	}
 
-	@GetMapping("/share/add/{id}")
-	public String showSharePage(@PathVariable("id") long id, Model model) {
-		log.info("entering showNotePage (GET-Method: /notes)");
+	@PostMapping("/share")
+	public String addSharedNote(NoteForm form, Model model) {
+		log.info("entering addSharedNote (Post-Method: /share)");
 
-		this.sharesvc.startSharing(id);
+		this.sharesvc.startSharing(form.getId());
 
 		return "share";
 	}

@@ -18,8 +18,6 @@
 
 package de.thowl.tnt.storage.entities;
 
-import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,7 +44,7 @@ public class SharedNote {
 
 	@NonNull
 	@NotNull
-	private UUID guid;
+	private String guid;
 
 	@NonNull
 	@NotNull

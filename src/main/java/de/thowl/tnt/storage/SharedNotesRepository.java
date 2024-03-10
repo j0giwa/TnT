@@ -18,8 +18,6 @@
 
 package de.thowl.tnt.storage;
 
-import java.util.UUID;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +28,6 @@ public interface SharedNotesRepository extends CrudRepository<SharedNote, Long> 
 
 	SharedNote findById(long id);
 
-	SharedNote findByGuid(UUID guid);
+	SharedNote findByGuid(String guid);
 
 }

@@ -103,7 +103,12 @@ public class NotesServiceImpl implements NotesService {
 	@Override
 	public Note getNote(long id) {
 		log.debug("entering getNote");
-		return this.notes.findById(id);
+
+		Note note = this.notes.findById(id);
+
+		note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+
+		return note;
 	}
 
 	@Override

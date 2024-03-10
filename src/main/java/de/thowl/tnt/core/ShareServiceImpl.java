@@ -51,14 +51,14 @@ public class ShareServiceImpl implements ShareService {
 
 		Note note = this.notes.findById(noteId);
 
-		SharedNote shared = new SharedNote(UUID.randomUUID(), note);
+		SharedNote shared = new SharedNote(UUID.randomUUID().toString(), note);
 
 		this.sharedNotes.save(shared);
 
 	}
 	
 	@Override
-	public SharedNote getSharedNote(UUID id) {
+	public SharedNote getSharedNote(String id) {
 		log.debug("entering getSharedNote");
 		return this.sharedNotes.findByGuid(id);
 	}

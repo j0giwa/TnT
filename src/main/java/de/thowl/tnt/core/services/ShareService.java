@@ -26,6 +26,6 @@ public interface ShareService {
 
 	public void startSharing(long noteId);
 
-	public SharedNote getSharedNote(UUID id);
+	public SharedNote getSharedNote(String id);
 
 }

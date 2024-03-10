@@ -1,11 +1,10 @@
 <li th:fragment="noteItem (note)" style="margin-bottom: 3px;">
 	<div class="card" style="width: 18rem;">
-		<img th:if="${note.mimeType.startsWith('image/')}" class="card-img-top"
-			th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" alt="Attachment">
-		<audio th:if="${note.mimeType.startsWith('audio/')}" controls>
+		<img class="card-img-top" th:if="${note.mimeType.startsWith('image/')}" th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" alt="Attachment">
+		<audio class="card-img-top" th:if="${note.mimeType.startsWith('audio/')}" controls>
 			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">
 		</audio>
-		<video th:if="${note.mimeType.startsWith('video/')}" controls>
+		<video class="card-img-top" th:if="${note.mimeType.startsWith('video/')}" controls>
 			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">
 		</video>
 		<div class="card-body">
@@ -15,9 +14,15 @@
 				Ipsum</p>
 		</div>
 		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
-			<input type="hidden" th:value="${id}" name="id">
+			<input type="hidden" th:value="${note.id}" name="id">
 			<button class="btn btn-transparent" type="submit">
 				<span>Edit</span>
+			</button>
+		</form>
+		<form th:action="@{/share}" method="post">
+			<input type="hidden" th:value="${note.id}" name="id">
+			<button class="btn btn-transparent" type="submit">
+				<span>share</span>
 			</button>
 		</form>
 	</div>

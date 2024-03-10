@@ -120,30 +120,4 @@ public class NotesController {
 		return "notes";
 	}
 
-	/**
-	 * Adds a new note
-	 * 
-	 * @return todo.html
-	 */
-	/*
-	 * @PostMapping("/u/{username}/notes/edit")
-	 * public String doEditNote(@SessionAttribute(name = "token", required = false)
-	 * AccessToken token,
-	 * 
-	 * @PathVariable("username") String username, NoteForm form, Model model,
-	 * HttpSession httpSession) {
-	 * log.info("entering doEditNote (POST-Method: /u/{}/notes/edit)", username);
-	 * 
-	 * if (!this.authsvc.validateSession(token, username))
-	 * throw new ForbiddenException("Unathorised access");
-	 * 
-	 * // Prevent unauthrised access / extend session
-	 * this.notessvc.editNote(form.getId(), username, form.getTitle(),
-	 * form.getSubtitle(), form.getContent(),
-	 * "text", form.getKategory(), form.getTags());
-	 * 
-	 * return "redirect:/u/" + username + "/notes";
-	 * }
-	 */
-
 }
