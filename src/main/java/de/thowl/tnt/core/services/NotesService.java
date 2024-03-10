@@ -67,5 +67,11 @@ public interface NotesService {
 	public void editNote(long id, String username, String title, String subtitle,
 			String content, byte[] attachment, String mimeType, String kategory, String tags);
 
-	public void delete();
+	/**
+	 * Deletes a {@link Task} from the Database.
+	 * 
+	 * @param id id of the {@link Task}
+	 */
+	public void delete(long id);
+
 }

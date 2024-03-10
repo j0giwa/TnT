@@ -22,7 +22,6 @@
 							<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input type="text" id="FormInput-1" name="taskName" class="mdl-textfield__input"
 									style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}">
-								<label class="form-label mdl-textfield__label" for="emailFormInput"></label>
 							</div>
 							<div id="textinput2" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<textarea id="taskContent" name="taskContent" th:placeholder="#{description}"
@@ -52,37 +51,15 @@
 								</div>
 							</div>
 
-							<!-- This is the only dropdown that actualy serves a purpose -->
 							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
 								<option value="low" selected>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-										fill="currentColor" class="text-danger" style="margin-right: 5px;margin-top: -5px;">
-										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-										<path
-											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
-										</path>
-									</svg>
-									<span th:text="#{p1}">Priorität 1</span>
+									<span th:text="#{p1}">Priority 1</span>
 								</option>
 								<option value="medium">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-										fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(220,125,15);">
-										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-										<path
-											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
-										</path>
-									</svg>
-									<span th:text="#{p2}">Priorität 2</span>
+									<span th:text="#{p2}">Priority 2</span>
 								</option>
 								<option value="high">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-										fill="currentColor" style="margin-right: 5px;margin-top: -5px;color: rgb(20,91,162);">
-										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-										<path
-											d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z">
-										</path>
-									</svg>
-									<span th:text="#{p3}">Priorität 3</span>
+									<span th:text="#{p3}">Priority 3</span>
 								</option>
 							</select>
 

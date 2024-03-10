@@ -2,9 +2,11 @@ package de.thowl.tnt.storage.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
@@ -42,5 +44,8 @@ public class Note extends Entry {
 	@NotNull
 	@NonNull
 	private List<String> tags;
+
+	@OneToOne(mappedBy = "note", cascade = CascadeType.REMOVE)
+	private SharedNote sharedNote;
 
 }

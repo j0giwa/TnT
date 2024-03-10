@@ -13,17 +13,70 @@
 			<p class="card-text md-content" id="content" th:text="${note.content}">Lorem
 				Ipsum</p>
 		</div>
+
 		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
 			<input type="hidden" th:value="${note.id}" name="id">
 			<button class="btn btn-transparent" type="submit">
 				<span>Edit</span>
 			</button>
 		</form>
+
 		<form th:action="@{/share}" method="post">
 			<input type="hidden" th:value="${note.id}" name="id">
 			<button class="btn btn-transparent" type="submit">
 				<span>share</span>
 			</button>
 		</form>
+
+		<form th:action="@{'/u/' + ${username} + '/notes'}"  th:method="delete">
+			<input type="hidden" th:value="${note.id}" name="id">
+			<button class="btn btn-transparent" type="submit">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor" id="delete" class="delete" style="font-size: 20px;">
+					<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+					<path
+						d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z">
+					</path>
+				</svg>
+			</button>
+		</form>
 	</div>
 </li>
+
+<form th:fragment="noteEditForm" class="card" method="post" style="background: #2b3035;">
+	<div class="card-body">
+		<h4 class="card-title">
+			<input type="text" name="title" id="title" th:value="${noteTitle}"
+				style="background: transparent;border-style: none;width: 100%;" placeholder="Titel" width="">
+		</h4>
+		<h6 class="text-secondary card-subtitle mb-2">
+			<input type="text" name="subtitle" id="subtitle" th:value="${noteSubtitle}"
+				style="background: transparent;border-style: none;width: 100%;" placeholder="Untertitel">
+		</h6>
+		<h6 class="text-secondary mb-2">
+			<input type="text" name="tags" id="tags" style="background: transparent;border-style: none;width: 100%;"
+				placeholder="tags">
+		</h6>
+		<br>
+		<select name="kategory" id="kategory">
+			<option value="lecture" selected>
+				<span>Vorlesung</span>
+			</option>
+			<option value="litterature">
+				<span>litteratur</span>
+			</option>
+			<option value="misc">
+				<span>andere</span>
+			</option>
+		</select>
+		<textarea name="content" id="content" th:text="${noteContent}"
+			style="background: #2b3035; border-color: #059669;height: 75.6px;"
+			placeholder="Schreib deine Notiz hier"></textarea>
+		<div class="d-flex flex-column">
+			<input type="file" style="margin-top: 4px;">
+			<div style="margin-top: 7px;">
+				<a class="btn btn-outline-primary ms-md-" role="button" href="../">Abbrechen</a>
+				<button type="submit" class="btn btn-primary ms-md-2" role="button">Speichern</button>
+			</div>
+		</div>
+	</div>
+</form>

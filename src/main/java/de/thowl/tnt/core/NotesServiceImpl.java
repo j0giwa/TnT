@@ -136,7 +136,7 @@ public class NotesServiceImpl implements NotesService {
 	public void editNote(long id, String username, String title, String subtitle,
 			String content, byte[] attachment, String mimeType, String kategory, String tags) {
 
-		log.debug("entering add");
+		log.debug("entering editNote");
 
 		User user = users.findByUsername(username);
 
@@ -157,10 +157,19 @@ public class NotesServiceImpl implements NotesService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void delete() {
+	public void delete(long id) {
+		log.debug("entering delete");
 
-		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+		Note note = this.notes.findById(id);
+
+		if (null != note) {
+			log.info("deleting task id: {}", id);
+			this.notes.delete(note);
+		}
 	}
 
 }

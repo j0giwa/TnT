@@ -124,4 +124,27 @@ public class NotesController {
 		return "notes";
 	}
 
+
+	/**
+	 * Deletes a task
+	 * 
+	 * @return todo.html
+	 */
+	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.DELETE)
+	public String doDeleteNote(HttpServletRequest request, HttpSession httpSession,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model) {
+
+		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
+
+		String referer = request.getHeader("Referer");
+
+		// Prevent unauthrised access / extend session
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.notessvc.delete(form.getId());
+
+		return "redirect:" + referer;
+	}
 }
