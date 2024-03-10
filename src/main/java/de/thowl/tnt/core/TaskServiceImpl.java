@@ -64,11 +64,14 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void add(String username, String name, String content,
 			String priority, Date dueDate, Date time) {
+
 		log.debug("entering add");
 
-		User user = users.findByUsername(username);
-
-		Task task = Task.builder()
+		User user;
+		Task task;
+	
+		user = users.findByUsername(username);
+		task = Task.builder()
 				.user(user)
 				.name(name)
 				.content(content)
@@ -89,9 +92,12 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Override
 	public void setDone(long id) {
+
 		log.debug("entering add");
 
-		Task task = this.tasks.findById(id);
+		Task task;
+
+		task = this.tasks.findById(id);
 
 		log.info("marking task id: {} as done", id);
 		task.setDone(true);
@@ -104,9 +110,12 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Override
 	public void delete(long id) {
+
 		log.debug("entering delete");
 
-		Task task = this.tasks.findById(id);
+		Task task;
+
+		task = this.tasks.findById(id);
 
 		if (null != task) {
 			log.info("deleting task id: {}", id);
@@ -119,9 +128,12 @@ public class TaskServiceImpl implements TaskService {
 	 */
 	@Override
 	public List<Task> getAllTasks(String username) {
+
 		log.debug("entering getAll");
 
-		User user = users.findByUsername(username);
+		User user;
+
+		user = users.findByUsername(username);
 
 		return this.tasks.findByUser(user);
 	}
