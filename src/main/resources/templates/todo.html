@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle=Notetilus)}" />
 
@@ -53,13 +53,13 @@
 
 							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
 								<option value="low" selected>
-									<span th:text="#{p1}">Priority 1</span>
+									<span th:text="#{P1}">Priority 1</span>
 								</option>
 								<option value="medium">
-									<span th:text="#{p2}">Priority 2</span>
+									<span th:text="#{P2}">Priority 2</span>
 								</option>
 								<option value="high">
-									<span th:text="#{p3}">Priority 3</span>
+									<span th:text="#{P3}">Priority 3</span>
 								</option>
 							</select>
 
