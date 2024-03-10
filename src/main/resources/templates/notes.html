@@ -19,7 +19,7 @@
 					</div>
 				</header>
 
-				<form th:unless="${editing} == true" class="card" method="post" style="background: #2b3035;" enctype="multipart/form-data">
+				<form class="card" method="post" style="background: #2b3035;" enctype="multipart/form-data">
 					<div class="card-body">
 						<h4 class="card-title">
 							<input type="text" name="title" id="title" style="background: transparent;border-style: none;width: 100%;"
@@ -47,6 +47,7 @@
 						</select>
 						<textarea name="content" id="content" style="background: #2b3035; border-color: #059669;height: 75.6px;"
 							th:placeholder="#{noteplaceholder}"></textarea>
+						<textarea name="content" id="content" th:text="${noteContent}" style="background: #2b3035; border-color: #059669;height: 75.6px;" placeholder="Schreib deine Notiz hier"></textarea>
 						<div class="d-flex flex-column">
 							<input class="form-control-file" type="file" name="file" style="margin-top: 4px;">
 							<div style="margin-top: 7px;">
@@ -63,8 +64,6 @@
 						</div>
 					</div>
 				</form>
-
-				<form th:if="${editing} == true" th:replace="~{fragments/note::noteEditForm}" /> 
 
 				<div th:unless="${editing} == true" class="container" style="margin-top: 95px;">
 					<h1>Notes</h1>

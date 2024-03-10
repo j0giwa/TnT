@@ -71,19 +71,28 @@ public class NotesServiceImpl implements NotesService {
 	 */
 	public List<String> formatTags(String tags) {
 
-		String[] tagsArray = tags.split("\\s+");
+		String[] tagsArray;
+
+		tagsArray = tags.split("\\s+");
 
 		return Arrays.asList(tagsArray);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addNote(String username, String title, String subtitle,
-			String content, byte[] attachment, String mimeType, String kategory, String tags) {
+			String content, byte[] attachment, String mimeType,
+			String kategory, String tags) {
+
 		log.debug("entering add");
 
-		User user = users.findByUsername(username);
+		User user;
+		Note note;
 
-		Note note = Note.builder()
+		user = users.findByUsername(username);
+		note = Note.builder()
 				.user(user)
 				.name(title)
 				.subtitle(subtitle)
@@ -100,24 +109,35 @@ public class NotesServiceImpl implements NotesService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Note getNote(long id) {
+
 		log.debug("entering getNote");
 
-		Note note = this.notes.findById(id);
+		Note note;
+
+		note = this.notes.findById(id);
 
 		note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
 
 		return note;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Note> getAllNotes(String username) {
 		log.debug("entering getAllNotes");
 
-		User user = users.findByUsername(username);
+		User user;
+		List<Note> notes;
 
-		List<Note> notes = this.notes.findByUser(user);
+		user = users.findByUsername(username);
+		notes = this.notes.findByUser(user);
 
 		for (Note note : notes) {
 			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
@@ -126,21 +146,33 @@ public class NotesServiceImpl implements NotesService {
 		return notes;
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Note> getAllNotesByTags(String username, String tags) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'getAllNoteByTags'");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void editNote(long id, String username, String title, String subtitle,
-			String content, byte[] attachment, String mimeType, String kategory, String tags) {
+	public void editNote(long id, String username, String title, 
+			     String subtitle, String content, 
+			     byte[] attachment, String mimeType, 
+			     String kategory, String tags) {
 
 		log.debug("entering editNote");
 
-		User user = users.findByUsername(username);
 
-		Note note = Note.builder()
+		User user;
+		Note note;
+
+		user = users.findByUsername(username);
+		note = Note.builder()
 				.id(id)
 				.user(user)
 				.name(title)
@@ -162,9 +194,12 @@ public class NotesServiceImpl implements NotesService {
 	 */
 	@Override
 	public void delete(long id) {
+
 		log.debug("entering delete");
 
-		Note note = this.notes.findById(id);
+		Note note;
+		
+		note = this.notes.findById(id);
 
 		if (null != note) {
 			log.info("deleting task id: {}", id);

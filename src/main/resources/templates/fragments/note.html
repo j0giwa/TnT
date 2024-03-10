@@ -10,21 +10,26 @@
 		<div class="card-body">
 			<h5 class="card-title" th:text="${note.name}">Card title</h5>
 			<h6 class="card-subtitle mb-2 text-muted" th:text="${note.subtitle}">Card subtitle</h6>
-			<p class="card-text md-content" id="content" th:text="${note.content}">Lorem
-				Ipsum</p>
+			<p class="card-text md-content" id="content" th:text="${note.content}">Lorem Ipsum</p>
 		</div>
 
 		<form th:action="@{'/u/' + ${username} + '/notes/edit'}" method="get">
 			<input type="hidden" th:value="${note.id}" name="id">
 			<button class="btn btn-transparent" type="submit">
-				<span>Edit</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor" id="edit" class="delete" style="font-size: 20px;">
+					<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+					<path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"/>
+				</svg>
 			</button>
 		</form>
 
 		<form th:action="@{/share}" method="post">
 			<input type="hidden" th:value="${note.id}" name="id">
 			<button class="btn btn-transparent" type="submit">
-				<span>share</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor" id="share" class="delete" style="font-size: 20px;">
+					<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+					<path d="M307 34.8c-11.5 5.1-19 16.6-19 29.2v64H176C78.8 128 0 206.8 0 304C0 417.3 81.5 467.9 100.2 478.1c2.5 1.4 5.3 1.9 8.1 1.9c10.9 0 19.7-8.9 19.7-19.7c0-7.5-4.3-14.4-9.8-19.5C108.8 431.9 96 414.4 96 384c0-53 43-96 96-96h96v64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144c-9.4-8.5-22.9-10.6-34.4-5.4z"/>
+				</svg>
 			</button>
 		</form>
 
@@ -42,41 +47,3 @@
 	</div>
 </li>
 
-<form th:fragment="noteEditForm" class="card" method="post" style="background: #2b3035;">
-	<div class="card-body">
-		<h4 class="card-title">
-			<input type="text" name="title" id="title" th:value="${noteTitle}"
-				style="background: transparent;border-style: none;width: 100%;" placeholder="Titel" width="">
-		</h4>
-		<h6 class="text-secondary card-subtitle mb-2">
-			<input type="text" name="subtitle" id="subtitle" th:value="${noteSubtitle}"
-				style="background: transparent;border-style: none;width: 100%;" placeholder="Untertitel">
-		</h6>
-		<h6 class="text-secondary mb-2">
-			<input type="text" name="tags" id="tags" style="background: transparent;border-style: none;width: 100%;"
-				placeholder="tags">
-		</h6>
-		<br>
-		<select name="kategory" id="kategory">
-			<option value="lecture" selected>
-				<span>Vorlesung</span>
-			</option>
-			<option value="litterature">
-				<span>litteratur</span>
-			</option>
-			<option value="misc">
-				<span>andere</span>
-			</option>
-		</select>
-		<textarea name="content" id="content" th:text="${noteContent}"
-			style="background: #2b3035; border-color: #059669;height: 75.6px;"
-			placeholder="Schreib deine Notiz hier"></textarea>
-		<div class="d-flex flex-column">
-			<input type="file" style="margin-top: 4px;">
-			<div style="margin-top: 7px;">
-				<a class="btn btn-outline-primary ms-md-" role="button" href="../">Abbrechen</a>
-				<button type="submit" class="btn btn-primary ms-md-2" role="button">Speichern</button>
-			</div>
-		</div>
-	</div>
-</form>
