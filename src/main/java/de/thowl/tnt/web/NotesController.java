@@ -84,7 +84,7 @@ public class NotesController {
 			throw new ForbiddenException("Unathorised access");
 
 		byte[] fileContent = null;
-		String mimeType = null;
+		String mimeType = "text/markdown";
 
 		try {
 			fileContent = form.getFile().getBytes();
@@ -124,6 +124,35 @@ public class NotesController {
 		return "notes";
 	}
 
+	/**
+	 * Adds a new note
+	 * 
+	 * @return todo.html
+	 */
+	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.POST)
+	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model,
+			HttpSession httpSession) {
+		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
+
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		byte[] fileContent = null;
+		String mimeType = "text/markdown";
+
+		try {
+			fileContent = form.getFile().getBytes();
+			mimeType = form.getFile().getContentType();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.notessvc.editNote(form.getId(), username, form.getTitle(), form.getSubtitle(), 
+				form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
+
+		return "redirect:/u/" + username + "/notes";
+	}
 
 	/**
 	 * Deletes a task
