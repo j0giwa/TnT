@@ -21,10 +21,9 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
@@ -32,6 +31,7 @@ import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.TaskForm;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +50,7 @@ public class TodoController {
 	 * 
 	 * @return todo.html
 	 */
-	@GetMapping("/u/{username}/todo")
+	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.GET)
 	public String showTodoPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
@@ -70,11 +70,14 @@ public class TodoController {
 	 * 
 	 * @return todo.html
 	 */
-	@PostMapping("/u/{username}/todo")
-	public String doAddTask(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, TaskForm form, Model model,
-			HttpSession httpSession) {
+	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.POST)
+	public String doAddTask(HttpServletRequest request, HttpSession httpSession,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model) {
+
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
+
+		String referer = request.getHeader("Referer");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -83,7 +86,7 @@ public class TodoController {
 		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
 				form.getDate(), form.getTime());
 
-		return "redirect:/u/" + username + "/todo";
+		return "redirect:" + referer;
 	}
 
 	/**
@@ -91,11 +94,14 @@ public class TodoController {
 	 * 
 	 * @return todo.html
 	 */
-	@PostMapping("/u/{username}/todo/done")
-	public String doMarkAsDone(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, TaskForm form, Model model,
-			HttpSession httpSession) {
+	@RequestMapping(value = "/u/{username}/todo/done", method = RequestMethod.POST)
+	public String doMarkAsDone(HttpServletRequest request, HttpSession httpSession,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model) {
+
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
+
+		String referer = request.getHeader("Referer");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -103,7 +109,7 @@ public class TodoController {
 
 		this.tasksvc.setDone(form.getId());
 
-		return "redirect:/u/" + username + "/todo";
+		return "redirect:" + referer;
 	}
 
 	/**
@@ -111,11 +117,14 @@ public class TodoController {
 	 * 
 	 * @return todo.html
 	 */
-	@DeleteMapping("/u/{username}/todo")
-	public String doDeleteTask(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, TaskForm form, Model model,
-			HttpSession httpSession) {
+	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.DELETE)
+	public String doDeleteTask(HttpServletRequest request, HttpSession httpSession,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, TaskForm form, Model model) {
+
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
+
+		String referer = request.getHeader("Referer");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -123,7 +132,7 @@ public class TodoController {
 
 		this.tasksvc.delete(form.getId());
 
-		return "redirect:/u/" + username + "/todo";
+		return "redirect:" + referer;
 	}
 
 }

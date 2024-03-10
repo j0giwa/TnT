@@ -21,14 +21,15 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.core.services.ShareService;
 import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.web.forms.NoteForm;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class ShareController {
 	@Autowired
 	private NotesService notesvc;
 
-	@GetMapping("/share/{uuid}")
+	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
 	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
 		log.info("entering showSharePage (GET-Method: /share)");
 
@@ -52,13 +53,15 @@ public class ShareController {
 		return "share";
 	}
 
-	@PostMapping("/share")
-	public String addSharedNote(NoteForm form, Model model) {
+	@RequestMapping(value = "/share", method = RequestMethod.POST)
+	public String addSharedNote(HttpServletRequest request ,NoteForm form, Model model) {
 		log.info("entering addSharedNote (Post-Method: /share)");
+
+		String referer = request.getHeader("Referer");
 
 		this.sharesvc.startSharing(form.getId());
 
-		return "share";
+ 		return "redirect:" + referer;
 	}
 
 }

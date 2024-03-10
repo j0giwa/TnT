@@ -21,8 +21,8 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
@@ -41,13 +41,13 @@ public class RegisterController {
 	 * 
 	 * @return register.html
 	 */
-	@GetMapping("/register")
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		log.info("entering showRegisterPage (GET-Method: /register)");
 		return "register";
 	}
 
-	@PostMapping("/register")
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(RegisterForm form, Model model) {
 		log.info("entering doRegister (POST-Method: /register)");
 

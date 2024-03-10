@@ -21,8 +21,8 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
@@ -48,7 +48,7 @@ public class AuthController {
 	 * 
 	 * @return index.html
 	 */
-	@GetMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
 		log.info("entering showLoginPage (GET-Method: /login)");
 		return "login";
@@ -59,7 +59,7 @@ public class AuthController {
 	 * 
 	 * @return index.html
 	 */
-	@PostMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
 		log.info("entering doLogin (POST-Method: /login)");
 
@@ -74,7 +74,6 @@ public class AuthController {
 			return "login";
 		}
 
-		// TODO: nit: would probably be better if we get the user via the token.
 		User user = this.users.findByEmail(form.getEmail());
 
 		httpSession.setAttribute("token", token);
@@ -87,7 +86,7 @@ public class AuthController {
 	 * Performs a logout action
 	 */
 	// NOTE: GetMapping was easier than handling this via a post request
-	@GetMapping("/logout")
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String doLogout(@SessionAttribute("token") AccessToken token) {
 
 		log.info(token.toString());
