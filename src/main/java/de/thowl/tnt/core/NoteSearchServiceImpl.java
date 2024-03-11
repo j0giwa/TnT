@@ -53,7 +53,7 @@ public class NoteSearchServiceImpl implements NoteSearchService {
 
         //Assug you have a list of notes.
         List<Note> allNotes = notesServiceImpl.getAllNotes(user.getUsername()); //This method should return all notes from the data source
-
+        log.info(String.valueOf(allNotes));
         //Iterate over all the notes and apply the filter
         for (Note note : allNotes) {
             if(filter == null || note.getKategory() == filter) {
