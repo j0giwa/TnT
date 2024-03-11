@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
@@ -40,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@SessionAttributes("notes")
 public class NotesController {
 
 	@Autowired
@@ -60,7 +62,8 @@ public class NotesController {
 		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
 
-		model.addAttribute("notes", this.notessvc.getAllNotes(username));
+		if (!model.containsAttribute("notes"))
+			model.addAttribute("notes", this.notessvc.getAllNotes(username));
 
 		return "notes";
 	}
