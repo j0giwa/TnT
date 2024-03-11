@@ -14,7 +14,7 @@ Weiterhin können einzelne Notizen durch Generierung eindeutiger Links freigegeb
 + UC-4: Ablage einer neuen Notiz / Links oder Bildes. Zu jeder Notiz können Schlagworte gespeichert werden :godmode:
 + UC-5: Notizen und Aufgaben können gelöscht oder bearbeitet werden :godmode:
 + UC-6: Übersichtsdarstellung aller Notizen und todo-items (hohe Priorität und oder überfällig) in einem Dashboard
-+ UC-7: Filtern der angezeigten Notizen/Todo's nach Schlagwort, Art und Zeitraum
++ UC-7: Filtern der angezeigten Notizen/Todo's nach Schlagwort, Art und Zeitraum :godmode:
 + UC-8: Die Notizen können vordefinierten Kategorien zugeordnet werden. Die Kategorien stellen eine weitere Auswahlmöglichkeit bei UC-5 dar. :godmode:
 + UC-9: Generierung eines Freigabelinks (als nicht erratbare GUID) und Zugriff auf das Objekt über Aufruf des Links :godmode:
 + UC-10: Notizen/Task können im Markdown format verfasst werden (optional) :godmode:

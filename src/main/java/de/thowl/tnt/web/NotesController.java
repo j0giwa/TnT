@@ -64,7 +64,7 @@ public class NotesController {
 
 		return "notes";
 	}
-	
+
 	/**
 	 * Adds a new note
 	 * 
@@ -74,7 +74,7 @@ public class NotesController {
 	public String doAddNote(HttpServletRequest request, HttpSession httpSession,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
-		
+
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
 		String referer = request.getHeader("Referer");
@@ -148,7 +148,7 @@ public class NotesController {
 			e.printStackTrace();
 		}
 
-		this.notessvc.editNote(form.getId(), username, form.getTitle(), form.getSubtitle(), 
+		this.notessvc.editNote(form.getId(), username, form.getTitle(), form.getSubtitle(),
 				form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
 
 		return "redirect:/u/" + username + "/notes";

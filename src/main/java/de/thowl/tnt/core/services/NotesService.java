@@ -21,6 +21,7 @@ package de.thowl.tnt.core.services;
 import java.util.List;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 
 public interface NotesService {
@@ -46,7 +47,7 @@ public interface NotesService {
 
 	public List<Note> getAllNotes(String username);
 
-	public List<Note> getAllNotesByTags(String username, String tags);
+	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags);
 
 	/**
 	 * Overwrites a {@link Note} in the Database.

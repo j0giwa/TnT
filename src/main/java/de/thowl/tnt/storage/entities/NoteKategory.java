@@ -21,5 +21,6 @@ package de.thowl.tnt.storage.entities;
 public enum NoteKategory {
 	LECTURE,
 	LITTERATURE,
-	MISC;
+	MISC,
+	ALL;
 }

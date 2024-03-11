@@ -146,27 +146,51 @@ public class NotesServiceImpl implements NotesService {
 		return notes;
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Note> getAllNotesByTags(String username, String tags) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getAllNoteByTags'");
+	// TODO: Code ugly
+	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags) {
+
+		log.debug("entering getNotesByParams");
+
+		User user;
+		List<Note> notes;
+		List<String> noteTags;
+
+		user = users.findByUsername(username);
+		noteTags = formatTags(tags);
+
+		if (kategory == NoteKategory.ALL) {
+
+			if (noteTags.get(0).isEmpty()) {
+				notes = this.notes.findByUser(user);
+			} else {
+				notes = this.notes.findByUserAndTagsIn(user, noteTags);
+			}
+
+		} else {
+			notes = this.notes.findByUserAndKategoryAndTagsIn(user, kategory, noteTags);
+		}
+
+		for (Note note : notes) {
+			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+		}
+
+		return notes;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void editNote(long id, String username, String title, 
-			     String subtitle, String content, 
-			     byte[] attachment, String mimeType, 
-			     String kategory, String tags) {
+	public void editNote(long id, String username, String title,
+			String subtitle, String content,
+			byte[] attachment, String mimeType,
+			String kategory, String tags) {
 
 		log.debug("entering editNote");
-
 
 		User user;
 		Note note;
@@ -198,7 +222,7 @@ public class NotesServiceImpl implements NotesService {
 		log.debug("entering delete");
 
 		Note note;
-		
+
 		note = this.notes.findById(id);
 
 		if (null != note) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
@@ -43,6 +44,7 @@ public class Note extends Entry {
 
 	@NotNull
 	@NonNull
+	@ElementCollection
 	private List<String> tags;
 
 	@OneToOne(mappedBy = "note", cascade = CascadeType.REMOVE)

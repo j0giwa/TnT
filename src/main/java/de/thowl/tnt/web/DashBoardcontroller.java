@@ -3,15 +3,20 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
+import de.thowl.tnt.web.forms.NoteForm;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,8 +32,9 @@ public class DashBoardcontroller {
 	@Autowired
 	private TaskService tasksvc;
 
-	@GetMapping("/u/{username}/")
-	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+	@RequestMapping(value = "/u/{username}/", method = RequestMethod.GET)
+	public String showNotePage(HttpServletRequest request, HttpSession httpSession,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showNotePage (GET-Method: /notes)");
 
@@ -37,10 +43,46 @@ public class DashBoardcontroller {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-
 		model.addAttribute("notes", this.notessvc.getAllNotes(username));
-
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
+
+		return "dashboard";
+	}
+
+	@RequestMapping(value = "/u/{username}/search", method = RequestMethod.GET)
+	public String findNotesByFilter(@SessionAttribute(name = "token", required = false) AccessToken token,
+			@PathVariable("username") String username, NoteForm form, Model model) {
+
+		log.info("entering showNotePage (GET-Method: /notes)");
+
+		String query;
+		NoteKategory kategory;
+
+		// Prevent unauthrised access / extend session
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		query = form.getQuery();
+
+		switch (form.getKategory().toLowerCase()) {
+			default:
+			case "all":
+				kategory = NoteKategory.ALL;
+				break;
+			case "lecture":
+				kategory = NoteKategory.LECTURE;
+				break;
+			case "litterature":
+				kategory = NoteKategory.LITTERATURE;
+				break;
+			case "misc":
+				kategory = NoteKategory.MISC;
+				break;
+		}
+
+		model.addAttribute("user", username);
+		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
+		model.addAttribute("notes", this.notessvc.getNotesByParams(username, kategory, query));
 
 		return "dashboard";
 	}

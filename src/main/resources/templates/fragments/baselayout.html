@@ -215,19 +215,22 @@
     </div>
   </nav>
 
-  <nav th:fragment="topbar1" class="navbar navbar-expand fixed-top shadow mb-4 topbar static-top navbar-light d-flex justify-content-center align-content-center"
+  <nav th:fragment="topbar1"
+    class="navbar navbar-expand fixed-top shadow mb-4 topbar static-top navbar-light d-flex justify-content-center align-content-center"
     id="navbar_top">
     <div class="container-fluid">
       <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
         <i class="fas fa-bars" style="color: rgb(5,150,105);"></i>
       </button>
-      <form class="d-none d-sm-inline-block d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex me-auto justify-content-center align-items-center ms-md-3 my-2 my-md-0 mw-100 navbar-search" action="search" method="get">
-        <div style="padding-right: 12px;">  
-          <select name="filter">
-            <option value="" th:text="#{all}"></option>
-            <option value="LECTURE" th:text="#{lecture}"></option>
-            <option value="LITTERATURE" th:text="#{litterature}"></option>
-            <option value="MISC" th:text="#{misc}"></option>
+      <form
+        class="d-none d-sm-inline-block d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex me-auto justify-content-center align-items-center ms-md-3 my-2 my-md-0 mw-100 navbar-search"
+        th:action="@{'/u/' + ${username} + '/search'}" method="get">
+        <div style="padding-right: 12px;">
+          <select name="kategory">
+            <option value="all" th:text="#{all}" selected></option>
+            <option value="lecture" th:text="#{lecture}"></option>
+            <option value="litterature" th:text="#{litterature}"></option>
+            <option value="misc" th:text="#{misc}"></option>
           </select>
         </div>
         <div class="input-group">
@@ -247,14 +250,17 @@
             <form class="me-auto navbar-search w-100 d-flex justify-content-center align-items-center">
               <div class="dropdown" style="padding-right: 12px;">
                 <a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" th:text="#{filter}">
-                  <svg class="bi bi-filter" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"></path>
+                  <svg class="bi bi-filter" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                    fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5">
+                    </path>
                   </svg>
-                </a>  
+                </a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="#" th:text="#{lecture}"></a>
-            <a class="dropdown-item" href="#"th:text="#{litterature}"></a>
-            <a class="dropdown-item" href="#"th:text="#{misc}"></a>
+                  <a class="dropdown-item" href="#" th:text="#{litterature}"></a>
+                  <a class="dropdown-item" href="#" th:text="#{misc}"></a>
                 </div>
               </div>
               <div class="input-group">

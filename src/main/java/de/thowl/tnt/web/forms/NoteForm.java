@@ -22,4 +22,6 @@ public class NoteForm {
 
 	private String tags;
 
+	private String query;
+
 }

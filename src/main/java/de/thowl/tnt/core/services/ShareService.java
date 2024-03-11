@@ -18,8 +18,6 @@
 
 package de.thowl.tnt.core.services;
 
-import java.util.UUID;
-
 import de.thowl.tnt.storage.entities.SharedNote;
 
 public interface ShareService {

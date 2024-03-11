@@ -24,6 +24,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 
 @Repository
@@ -33,6 +34,9 @@ public interface NotesRepository extends CrudRepository<Note, Long> {
 
 	List<Note> findByUser(User user);
 
-	List<Note> findByUserAndTags(User user, List<String> tags);
+	List<Note> findByUserAndTagsIn(User user, List<String> tags);
 
+	List<Note> findByUserAndKategory(User user, NoteKategory kategory);
+
+	List<Note> findByUserAndKategoryAndTagsIn(User user, NoteKategory kategory, List<String> tags);
 }
