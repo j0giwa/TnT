@@ -17,7 +17,7 @@ public class ProfileController {
 	 */
     @RequestMapping(value = "/u/{username}/profile", method = RequestMethod.GET)
     public String showProfilePage() {
-        log.info("entering showRegisterPage (GET-Method: /profile)");
+        log.info("entering showProfilePage (GET-Method: /profile)");
         return "profile";
     }
 }

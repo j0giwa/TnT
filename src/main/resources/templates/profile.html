@@ -5,17 +5,18 @@
 
 <body>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Profile</h3>
+        <h3 class="text-dark mb-4" th:text="#{profile}">Profile</h3>
         <div class="card shadow mb-3">
             <div class="card-header py-3">
-                <p class="m-0 fw-bold text-success">User Settings</p>
+                <p class="m-0 fw-bold text-success" th:text="#{usersettings}">User Settings</p>
             </div>
             <div class="card-body">
                 <form>
                     <div class="row" style="margin-bottom: 25px;text-align: left;">
                         <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 col-xxl-2" style="display: inline;text-align: center;margin-bottom: 25px;">
                             <img class="rounded-circle mb-3 mt-4 img-fluid" th:src="@{/images/avatars/avatar1.jpeg}" style="display: inline;max-height: 110px;" width="100" height="110">
-                            <br><button class="btn btn-primary btn-sm" id="photoBtn" type="button" style="background: rgb(5,150,105);border-style: none;">Change Photo</button>
+                            <br><button class="btn btn-primary btn-sm" id="photoBtn" type="button" style="background: rgb(5,150,105);border-style: none;">
+                                Change Photo</button>
                         </div>
                         <div class="col-sm-8 col-md-8 col-lg-9 col-xl-10 col-xxl-10 align-self-center">
                             <div class="row">
@@ -54,19 +55,29 @@
                             </div>
                         </div>
                         <div class="col-md-6 text-start">
-                            <div class="mb-3">
-                                <label class="form-label" for="username">
-                                    <strong>Password</strong>
-                                </label>
-                                <input class="form-control" type="password" id="password" placeholder="Password">
+                            <label class="form-label" for="username">
+                                <stron>Password</strong>
+                            </label>
+                            <div class="form-group position-relative">
+                                <input class="form-control pword" type="password" id="password" name="password" style="padding-right: 40px"
+                                    th:placeholder="#{password}" data-bs-toggle="tooltip" required/>
+                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility1()">
+                                    <i class="far fa-eye" id="show1"></i>
+                                    <i class="far fa-eye-slash" id="hide1"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 text-start">
-                            <div class="mb-3">
-                                <label class="form-label" for="username">
-                                    <strong>Confirm Password</strong>
-                                </label>
-                                <input class="form-control" type="password" id="verifyPassword" placeholder="Password">
+                            <label class="form-label" for="username">
+                                <strong>Confirm Password</strong>
+                            </label>
+                            <div class="form-group position-relative">
+                                <input class="form-control" type="password" id="password2" name="password2"
+                                    style="padding-right: 40px" th:placeholder="#{password2}" required />
+                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility2()">
+                                    <i class="far fa-eye" id="show2"></i>
+                                    <i class="far fa-eye-slash" id="hide2"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
@@ -82,6 +93,8 @@
         </div>
     </div>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/passwd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
 </body>
 
