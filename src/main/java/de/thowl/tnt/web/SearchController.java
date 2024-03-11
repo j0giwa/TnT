@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
-import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
+import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @SessionAttributes("notes")
-public class DashBoardcontroller {
+public class SearchController {
 
 	@Autowired
 	private AuthenticationService authsvc;
@@ -29,26 +29,43 @@ public class DashBoardcontroller {
 	@Autowired
 	private NotesService notessvc;
 
-	@Autowired
-	private TaskService tasksvc;
-
-	@RequestMapping(value = "/u/{username}/", method = RequestMethod.GET)
-	public String showNotePage(HttpServletRequest request, HttpSession httpSession,
+	@RequestMapping(value = "/u/{username}/search", method = RequestMethod.GET)
+	public String findNotesByFilter(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, Model model) {
+			@PathVariable("username") String username, NoteForm form, Model model) {
+
 		log.info("entering showNotePage (GET-Method: /notes)");
+
+		String query, referer;
+		NoteKategory kategory;
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
+		query = form.getQuery();
 
-		if (!model.containsAttribute("notes"))
-			model.addAttribute("notes", this.notessvc.getAllNotes(username));
+		switch (form.getKategory().toLowerCase()) {
+			default:
+			case "all":
+				kategory = NoteKategory.ALL;
+				break;
+			case "lecture":
+				kategory = NoteKategory.LECTURE;
+				break;
+			case "litterature":
+				kategory = NoteKategory.LITTERATURE;
+				break;
+			case "misc":
+				kategory = NoteKategory.MISC;
+				break;
+		}
 
-		return "dashboard";
+		referer = request.getHeader("Referer");
+
+		model.addAttribute("notes", this.notessvc.getNotesByParams(username, kategory, query));
+
+		return "redirect:" + referer;
 	}
 
 }
