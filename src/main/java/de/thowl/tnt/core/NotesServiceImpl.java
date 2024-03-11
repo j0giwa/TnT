@@ -110,6 +110,19 @@ public class NotesServiceImpl implements NotesService {
 	}
 
 	/**
+	 * Encodes the Attachement of the {@link Note}
+	 * 
+	 * @param notes A list of {@link Note}s
+	 * @return A list of {@link Note}s with encoded attachments
+	 */
+	private List<Note> encodeNotes(List<Note> notes) {
+		for (Note note : notes) {
+			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+		}
+		return notes;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -137,11 +150,7 @@ public class NotesServiceImpl implements NotesService {
 		List<Note> notes;
 
 		user = users.findByUsername(username);
-		notes = this.notes.findByUser(user);
-
-		for (Note note : notes) {
-			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
-		}
+		notes = encodeNotes(this.notes.findByUser(user));
 
 		return notes;
 	}
@@ -150,7 +159,6 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	// TODO: Code ugly
 	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags) {
 
 		log.debug("entering getNotesByParams");
@@ -162,6 +170,7 @@ public class NotesServiceImpl implements NotesService {
 		user = users.findByUsername(username);
 		noteTags = formatTags(tags);
 
+		// TODO: Code ugly
 		if (kategory == NoteKategory.ALL) {
 
 			if (noteTags.get(0).isEmpty()) {
@@ -169,6 +178,7 @@ public class NotesServiceImpl implements NotesService {
 			} else {
 				notes = this.notes.findByUserAndTagsIn(user, noteTags);
 			}
+
 		} else {
 			if (noteTags.get(0).isEmpty()) {
 				notes = this.notes.findByUserAndKategory(user, kategory);
@@ -177,9 +187,7 @@ public class NotesServiceImpl implements NotesService {
 			}
 		}
 
-		for (Note note : notes) {
-			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
-		}
+		notes = encodeNotes(notes);
 
 		return notes;
 	}
