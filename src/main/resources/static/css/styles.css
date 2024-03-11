@@ -317,3 +317,28 @@ textarea {
   background-color: #059669;
   border-color: #059669;
 }
+
+.timerBtn {
+  width: 80px;
+  height: 30px;
+  border: 3px solid;
+  border-radius: 12px;
+  background-color: #333333;
+  color: white;
+  cursor: pointer;
+  font-family: consolas, monospace;
+}
+
+#timeDisplay {
+  font-size: 75px;
+  color: #059669;
+  font-family: consolas, monospace;
+
+}
+
+#timeContainer {
+  text-align: center;
+  border: 3px solid;
+  border-radius: 25px;
+  background-color: black;
+}
