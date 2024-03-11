@@ -169,9 +169,12 @@ public class NotesServiceImpl implements NotesService {
 			} else {
 				notes = this.notes.findByUserAndTagsIn(user, noteTags);
 			}
-
 		} else {
-			notes = this.notes.findByUserAndKategoryAndTagsIn(user, kategory, noteTags);
+			if (noteTags.get(0).isEmpty()) {
+				notes = this.notes.findByUserAndKategory(user, kategory);
+			} else {
+				notes = this.notes.findByUserAndKategoryAndTagsIn(user, kategory, noteTags);
+			}
 		}
 
 		for (Note note : notes) {
