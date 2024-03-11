@@ -13,11 +13,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet{
     @Autowired
     private NoteSearchService searchService;
+    /**
+     * @param request
+     * @param response
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String query = request.getParameter("query"); // extract the search query
         String filterValue = request.getParameter("filter"); //extract the filtervalue.
@@ -27,6 +33,10 @@ public class SearchServlet extends HttpServlet{
         if(filterValue != null && !filterValue.isEmpty()) {
             filter = NoteKategory.valueOf(filterValue);
             List<Note> matchingsNotes = searchService.searchNotes(query, filter);
+            request.setAttribute("MatchingsNotes", matchingsNotes);
+            log.debug(filterValue);
+            request.getRequestDispatcher("searchResult.jsp").forward(request, response);
+            log.info("success");
         }
     }
 }
