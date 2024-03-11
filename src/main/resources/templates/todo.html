@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle=Notetilus)}" />
+
+<body id="bod" style="background: rgb(33, 37, 41);">
+	<div id="wrapper" style="padding-bottom: 100%;">
+
+		<nav th:replace="~{fragments/baselayout::sidebar}" />
+
+		<div id="content-wrapper">
+
+			<nav th:replace="~{fragments/baselayout::topbar}" />
+
+			<div class="container" style="margin-top: 95px;">
+				<header>
+					<h2 style="font-weight: bold;" th:text="#{letsgo}">Let's go!!</h2>
+				</header>
+				<form class="card" method="post" style="background: #252a2f; height: 273.4px;">
+					<div class="card-body">
+						<div id="container_textinput">
+							<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<input type="text" id="FormInput-1" name="taskName" class="mdl-textfield__input"
+									style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}">
+							</div>
+							<div id="textinput2" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+								<textarea id="taskContent" name="taskContent" th:placeholder="#{description}"
+									style="background: #252a2f; border-color: #059669;">
+									</textarea>
+							</div>
+						</div>
+						<div class="d-flex justify-content-between" id="div_dropdown" style="margin-top: 14px;">
+
+
+							<div class="dropdown">
+								<button class="btn btn-primary datum" aria-expanded="false" data-bs-toggle="dropdown" type="button"
+									style="border-color: #059669;border-left-color: #059669;" th:text="#{expirydate}">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+										fill="currentColor" style="margin-right: 5px;margin-top: -5px;">
+										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+										<path
+											d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z">
+										</path>
+									</svg>
+									<span th:text="#{expirydate}">Fälligkeitsdatum</span>
+								</button>
+								<div class="dropdown-menu" style="background: #c0e5d9;">
+									<a class="dropdown-item" href="#">
+										<input type="date" id="date" name="date"
+											style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
+									</a>
+								</div>
+							</div>
+
+							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
+								<option value="low" selected>
+									<span th:text="#{P1}">Priority 1</span>
+								</option>
+								<option value="medium">
+									<span th:text="#{P2}">Priority 2</span>
+								</option>
+								<option value="high">
+									<span th:text="#{P3}">Priority 3</span>
+								</option>
+							</select>
+
+							<div class="dropdown">
+								<button class="btn btn-primary zeit" aria-expanded="false" data-bs-toggle="dropdown" type="button"
+									style="border-color: #059669;" th:text="#{time}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+										viewBox="0 0 16 16" class="bi bi-clock" style="margin-right: 5px;margin-top: -5px;">
+										<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z">
+										</path>
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0">
+										</path>
+									</svg>
+									<span>Zeit</span>
+								</button>
+								<div class="dropdown-menu" style="background: #c0e5d9;">
+									<a class="dropdown-item" href="#" type="">
+										<input type="time" id="time" name="time"
+											style="background: #c0e5d9; border-color: rgba(33,37,41,0);">
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex justify-content-center" style="margin-top: 12px;">
+							<button class="btn border rounded-circle border-0" id="add_button" type="submit">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
+									class="bi bi-plus-square" style="font-size: 29px;">
+									<path
+										d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z">
+									</path>
+									<path
+										d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
+									</path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</form>
+
+				<!-- Todo List -->
+				<div class="card" style="margin-top: 57px;background: #252a2f;">
+					<div class="card-body">
+						<h4 class="card-title" th:text="#{today}">Heute</h4>
+						<h6 class="card-subtitle mb-2" th:text="#{vorhaben}">Was
+							hast du vor?</h6>
+						<ul class="list-unstyled" th:each="task: ${tasks}">
+
+							<li
+								th:replace="~{fragments/todo::taskItem(id=${task.id}, done=${task.done}, title=${task.name}, content=${task.content})}">
+							</li>
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

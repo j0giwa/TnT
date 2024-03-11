@@ -18,6 +18,9 @@
 
 package de.thowl.tnt.storage;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +33,6 @@ public interface SessionRepository extends CrudRepository<Session, Long> {
 	public Session findByAuthToken(String authToken);
 
 	public Session findByUserId(long userId);
+
+	List<Session> findByExpiresAtBefore(Date currentTime);
 }

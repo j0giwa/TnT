@@ -21,9 +21,10 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +36,18 @@ public class RegisterController {
 	@Autowired
 	private AuthenticationService authsvc;
 
-	@GetMapping("/register")
+	/**
+	 * Shows the register page
+	 * 
+	 * @return register.html
+	 */
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		log.info("entering showRegisterPage (GET-Method: /register)");
 		return "register";
 	}
 
-	@PostMapping("/register")
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(RegisterForm form, Model model) {
 		log.info("entering doRegister (POST-Method: /register)");
 
@@ -54,8 +60,13 @@ public class RegisterController {
 		if (!form.getPassword().equals(form.getPassword2()))
 			model.addAttribute("error", "password_match_error");
 
-		this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(), form.getEmail(),
-				form.getPassword());
+		try {
+			this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(),
+					form.getEmail(),
+					form.getPassword());
+		} catch (DuplicateUserException e) {
+			model.addAttribute("error", "duplicate_user_error");
+		}
 
 		return "register";
 	}

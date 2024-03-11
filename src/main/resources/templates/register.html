@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/baselayout::htmlhead(pageTitle='Register | TnT')}" />
+<head th:replace="~{fragments/baselayout::htmlhead(pageTitle='Register | TnT')}"></head>
 
 <body class="bg-body">
 
-	<nav th:replace="~{fragments/baselayout::navbar}" />
+	<nav th:replace="~{fragments/baselayout::navbar}"></nav>
 
 	<main class="mt-5">
 
@@ -37,24 +37,58 @@
 						</div>
 						<div class="row mb-3">
 							<div class="col-sm-6 mb-3 mb-sm-0">
-								<div class="form-group">
-									<input type="password" class="form-control form-control-lg" id="password" name="password"
+								<div class="form-group position-relative">
+									<input class="form-control pword" type="password" id="password" name="password" style="padding-right: 40px"
 										th:placeholder="#{password}" data-bs-toggle="tooltip" required
 										title="Mindestens acht Zeichen, mindestens ein englischer Großbuchstabe, ein englischer Kleinbuchstabe, eine Zahl und ein Sonderzeichnen." />
-									<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
-										one English
-										lowercase letter, one number and one special
-										character.</p>
-									<div>
-										<meter id="password-strength-meter" max="4"></meter>
-										<p id="password-strength-text"></p>
+									<div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility1()">
+										<i class="far fa-eye" id="show1"></i>
+										<i class="far fa-eye-slash" id="hide1"></i>
 									</div>
+								</div>
+								<div style="display: none;"> 
+									<span th:text="#{passwordpolicy}">
+										Your password muss contain:
+									</span>
+									
+										 
+									<span class="minimum-8">At least 08 Characters  : <span class="fail">Fail</span></span>
+									
+									
+									 
+									<span class="lower-latin">At least Lower case letters (a-z)  : <span class="fail">Fail</span></span>
+								
+								
+									 
+									<span class="upper-latin">At least Upper case letters (A-Z)  : <span class="fail">Fail</span></span>
+								
+								
+									 
+									<span class="number">At least one Numbers (0-9)  : <span class="fail">Fail</span></span>
+								
+								
+									 
+									<span class="symbols">At least one Special character (e.g. !@#$%^&*)  : <span class="fail">Fail</span></span>
+									
+									<hr />
+								</div>
+								<p class="mt-4" th:text="#{condition}">At least eight characters, at least one English capital letter,
+									one English
+									lowercase letter, one number and one special
+									character.</p>
+								<div>
+									<meter id="password-strength-meter" max="4"></meter>
+									<p id="password-strength-text"></p>
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<div class="form-group">
-									<input type="password" id="password2" name="password2" class="form-control form-control-lg"
-										th:placeholder="#{password2}" required />
+								<div class="form-group position-relative">
+									<input class="form-control" type="password" id="password2" name="password2"
+										style="padding-right: 40px" th:placeholder="#{password2}" required />
+									<div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility2()">
+										<i class="far fa-eye" id="show2"></i>
+										<i class="far fa-eye-slash" id="hide2"></i>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -80,6 +114,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
 	<script src="js/Password-Strenght-Checker---Ambrodu-password.js"></script>
+	<script src="js/passwd.js"></script>
 
 </body>
 

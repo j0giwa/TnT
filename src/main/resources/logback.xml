@@ -4,7 +4,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-	    <pattern>%d{MM/dd HH:mm:ss.SSS} [%highlight(%-5level)] in %cyan(%logger{5}@[%-4.30thread]) - %msg%n</pattern>
+            <pattern>%yellow(%d{MM/dd HH:mm:ss.SSS}) [%highlight(%-5level)] in %cyan(%logger{5}@[%-4.30thread]) - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -15,18 +15,21 @@
     </root>
 
     <!-- setup log levels -->
+
+    <!-- Logback -->
+    <logger name="ch.qos.logback" level="WARN"/>
+
     <!-- Tomcat server -->
     <logger name="org.apache.catalina" level="ERROR" />
     <logger name="org.apache.coyote" level="ERROR" />
 
     <!-- Spring framework -->
-    <logger name="org.springframework" level="ERROR" />
+    <logger name="org.springframework" level="INFO" />
 
     <!-- Database connection pool -->
     <logger name="com.zaxxer.hikari" level="ERROR" />
 
     <!-- Own packages -->
-    <!-- TODO: lower to ERROR when shipping -->
-    <logger name="de.thowl" level="ERROR" />
+    <logger name="de.thowl" level="INFO" />
 
 </configuration>

@@ -18,13 +18,18 @@
 
 package de.thowl.tnt.core;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import de.thowl.tnt.core.exeptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.DuplicateUserException;
+import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.GroupRepository;
 import de.thowl.tnt.storage.SessionRepository;
@@ -42,32 +47,64 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Slf4j
 @Service
+@EnableScheduling
 public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final int BCRYPT_COST = 15;
 
 	@Autowired
 	private UserRepository users;
+
 	@Autowired
 	private GroupRepository groups;
+
 	@Autowired
 	private SessionRepository sessions;
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
 
 	/**
+	 * Deletes rouge(incative) sessions
+	 * 
+	 * Runs once every minute
+	 */
+	@Scheduled(fixedRate = 60000)
+	public void cleanupExpiredSessions() {
+
+		log.debug("entering cleanupExpiredSessions");
+
+		Date now;
+		List<Session> expired;
+
+		now = new Date();
+		expired = sessions.findByExpiresAtBefore(now);
+
+		if (!expired.isEmpty()) {
+			log.info("Found {} expired sessions. Deleting...", expired.size());
+			sessions.deleteAll(expired);
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean validateEmail(String email) {
+
 		log.debug("entering validateEmail");
+
+		String regex;
+		boolean result;
 
 		if (null == email)
 			return false;
 
 		// Source https://ihateregex.io/expr/email/
-		boolean result = email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
-		log.debug("validateEmail(email: {}) returned: {}",email ,result);
+		regex = "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+";
+		
+		result = email.matches(regex);
+
+		log.debug("validateEmail(email: {}) returned: {}", email, result);
 		return result;
 	}
 
@@ -76,15 +113,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validatePassword(String password) {
+
 		log.debug("entering validatePassword");
+
+		String regex;
+		boolean result;
 
 		if (null == password)
 			return false;
 
 		// Source = "https://ihateregex.io/expr/password/"
-		boolean result =  password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
-		log.debug("validatePassword(password: {}) returned: {}",password ,result);
+		regex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$";
+
+		result = password.matches(regex);
+
+		log.debug("validatePassword(password: {}) returned: {}", password, result);
 		return result;
+	}
+
+	/**
+	 * Sets expiry time (e.g., 30 minutes from now)
+	 * 
+	 * @param session The session to refresh
+	 */
+	private void refreshSession(Session session) {
+		
+		Calendar calendar;
+		Date expiryTime;
+
+		calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, 30);
+		expiryTime = calendar.getTime();
+
+		session.setExpiresAt(expiryTime);
+
+		this.sessions.save(session);
 	}
 
 	/**
@@ -92,40 +155,59 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public boolean validateSession(AccessToken token, String username) {
+
 		log.debug("entering validateSession");
+
+		Session session;
+		User user = users.findByUsername(username);
+		boolean result;
 
 		if (token == null) {
 			log.error("token was null");
 			return false;
 		}
 
-		Session session = sessions.findByAuthToken(token.getUsid());
+		session = sessions.findByAuthToken(token.getUsid());
 		if (session == null) {
 			log.error("a session could not be found");
 			return false;
 		}
 
-		User user = users.findByUsername(username);
+		user = users.findByUsername(username);
 		if (user == null) {
 			log.error("user: {} could not be found", username);
 			return false;
 		}
 
-		boolean result = user.getId() == session.getUserId();
+		refreshSession(session);
 
-		// THis might bug out
+		result = user.getId() == session.getUserId();
 		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
 		return result;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @throws DuplicateUserException
 	 */
 	@Override
-	public void register(String firstname, String lastname, String username, String email, String password) {
+	public void register(String firstname, String lastname, String username,
+			String email, String password) throws DuplicateUserException {
+
 		log.debug("entering register");
 
-		User usr = new User(firstname, lastname, username, email, encoder.encode(password));
+		User usr;
+
+		if (this.users.findByEmail(email) != null)
+			throw new DuplicateUserException("A User with this Email already exists");
+
+		if (this.users.findByUsername(username) != null)
+			throw new DuplicateUserException("A User with this Username already exists");
+
+		usr = new User(firstname, lastname, username, email, encoder.encode(password),
+				UUID.randomUUID().toString());
+
 		usr.setGroup(this.groups.findById(1));
 
 		log.info("registering user {} with {}", username, email);
@@ -143,17 +225,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 *         did not match
 	 */
 	private boolean checkPassword(User user, String password) {
+
 		log.debug("entering checkPassword");
+	
+		String bHash;
+		boolean result;
 
 		if (null == password || password.isBlank())
 			return false;
 
-		String bHash = user.getPassword();
-		
+		bHash = user.getPassword();
+
 		log.debug("Comparing Form-password with BCrypt-hash");
-		boolean result = encoder.matches(password, bHash);
+		result = encoder.matches(password, bHash);
 
 		log.debug("checkPassword(user: {}, password: {}) returned: {}", user.toString(), password, result);
+
 		return result;
 	}
 
@@ -164,17 +251,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @return The {@link User}s {@link AccessToken}
 	 */
 	private AccessToken createSession(User user) {
+
 		log.debug("entering createSession");
 
+		AccessToken token;
+		UUID uuid;
+		Calendar calendar;
+		Date expiryTime;
+
+		calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, 30);
+		expiryTime = calendar.getTime();
+
 		// Todo: Refactor AccessToken
-		AccessToken token = new AccessToken();
-		UUID uuid = UUID.randomUUID();
+		token = new AccessToken();
+		uuid = UUID.randomUUID();
 		token.setUsid(uuid.toString());
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
-		this.sessions.save(new Session(token.getUsid(), user));
+
+		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());
+
 		return token;
 	}
 
@@ -183,14 +282,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public AccessToken login(String email, String password) throws InvalidCredentialsException {
+
 		log.debug("entering login");
+
+		User user;
 
 		if (email == null || password == null) {
 			log.error("One or more params were left empty");
 			throw new InvalidCredentialsException("Params cannot be null");
 		}
 
-		User user = this.users.findByEmail(email);
+		user = this.users.findByEmail(email);
 
 		if (user == null) {
 			log.error("E-Mail '{}' does not exist", email);
@@ -211,12 +313,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public void logout(String token) {
+
 		log.debug("entering logout");
 
-		Session session = this.sessions.findByAuthToken(token);
-		log.info("user with id: {} logged out", session.getUserId());
+		Session session;
+		
+		session = this.sessions.findByAuthToken(token);
 
+		log.info("user with id: {} logged out", session.getUserId());
 		log.debug("deleting session: {} from Database", session.toString());
+
 		this.sessions.delete(session);
 	}
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='Timetracker | TnT')}"></head>
+
+<body style="background: rgb(33, 37, 41);">
+
+    <div id="wrapper" style="padding-bottom: 100%;">
+
+        <nav th:replace="~{fragments/baselayout::sidebar}"></nav>
+
+        <div id="content-wrapper">
+
+            <nav th:replace="~{fragments/baselayout::topbar}"></nav>
+
+            <div class="container" style="margin-top: 95px;">
+                <div id="timeContainer" style="background: #2b3035;">
+                    
+                    <div id="timeDisplay">00:00:00</div>
+                    <button id="startBtn" class="timerBtn">Start</button>
+                    <button id="pauseBtn" class="timerBtn">Pause</button>
+                    <button id="resetBtn" class="timerBtn">Reset</button>
+                </div>
+                <script src="/js/timetracker.js"></script>
+</body>
+
+</html>
