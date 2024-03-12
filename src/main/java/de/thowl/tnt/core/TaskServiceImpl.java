@@ -176,13 +176,25 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllTasks(String username) {
 
-		log.debug("entering getAll");
+		log.debug("entering getAllTasks");
 
 		User user;
 
 		user = users.findByUsername(username);
 
 		return this.tasks.findByUser(user);
+	}
+
+	@Override
+	public List<Task> getAllOverdueTasks(String username) {
+
+		log.debug("entering getAllOverdueTasks");
+
+		User user;
+
+		user = users.findByUsername(username);
+
+		return this.tasks.findByUserAndOverdue(user, true);
 	}
 
 }

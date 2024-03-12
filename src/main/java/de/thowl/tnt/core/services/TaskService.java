@@ -63,4 +63,14 @@ public interface TaskService {
 	 *         {@code null} if the user did not create any tasks,
 	 */
 	public List<Task> getAllTasks(String username);
+
+	/**
+	 * Gets all overdue {@link Task} created by a specific {@link User}
+	 *
+	 * @param username The name of the {@link User}
+	 *
+	 * @return A list of overdue {@link Task}s,
+	 *         {@code null} if the user did not create any tasks,
+	 */
+	public List<Task> getAllOverdueTasks(String username);
 }
