@@ -48,7 +48,7 @@ public class ProfileController {
         return "profile";
     }
 
-    
+   /*  
     @PostMapping
     public String updateProfile(User updatUser) {
 
@@ -57,5 +57,5 @@ public class ProfileController {
 
         return "redirect:/profile";
     }
-    
+    */
 }
