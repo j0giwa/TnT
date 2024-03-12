@@ -20,22 +20,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthenticationService authenticationService;
    
-    
-    private RegisterForm userForm;
+    @Autowired
+    private User userForm;
    
     @Override
     public User getCurrentUser() {
-        userForm = new RegisterForm();
         //authenticationService = (AuthenticationService) SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = userForm.getUsername();
-        User currentUser = userRepository.findByUsername(currentUsername);
+        User currentUser = userRepository.findByUsername(userForm.getUsername());
        
         return currentUser;
         
     }
 
+    /*
+     * Retrieve and update the User-Obeject from the database
+     */
     @Override
     public void updateUser (User updUser) {
 
+        //update the userobject in database
+        User existingUser = userRepository.findById(updUser.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setUsername(updUser.getUsername());
+        existingUser.setEmail(updUser.getEmail());
+        existingUser.setFirstname(updUser.getFirstname());
+        existingUser.setLastname(updUser.getLastname());
+
+        userRepository.save(existingUser); //Save the changes in the database
     }
 }
