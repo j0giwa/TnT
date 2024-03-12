@@ -22,11 +22,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthenticationService authenticationService;
    
-    @Autowired
+    
     private User userForm;
    
     @Override
     public User getCurrentUser() {
+        userForm = new User();
         //authenticationService = (AuthenticationService) SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByUsername(userForm.getUsername());
        log.info("Aktuelle Benutzer" + currentUser);
