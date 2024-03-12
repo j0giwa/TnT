@@ -90,6 +90,7 @@ public class TaskServiceImpl implements TaskService {
 	/**
 	 * {@inheritDoc}
 	 */
+	// TODO: rename
 	@Override
 	public void setDone(long id) {
 
@@ -99,8 +100,8 @@ public class TaskServiceImpl implements TaskService {
 
 		task = this.tasks.findById(id);
 
-		log.info("marking task id: {} as done", id);
-		task.setDone(true);
+		log.info("switching state of task id: {}", id);
+		task.setDone(!task.isDone());
 
 		this.tasks.save(task);
 	}
