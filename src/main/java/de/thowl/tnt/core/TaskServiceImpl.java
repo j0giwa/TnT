@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import de.thowl.tnt.core.services.TaskService;
@@ -38,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
+@EnableScheduling
 public class TaskServiceImpl implements TaskService {
 
 	@Autowired
@@ -45,6 +48,50 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private TaskRepository tasks;
+
+	/**
+	 * Marks all overdue task as such
+	 * 
+	 * Runs once every minute
+	 */
+	@Scheduled(fixedRate = 60000)
+	public void flagTasksAsOverdue() {
+
+		log.debug("entering flagTasksAsOverdue");
+
+		Date now;
+		List<Task> tasks;
+
+		now = new Date();
+		tasks = this.tasks.findByDueDateAndTimeBefore(now, now);
+
+		if (!tasks.isEmpty()) {
+			log.info("Found {} overdue tasks. ", tasks.size());
+			for (Task task : tasks) {
+				task.setOverdue(true);
+			}
+		}
+	}
+
+	/**
+	 * Deletes done tasks
+	 * 
+	 * Runs once every minute
+	 */
+	@Scheduled(fixedRate = 60000)
+	public void cleanupDoneTasks() {
+
+		log.debug("entering cleanupDoneTasks");
+
+		List<Task> doneTasks;
+
+		doneTasks = this.tasks.findByDone(true);
+
+		if (!doneTasks.isEmpty()) {
+			log.info("Found {} done tasks. Deleting...", doneTasks.size());
+			this.tasks.deleteAll(doneTasks);
+		}
+	}
 
 	public Priority setPriority(String priority) {
 		switch (priority.toLowerCase()) {
@@ -69,7 +116,7 @@ public class TaskServiceImpl implements TaskService {
 
 		User user;
 		Task task;
-	
+
 		user = users.findByUsername(username);
 		task = Task.builder()
 				.user(user)
