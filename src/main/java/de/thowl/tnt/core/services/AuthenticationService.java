@@ -112,4 +112,17 @@ public interface AuthenticationService {
 	 */
 	public void logout(String token);
 
+	/**
+	 * Give the currentUser from the Database, that are actually logged in {@link User} .
+	 * 
+	 * @param token The token of the session to remove.
+	 */
+	User getCurrentUser();
+
+	/**
+	 * Update the userinformation  {@link User} in the Database.
+	 * 
+	 * @param updateUser .
+	 */
+    void updateUser(User updateUser);
 }

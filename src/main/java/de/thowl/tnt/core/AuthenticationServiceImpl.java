@@ -312,6 +312,37 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
+    public User getCurrentUser() {
+        User userForm = new User();
+        //authenticationService = (AuthenticationService) SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = users.findByUsername(userForm.getUsername());
+       log.info("Aktuelle Benutzer" + currentUser);
+        return currentUser;
+        
+    }
+
+	/**
+	 * {@inheritDoc}
+	 */
+    @Override
+    public void updateUser (User updUser) {
+
+        //update the userobject in database
+        User existingUser = users.findById(updUser.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setUsername(updUser.getUsername());
+        existingUser.setEmail(updUser.getEmail());
+        existingUser.setFirstname(updUser.getFirstname());
+        existingUser.setLastname(updUser.getLastname());
+
+
+        users.save(existingUser); //Save the changes in the database
+        log.info("saved succesfully");
+    }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void logout(String token) {
 
 		log.debug("entering logout");

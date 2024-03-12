@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
-import de.thowl.tnt.core.services.UserService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
@@ -23,8 +21,6 @@ public class ProfileController {
     @Autowired
     private AuthenticationService authsvc;
 
-    @Autowired
-    private UserService userService;
     /**
 	 * Shows the profile page
 	 * 
@@ -37,8 +33,8 @@ public class ProfileController {
 		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
         
         //Profildetails
-        User user = userService.getCurrentUser();
-
+        User user = authsvc.getCurrentUser();
+        log.info("User details" + user);
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
@@ -53,7 +49,7 @@ public class ProfileController {
     public String updateProfile(User updatUser) {
 
         //Reload Userprofil
-        userService.updateUser(updatUser);
+        authsvc.updateUser(updatUser);
 
         return "redirect:/profile";
     }
