@@ -45,7 +45,7 @@ public interface TaskService {
 	 * 
 	 * @param id id of the {@link Task}
 	 */
-	public void setDone(long id);
+	public void toggleDone(long id);
 
 	/**
 	 * Deletes a {@link Task} from the Database.
@@ -64,4 +64,3 @@ public interface TaskService {
 	 */
 	public List<Task> getAllTasks(String username);
 }
-

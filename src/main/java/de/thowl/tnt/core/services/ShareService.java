@@ -22,7 +22,7 @@ import de.thowl.tnt.storage.entities.SharedNote;
 
 public interface ShareService {
 
-	public void startSharing(long noteId);
+	public void toggleSharing(long noteId);
 
 	public SharedNote getSharedNote(String id);
 
