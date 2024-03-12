@@ -28,7 +28,8 @@ import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
-/**min
+/**
+ * min
  * {@inheritDoc}
  */
 @Slf4j
@@ -39,28 +40,31 @@ public class NoteSearchServiceImpl implements NoteSearchService {
 
     @Autowired
     private User user;
+
     /**
      * Perform search logic here based on query and filter
      * 
      * 
-     * @param query search term
-     * @param filter parameter of type "NoteKategory" for the select category filter.
+     * @param query  search term
+     * @param filter parameter of type "NoteKategory" for the select category
+     *               filter.
      * @return matchingsNotes
      */
     @Override
     public List<Note> searchNotes(String query, NoteKategory filter) {
         List<Note> matchingsNotes = new ArrayList<>();
 
-        //Assug you have a list of notes.
-        List<Note> allNotes = notesServiceImpl.getAllNotes(user.getUsername()); //This method should return all notes from the data source
+        // Assug you have a list of notes.
+        List<Note> allNotes = notesServiceImpl.getAllNotes(user.getUsername());
+
         log.info(String.valueOf(allNotes));
-        //Iterate over all the notes and apply the filter
+        // Iterate over all the notes and apply the filter
         for (Note note : allNotes) {
-            if(filter == null || note.getKategory() == filter) {
+            if (filter == null || note.getKategory() == filter) {
                 if (note.getKategory() == filter || note.getContent().contains(query)) {
                     log.info("search for" + query);
                     matchingsNotes.add(note);
-                    
+
                 }
             }
         }

@@ -17,6 +17,7 @@
  */
 package de.thowl.tnt.storage;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -31,4 +32,10 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 	public Task findById(long id);
 
 	public List<Task> findByUser(User User);
+
+	public List<Task> findByDone(boolean done);
+
+	public List<Task> findByUserAndOverdue(User User, boolean overdue);
+
+	public List<Task> findByDueDateAndTimeBefore(Date currentDate, Date currentTime);
 }
