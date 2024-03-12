@@ -138,7 +138,7 @@ public class TaskApi {
 		if (users.findByApiToken(apiToken) == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		this.tasksvc.setDone(id);
+		this.tasksvc.toggleDone(id);
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
