@@ -44,12 +44,12 @@ public class ProfileController {
 			throw new ForbiddenException("Unathorised access");
 
 
-		model.addAttribute("user", username);
+		model.addAttribute("user", user);
         return "profile";
     }
 
-   /*  
-    @PostMapping
+   
+    @RequestMapping(value = "/u/{username}/profile", method = RequestMethod.POST)
     public String updateProfile(User updatUser) {
 
         //Reload Userprofil
@@ -57,5 +57,5 @@ public class ProfileController {
 
         return "redirect:/profile";
     }
-    */
+    
 }

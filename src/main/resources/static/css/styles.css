@@ -239,29 +239,6 @@ textarea {
 
 }
 
-#show3 {
-  display: none;
-  cursor: pointer;
-  color: white;
-}
-
-#hide3 {
-  color: white;
-  cursor: pointer;
-
-}
-
-#show4 {
-  display: none;
-  cursor: pointer;
-  color: white;
-}
-
-#hide4 {
-  color: white;
-  cursor: pointer;
-
-}
 .eye {
   position: absolute;
   cursor: pointer;

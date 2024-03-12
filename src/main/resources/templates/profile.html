@@ -11,14 +11,14 @@
                 <p class="m-0 fw-bold text-success" th:text="#{usersettings}">User Settings</p>
             </div>
             <div class="card-body">
-                <form >
+                <form action="/profile" method="post">
                     <div class="row" style="margin-bottom: 25px;text-align: left;">
                         <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 col-xxl-2" style="display: inline;text-align: center;margin-bottom: 25px;">
                             <div class="avatar">
                                 <div class="avatar-bg center"></div>
                             </div>
                             <input class="form-control" type="file" name="avatar-file"/>
-                            <br><button class="btn btn-primary btn-sm" id="photoBtn" type="button" style="background: rgb(5,150,105);border-style: none;">
+                            <br><button class="btn btn-primary btn-sm" id="photoBtn" type="file" name="avatar-file" style="background: rgb(5,150,105);border-style: none;">
                                 Change Photo</button>
                         </div>
                         <div class="col-sm-8 col-md-8 col-lg-9 col-xl-10 col-xxl-10 align-self-center">
@@ -28,7 +28,8 @@
                                         <label class="form-label" for="email">
                                             <strong>Email Address</strong>
                                         </label>
-                                        <input class="form-control" type="email" id="email" th:value="${user.email}" name="email" required="">
+                                        
+                                        <input class="form-control" type="email" id="email"  name="email"  required=""> <!--th:value="${user.email}"-->
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-start">
@@ -36,7 +37,8 @@
                                         <label class="form-label" for="username">
                                             <strong>Username</strong>
                                         </label>
-                                        <input class="form-control" type="text" th:value="${user.username}" name="username" required="">
+                                        <input class="form-control" type="text" name="username" required=""> <!-- th:value="${user.username}"-->
+                                            
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +48,7 @@
                                 <label class="form-label" for="first_name">
                                     <strong>First Name</strong>
                                 </label>
-                                <input class="form-control" type="text" th:value="${user.firstname}" name="first_name" required="">
+                                <input class="form-control" type="text" name="first_name" required=""> <!-- th:value="${user.firstname}"-->
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -54,7 +56,7 @@
                                 <label class="form-label" for="last_name">
                                     <strong>Last Name</strong>
                                 </label>
-                                <input class="form-control" type="text" th:value="${user.lastname}" name="last_name" required="">
+                                <input class="form-control" type="text"  name="last_name" required=""> <!--th:value="${user.lastname}"-->
                             </div>
                         </div>
                         <div class="col-md-6 text-start">
@@ -62,11 +64,11 @@
                                 <stron>Password</strong>
                             </label>
                             <div class="form-group position-relative">
-                                <input class="form-control pword" type="password" id="password3" name="password3" style="padding-right: 40px"
+                                <input class="form-control pword" type="password" id="password" name="password" style="padding-right: 40px"
                                     th:placeholder="#{password}" data-bs-toggle="tooltip" required/>
-                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility3()">
-                                    <i class="far fa-eye" id="show3"></i>
-                                    <i class="far fa-eye-slash" id="hide3"></i>
+                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility1()">
+                                    <i class="far fa-eye" id="show1"></i>
+                                    <i class="far fa-eye-slash" id="hide1"></i>
                                 </div>
                             </div>
                         </div>
@@ -75,11 +77,11 @@
                                 <strong>Confirm Password</strong>
                             </label>
                             <div class="form-group position-relative">
-                                <input class="form-control" type="password" id="password4" name="password4"
+                                <input class="form-control" type="password" id="password2" name="password2"
                                     style="padding-right: 40px" th:placeholder="#{password2}" required />
-                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility4()">
-                                    <i class="far fa-eye" id="show4"></i>
-                                    <i class="far fa-eye-slash" id="hide4"></i>
+                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility2()">
+                                    <i class="far fa-eye" id="show2"></i>
+                                    <i class="far fa-eye-slash" id="hide2"></i>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +97,10 @@
             </div>
         </div>
     </div>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/passwd.js"></script>
-    <script src="js/jquery-v3.2.1.min.js"></script>
-    <script src="js/Profile-Edit-Form-profile.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/passwd.js"></script>
+    <script src="/js/jquery-v3.2.1.min.js"></script>
+    <script src="/js/Profile-Edit-Form-profile.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
 </body>

@@ -54,42 +54,6 @@ function passwordVisibility2(){
 
 }
 
-function passwordVisibility3(){
-  var x = document.getElementById("password3");
-  var y = document.getElementById("show3");
-  var z = document.getElementById("hide3");
-
-   if(x.type === 'password'){
-     x.type="text";
-     y.style.display="block";
-     z.style.display="none";
-   }
-    else{
-       x.type="password";
-       y.style.display="none";
-       z.style.display="block";
-      }
-
-}
-
-function passwordVisibility4(){
-  var x = document.getElementById("password4");
-  var y = document.getElementById("show4");
-  var z = document.getElementById("hide4");
-
-   if(x.type === 'password'){
-     x.type="text";
-     y.style.display="block";
-     z.style.display="none";
-   }
-    else{
-       x.type="password";
-       y.style.display="none";
-       z.style.display="block";
-      }
-
-}
-
 /*
 var passwordregex6digits = new RegExp("(?=.*[0-9]{6,})");
 var passwordregexLowercase = new RegExp("^(?=.*[a-z])");
