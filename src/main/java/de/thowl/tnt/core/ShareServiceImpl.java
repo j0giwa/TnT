@@ -30,7 +30,6 @@ import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.storage.entities.SharedNote;
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * Implementaion of the {@link ShareService} interface
  * {@inheritDoc}
@@ -46,7 +45,7 @@ public class ShareServiceImpl implements ShareService {
 	private SharedNotesRepository sharedNotes;
 
 	@Override
-	public void startSharing(long noteId) {
+	public void toggleSharing(long noteId) {
 
 		log.debug("entering startSharing");
 
@@ -54,10 +53,16 @@ public class ShareServiceImpl implements ShareService {
 		SharedNote shared;
 
 		note = this.notes.findById(noteId);
-		shared = new SharedNote(UUID.randomUUID().toString(), note);
 
-		this.sharedNotes.save(shared);
+		// Assume it is already shared for easier toggling
+		shared = this.sharedNotes.findByNote(note);
 
+		if (shared != null) {
+			this.sharedNotes.delete(shared);
+		} else { 
+			shared = new SharedNote(UUID.randomUUID().toString(), note);
+			this.sharedNotes.save(shared);
+		}
 	}
 	
 	@Override

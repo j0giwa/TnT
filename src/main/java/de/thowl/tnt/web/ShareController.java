@@ -44,10 +44,15 @@ public class ShareController {
 
 	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
 	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
+
 		log.info("entering showSharePage (GET-Method: /share)");
 
-		long id = this.sharesvc.getSharedNote(uuid).getNote().getId();
-		Note note = this.notesvc.getNote(id);
+		long id;
+		Note note;
+
+		id = this.sharesvc.getSharedNote(uuid).getNote().getId();
+		note = this.notesvc.getNote(id);
+
 		model.addAttribute("note", note);
 
 		return "share";
@@ -55,12 +60,14 @@ public class ShareController {
 
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
 	public String addSharedNote(HttpServletRequest request ,NoteForm form, Model model) {
+
 		log.info("entering addSharedNote (Post-Method: /share)");
 
-		String referer = request.getHeader("Referer");
+		String referer;
 
-		this.sharesvc.startSharing(form.getId());
+		this.sharesvc.toggleSharing(form.getId());
 
+		referer = request.getHeader("Referer");
  		return "redirect:" + referer;
 	}
 
