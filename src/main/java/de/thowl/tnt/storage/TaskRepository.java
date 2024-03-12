@@ -35,5 +35,7 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 
 	public List<Task> findByDone(boolean done);
 
-	List<Task> findByDueDateAndTimeBefore(Date currentDate, Date currentTime);
+	public List<Task> findByUserAndOverdue(User User, boolean overdue);
+
+	public List<Task> findByDueDateAndTimeBefore(Date currentDate, Date currentTime);
 }
