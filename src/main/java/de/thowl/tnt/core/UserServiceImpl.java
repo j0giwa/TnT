@@ -10,7 +10,9 @@ import de.thowl.tnt.core.services.UserService;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.forms.RegisterForm;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User getCurrentUser() {
         //authenticationService = (AuthenticationService) SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByUsername(userForm.getUsername());
-       
+       log.info("Aktuelle Benutzer" + currentUser);
         return currentUser;
         
     }
@@ -45,6 +47,8 @@ public class UserServiceImpl implements UserService {
         existingUser.setFirstname(updUser.getFirstname());
         existingUser.setLastname(updUser.getLastname());
 
+
         userRepository.save(existingUser); //Save the changes in the database
+        log.info("saved succesfully");
     }
 }
