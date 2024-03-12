@@ -137,9 +137,8 @@ public class TaskServiceImpl implements TaskService {
 	/**
 	 * {@inheritDoc}
 	 */
-	// TODO: rename
 	@Override
-	public void setDone(long id) {
+	public void toggleDone(long id) {
 
 		log.debug("entering add");
 

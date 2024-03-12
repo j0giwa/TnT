@@ -44,7 +44,7 @@ public class TestTaskServiceInt {
 	void testSetDone() {
 		log.info("entering test testSetDone");
 
-		this.tasksvc.setDone(1);
+		this.tasksvc.toggleDone(1);
 
 		assertTrue(this.tasks.findById(1).isDone(), "This should be true");
 	}
