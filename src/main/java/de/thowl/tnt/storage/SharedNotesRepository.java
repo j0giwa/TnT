@@ -22,6 +22,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.SharedNote;
+import de.thowl.tnt.storage.entities.Note;
 
 @Repository
 public interface SharedNotesRepository extends CrudRepository<SharedNote, Long> {
@@ -29,5 +30,7 @@ public interface SharedNotesRepository extends CrudRepository<SharedNote, Long> 
 	SharedNote findById(long id);
 
 	SharedNote findByGuid(String guid);
+
+	SharedNote findByNote(Note note);
 
 }
