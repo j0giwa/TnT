@@ -132,11 +132,17 @@ class TestAuthenticationService {
 	void testRegister() {
 		log.info("entering test testRegister");
 
-		String firstName = "test";
-		String lastName = "user";
-		String uname = "test";
-		String passwd = "test123";
-		String email = "test@th-owl.de";
+		String firstName;
+		String lastName;
+		String uname;
+		String passwd;
+		String email;
+
+		firstName = "test";
+		lastName = "user";
+		uname = "test";
+		passwd = "test123";
+		email = "test@th-owl.de";
 
 		try {
 			this.authsvc.register(firstName, lastName, uname, email, passwd);

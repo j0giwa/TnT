@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package de.thowl.tnt.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,44 +57,37 @@ public class TestTaskService {
 		log.info("entering test testToggleDone");
 
 		this.tasksvc.toggleDone(1);
-
 		assertTrue(this.tasks.findById(1).isDone(), "This should be true");
 
 		this.tasksvc.toggleDone(1);
-
 		assertFalse(this.tasks.findById(1).isDone(), "This should be false");
 	}
 
 	@Test
 	public void testAddTask() {
-
 		log.info("entering test testAddTask");
 
 		long taskAmount;
 
 		taskAmount = this.tasks.count();
-
 		this.tasksvc.add("Tasktester", "Test Task", "Task Content", "High", new Date(), new Date());
-
 		assertEquals(taskAmount + 1, this.tasks.count());
 	}
 
 	@Test
 	public void testDeleteTask() {
-
-		log.info("entering test testAddTask");
+		log.info("entering test testDeleteTask");
 
 		long taskAmount;
 
 		taskAmount = this.tasks.count();
-
 		this.tasksvc.delete(1);
-
 		assertEquals(taskAmount - 1, this.tasks.count());
 	}
 
 	@Test
 	public void testGetAllTasks() {
+		log.info("entering test testGetAllTasks");
 
 		User user;
 		List<Task> tasks;
