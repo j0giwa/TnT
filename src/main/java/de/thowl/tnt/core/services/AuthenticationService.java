@@ -115,7 +115,7 @@ public interface AuthenticationService {
 	/**
 	 * Give the currentUser from the Database, that are actually logged in {@link User} .
 	 * 
-	 * @param token The token of the session to remove.
+	 * @param CurrentUsername The current Username of the active User.
 	 */
 	User getCurrentUser();
 

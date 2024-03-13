@@ -63,6 +63,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
 
+	private String currentUsername;
+
 	/**
 	 * Deletes rouge(incative) sessions
 	 * 
@@ -270,6 +272,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
 
+		//current User
+		currentUsername = user.getUsername();
+		log.info("Current Username: " + currentUsername);
+
 		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());
@@ -313,12 +319,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
     public User getCurrentUser() {
-        User userForm = new User();
-        //authenticationService = (AuthenticationService) SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = users.findByUsername(userForm.getUsername());
-       log.info("Aktuelle Benutzer" + currentUser);
-        return currentUser;
-        
+		User currentUser = users.findByUsername(currentUsername);
+		log.info("Aktuelle Benutzer " + currentUser);
+		return currentUser;
     }
 
 	/**

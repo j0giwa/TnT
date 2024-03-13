@@ -34,7 +34,7 @@ public class ProfileController {
         
         //Profildetails
         User user = authsvc.getCurrentUser();
-        log.info("User details" + user);
+        log.info("User details " + user);
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");

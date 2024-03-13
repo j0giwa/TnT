@@ -29,15 +29,15 @@
                                             <strong>Email Address</strong>
                                         </label>
                                         
-                                        <input class="form-control" type="email" id="email"  name="email" value="Walter" required=""> <!--th:value="${user.email}"-->
+                                        <input class="form-control" type="email" id="email"  name="email" th:value="${user.email}" required=""> 
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-start">
                                     <div class="mb-3">
                                         <label class="form-label" for="username">
-                                            <strong>Username</strong>
+                                            <strong th:text="#{username}"></strong>
                                         </label>
-                                        <input class="form-control" type="text" name="username" required=""> <!-- th:value="${user.username}"-->
+                                        <input class="form-control" type="text" name="username" th:value="${user.username}" required=""> 
                                             
                                     </div>
                                 </div>
@@ -46,22 +46,22 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="first_name">
-                                    <strong>First Name</strong>
+                                    <strong th:text="#{first_name}"></strong>
                                 </label>
-                                <input class="form-control" type="text" name="first_name" required=""> <!-- th:value="${user.firstname}"-->
+                                <input class="form-control" type="text" name="first_name" th:value="${user.firstname}" required=""> 
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="last_name">
-                                    <strong>Last Name</strong>
+                                    <strong th:text="#{last_name}"></strong>
                                 </label>
-                                <input class="form-control" type="text"  name="last_name" required=""> <!--th:value="${user.lastname}"-->
+                                <input class="form-control" type="text"  name="last_name" th:value="${user.lastname}" required="">
                             </div>
                         </div>
                         <div class="col-md-6 text-start">
                             <label class="form-label" for="username">
-                                <stron>Password</strong>
+                                <strong th:text="#{password}"></strong>
                             </label>
                             <div class="form-group position-relative">
                                 <input class="form-control pword" type="password" id="password" name="password" style="padding-right: 40px"
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-6 text-start">
                             <label class="form-label" for="username">
-                                <strong>Confirm Password</strong>
+                                <strong th:text="#{password2}"></strong>
                             </label>
                             <div class="form-group position-relative">
                                 <input class="form-control" type="password" id="password2" name="password2"
@@ -90,7 +90,7 @@
                             <p id="passwordErrorMsg" class="text-danger" style="display:none;"></p>
                         </div>
                         <div class="col-md-12" style="text-align: right;margin-top: 5px;">
-                            <button class="btn btn-primary btn-sm" id="submitBtn" type="submit" style="background: rgb(5,150,105);border-style: none;">Save Settings</button>
+                            <button class="btn btn-primary btn-sm" id="submitBtn" type="submit" style="background: rgb(5,150,105);border-style: none;" th:text="#{savesettings}">Save Settings</button>
                         </div>
                     </div>
                 </form>
