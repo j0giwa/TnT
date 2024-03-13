@@ -59,7 +59,7 @@ public class ShareController {
 	}
 
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
-	public String addSharedNote(HttpServletRequest request ,NoteForm form, Model model) {
+	public String addSharedNote(HttpServletRequest request, NoteForm form, Model model) {
 
 		log.info("entering addSharedNote (Post-Method: /share)");
 
@@ -68,8 +68,7 @@ public class ShareController {
 		this.sharesvc.toggleSharing(form.getId());
 
 		referer = request.getHeader("Referer");
- 		return "redirect:" + referer;
+		return "redirect:" + referer;
 	}
 
 }
-

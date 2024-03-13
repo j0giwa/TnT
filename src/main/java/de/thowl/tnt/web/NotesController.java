@@ -36,7 +36,6 @@ import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -74,7 +73,7 @@ public class NotesController {
 	 * @return todo.html
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.POST)
-	public String doAddNote(HttpServletRequest request, HttpSession httpSession,
+	public String doAddNote(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
@@ -109,8 +108,7 @@ public class NotesController {
 	 */
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.GET)
 	public String showEditPage(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, NoteForm form, Model model,
-			HttpSession httpSession) {
+			@PathVariable("username") String username, NoteForm form, Model model) {
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
 
 		// Prevent unauthrised access / extend session
@@ -134,8 +132,7 @@ public class NotesController {
 	 */
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.POST)
 	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, NoteForm form, Model model,
-			HttpSession httpSession) {
+			@PathVariable("username") String username, NoteForm form, Model model) {
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
 		if (!this.authsvc.validateSession(token, username))
@@ -163,7 +160,7 @@ public class NotesController {
 	 * @return todo.html
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.DELETE)
-	public String doDeleteNote(HttpServletRequest request, HttpSession httpSession,
+	public String doDeleteNote(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 

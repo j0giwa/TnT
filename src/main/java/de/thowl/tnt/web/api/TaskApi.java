@@ -33,7 +33,7 @@ import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.TaskRepository;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.api.forms.Task;
+import de.thowl.tnt.web.api.shemas.Task;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
