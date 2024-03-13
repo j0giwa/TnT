@@ -3,8 +3,9 @@ package de.thowl.tnt.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
@@ -19,7 +20,7 @@ public class Calendarcontroller {
 	@Autowired
 	private AuthenticationService authsvc;
 
-	@GetMapping("/u/{username}/calendar")
+	@RequestMapping(value = "/u/{username}/calendar", method = RequestMethod.GET)
 	public String showCalendarPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");

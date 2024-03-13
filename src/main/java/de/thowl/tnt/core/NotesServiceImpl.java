@@ -143,6 +143,28 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Note getNote(long id, String username) {
+
+		log.debug("entering getNote");
+
+		Note note;
+		User user;
+
+		note = this.notes.findById(id);
+		user = this.users.findByUsername(username);
+
+		if (user.getId() == note.getUser().getId()) {
+			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+			return note;
+		}
+
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public List<Note> getAllNotes(String username) {
 		log.debug("entering getAllNotes");
 
@@ -228,17 +250,21 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id) {
+	public void delete(long id, String username) {
 
 		log.debug("entering delete");
 
 		Note note;
+		User user;
 
 		note = this.notes.findById(id);
+		user = this.users.findByUsername(username);
 
 		if (null != note) {
-			log.info("deleting task id: {}", id);
-			this.notes.delete(note);
+			if (user.getId() == note.getUser().getId()) {
+				log.info("deleting task id: {}", id);
+				this.notes.delete(note);
+			}
 		}
 	}
 

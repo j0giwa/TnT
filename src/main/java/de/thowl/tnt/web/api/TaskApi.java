@@ -21,11 +21,9 @@ package de.thowl.tnt.web.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +31,7 @@ import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.TaskRepository;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.api.shemas.Task;
+import de.thowl.tnt.web.api.schema.Task;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -70,9 +68,8 @@ public class TaskApi {
 			@ApiResponse(responseCode = "200", description = "Task as json", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised api token", content = @Content)
 	})
-	@GetMapping("/get")
-	public ResponseEntity<Object> getTask(
-			@Parameter(description = "Your api token") @RequestParam String apiToken,
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public ResponseEntity<Object> getTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
 		log.info("entering getTask (GET-Method: /api/task/get)");
 
@@ -96,18 +93,20 @@ public class TaskApi {
 			@ApiResponse(responseCode = "200", description = "Success", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised or missing token", content = @Content)
 	})
-	@PostMapping("/add")
-	public ResponseEntity<String> addTask(
-			@Parameter(description = "Your api token") @RequestParam String apiToken,
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ResponseEntity<String> addTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody Task task) {
 		log.info("entering addTask (POST-Method: /api/task/add)");
 
-		User user = users.findByApiToken(apiToken);
+		String username;
+		User user;
+
+		user = users.findByApiToken(apiToken);
 
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		String username = user.getUsername();
+		username = user.getUsername();
 
 		this.tasksvc.add(username, task.getTaskName(), task.getTaskContent(), task.getPriority(),
 				task.getDate(), task.getTime());
@@ -116,7 +115,7 @@ public class TaskApi {
 	}
 
 	/**
-	 * Marks a task as done
+	 * Switches the status of a task
 	 * 
 	 * @param apiToken The apitoken of the user.
 	 * @param id       The id of the task.
@@ -124,21 +123,28 @@ public class TaskApi {
 	 * @return {@code 200} when the task was marked as done,
 	 *         {@code 403} when the requesting user fails to authenticate
 	 */
-	@Operation(summary = "Marks a task as done")
+	@Operation(summary = "Switches the status of a task")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "success", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised", content = @Content)
 	})
-	@PostMapping("/done")
+	@RequestMapping(value = "/done", method = RequestMethod.PATCH)
 	public ResponseEntity<String> markTaskDone(
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
 		log.info("entering markTaskDone (POST-Method: /api/task/done)");
 
-		if (users.findByApiToken(apiToken) == null)
+		String username;
+		User user;
+
+		user = users.findByApiToken(apiToken);
+
+		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		this.tasksvc.toggleDone(id);
+		username = user.getUsername();
+
+		this.tasksvc.toggleDone(id, username);
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
@@ -157,16 +163,23 @@ public class TaskApi {
 			@ApiResponse(responseCode = "200", description = "success", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised", content = @Content)
 	})
-	@DeleteMapping("/delete")
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteTask(
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
 		log.info("entering deleteTask (DELETE-Method: /api/task/delete)");
 
-		if (users.findByApiToken(apiToken) == null)
+		String username;
+		User user;
+
+		user = users.findByApiToken(apiToken);
+
+		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		this.tasksvc.delete(id);
+		username = user.getUsername();
+
+		this.tasksvc.delete(id, username);
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}

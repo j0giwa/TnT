@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.thowl.tnt.web.api.shemas;
+package de.thowl.tnt.web.api.schema;
 
 import java.util.Date;
 

@@ -43,6 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 @ActiveProfiles("test")
 public class TestTaskService {
 
+	private final String USERNAME = "Tasktester";
+
 	@Autowired
 	private TaskService tasksvc;
 
@@ -56,10 +58,10 @@ public class TestTaskService {
 	void testToggleDone() {
 		log.info("entering test testToggleDone");
 
-		this.tasksvc.toggleDone(1);
+		this.tasksvc.toggleDone(1, USERNAME);
 		assertTrue(this.tasks.findById(1).isDone(), "This should be true");
 
-		this.tasksvc.toggleDone(1);
+		this.tasksvc.toggleDone(1, USERNAME);
 		assertFalse(this.tasks.findById(1).isDone(), "This should be false");
 	}
 
@@ -70,7 +72,7 @@ public class TestTaskService {
 		long taskAmount;
 
 		taskAmount = this.tasks.count();
-		this.tasksvc.add("Tasktester", "Test Task", "Task Content", "High", new Date(), new Date());
+		this.tasksvc.add(USERNAME, "Test Task", "Task Content", "High", new Date(), new Date());
 		assertEquals(taskAmount + 1, this.tasks.count());
 	}
 
@@ -81,7 +83,7 @@ public class TestTaskService {
 		long taskAmount;
 
 		taskAmount = this.tasks.count();
-		this.tasksvc.delete(1);
+		this.tasksvc.delete(1, USERNAME);
 		assertEquals(taskAmount - 1, this.tasks.count());
 	}
 
@@ -93,9 +95,9 @@ public class TestTaskService {
 		List<Task> tasks;
 		List<Task> result;
 
-		user = this.users.findByUsername("Tasktester");
+		user = this.users.findByUsername(USERNAME);
 		tasks = this.tasks.findByUser(user);
-		result = this.tasksvc.getAllTasks("Tasktester");
+		result = this.tasksvc.getAllTasks(USERNAME);
 
 		assertEquals(tasks.size(), result.size(), "These should be the same size");
 	}
