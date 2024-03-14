@@ -15,13 +15,12 @@ import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @SessionAttributes("notes")
-public class DashBoardcontroller {
+public class DashboardController {
 
 	@Autowired
 	private AuthenticationService authsvc;
@@ -33,7 +32,7 @@ public class DashBoardcontroller {
 	private TaskService tasksvc;
 
 	@RequestMapping(value = "/u/{username}/", method = RequestMethod.GET)
-	public String showNotePage(HttpServletRequest request, HttpSession httpSession,
+	public String showNotePage(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 

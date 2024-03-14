@@ -41,12 +41,13 @@ public class ShareController {
 	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
 	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
 
+		log.info("entering showSharePage (GET-Method: /share)");
+
 		long id;
 		Note note;
 
-		log.info("entering showSharePage (GET-Method: /share)");
-
 		id = this.notesvc.getSharedNote(uuid).getNote().getId();
+
 		note = this.notesvc.getNote(id);
 
 		model.addAttribute("note", note);

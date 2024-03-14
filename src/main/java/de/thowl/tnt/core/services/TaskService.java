@@ -43,16 +43,22 @@ public interface TaskService {
 	/**
 	 * Marks a {@link Task} as done.
 	 * 
-	 * @param id id of the {@link Task}
+	 * @param id       id of the {@link Task}
+	 * @param username The name of the {@link User} to verify ownership
 	 */
+<<<<<<< HEAD
 	public void toggleDone(long id);
+=======
+	public void toggleDone(long id, String username);
+>>>>>>> master
 
 	/**
 	 * Deletes a {@link Task} from the Database.
 	 * 
-	 * @param id id of the {@link Task}
+	 * @param id       id of the {@link Task}
+	 * @param username The name of the {@link User} to verify ownership
 	 */
-	public void delete(long id);
+	public void delete(long id, String username);
 
 	/**
 	 * Gets all {@link Task} created by a specific {@link User}

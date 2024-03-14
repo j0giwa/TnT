@@ -138,35 +138,46 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void toggleDone(long id) {
+	public void toggleDone(long id, String username) {
 
+		User user;
 		Task task;
 
 		log.debug("entering add");
 
+		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
 
-		log.info("switching state of task id: {}", id);
-		task.setDone(!task.isDone());
+		if (null != task) {
+			if (user.getId() == task.getUser().getId()) {
+				log.info("switching state of task id: {}", id);
+				task.setDone(!task.isDone());
 
-		this.tasks.save(task);
+				this.tasks.save(task);
+			}
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id) {
+	public void delete(long id, String username) {
 
+		User user;
 		Task task;
 
 		log.debug("entering delete");
 
+		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
 
 		if (null != task) {
-			log.info("deleting task id: {}", id);
-			this.tasks.delete(task);
+
+			if (user.getId() == task.getUser().getId()) {
+				log.info("deleting task id: {}", id);
+				this.tasks.delete(task);
+			}
 		}
 	}
 
@@ -187,6 +198,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> getAllOverdueTasks(String username) {
+
 		User user;
 
 		log.debug("entering getAllOverdueTasks");

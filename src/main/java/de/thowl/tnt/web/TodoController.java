@@ -32,7 +32,6 @@ import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.TaskForm;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -72,7 +71,7 @@ public class TodoController {
 	 * @return todo.html
 	 */
 	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.POST)
-	public String doAddTask(HttpServletRequest request, HttpSession httpSession,
+	public String doAddTask(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
@@ -97,7 +96,7 @@ public class TodoController {
 	 * @return todo.html
 	 */
 	@RequestMapping(value = "/u/{username}/todo/done", method = RequestMethod.POST)
-	public String doMarkAsDone(HttpServletRequest request, HttpSession httpSession,
+	public String doMarkAsDone(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
@@ -109,7 +108,11 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+<<<<<<< HEAD
 		this.tasksvc.toggleDone(form.getId());
+=======
+		this.tasksvc.toggleDone(form.getId(), username);
+>>>>>>> master
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
@@ -121,7 +124,7 @@ public class TodoController {
 	 * @return todo.html
 	 */
 	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.DELETE)
-	public String doDeleteTask(HttpServletRequest request, HttpSession httpSession,
+	public String doDeleteTask(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
@@ -133,7 +136,7 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.delete(form.getId());
+		this.tasksvc.delete(form.getId(), username);
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
