@@ -63,8 +63,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_COST);
 
-	private String currentUsername;
-
 	/**
 	 * Deletes rouge(incative) sessions
 	 * 
@@ -174,7 +172,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			log.error("a session could not be found");
 			return false;
 		}
-
+		//String test = session.getAuthToken();
+		//users.findByApiToken(test);
 		user = users.findByUsername(username);
 		if (user == null) {
 			log.error("user: {} could not be found", username);
@@ -272,9 +271,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
 
-		//current User
-		currentUsername = user.getUsername();
-		log.info("Current Username: " + currentUsername);
 
 		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
@@ -314,15 +310,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		throw new InvalidCredentialsException("Wrong Password");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-    public User getCurrentUser() {
-		User currentUser = users.findByUsername(currentUsername);
-		log.info("Aktuelle Benutzer " + currentUser);
-		return currentUser;
-    }
 
 	/**
 	 * {@inheritDoc}
@@ -330,12 +317,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public void updateUser (User updUser) {
 
-        //update the userobject in database
+        //update the user object in database
         User existingUser = users.findById(updUser.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
         existingUser.setUsername(updUser.getUsername());
         existingUser.setEmail(updUser.getEmail());
         existingUser.setFirstname(updUser.getFirstname());
         existingUser.setLastname(updUser.getLastname());
+
 
 
         users.save(existingUser); //Save the changes in the database

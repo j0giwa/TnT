@@ -113,13 +113,6 @@ public interface AuthenticationService {
 	public void logout(String token);
 
 	/**
-	 * Give the currentUser from the Database, that are actually logged in {@link User} .
-	 * 
-	 * @param CurrentUsername The current Username of the active User.
-	 */
-	User getCurrentUser();
-
-	/**
 	 * Update the userinformation  {@link User} in the Database.
 	 * 
 	 * @param updateUser .

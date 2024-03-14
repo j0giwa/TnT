@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
+import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
@@ -20,6 +21,9 @@ public class ProfileController {
 
     @Autowired
     private AuthenticationService authsvc;
+
+    @Autowired
+    private UserRepository uRepository;
 
     /**
 	 * Shows the profile page
@@ -33,7 +37,7 @@ public class ProfileController {
 		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
         
         //Profildetails
-        User user = authsvc.getCurrentUser();
+        User user = uRepository.findByUsername(username);
         log.info("User details " + user);
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -47,10 +51,10 @@ public class ProfileController {
    
     @RequestMapping(value = "/u/{username}/profile", method = RequestMethod.POST)
     public String updateProfile(User updatUser) {
-
+        
         //Reload Userprofil
         authsvc.updateUser(updatUser);
-
+        log.info("try user to update ");
         return "redirect:/profile";
     }
     
