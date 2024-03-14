@@ -8,20 +8,13 @@ import lombok.Data;
 public class NoteForm {
 
 	private long id;
-
 	private String title;
 	private String subtitle;
-
 	private String content;
-
 	private MultipartFile file;
-
 	private String type;
-
 	private String kategory;
-
 	private String tags;
-
 	private String query;
 
 }

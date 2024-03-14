@@ -11,15 +11,19 @@
                 <p class="m-0 fw-bold text-success" th:text="#{usersettings}">User Settings</p>
             </div>
             <div class="card-body">
-                <form>
+                <form th:action="@{'/u/' + ${username} + '/profile'}" method="POST">
                     <div class="row" style="margin-bottom: 25px;text-align: left;">
-                        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 col-xxl-2" style="display: inline;text-align: center;margin-bottom: 25px;">
+                        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 col-xxl-2"
+                            style="display: inline;text-align: center;margin-bottom: 25px;">
                             <div class="avatar">
                                 <div class="avatar-bg center"></div>
                             </div>
-                            <input class="form-control" type="file" name="avatar-file"/>
-                            <br><button class="btn btn-primary btn-sm" id="photoBtn" type="button" style="background: rgb(5,150,105);border-style: none;">
-                                Change Photo</button>
+                            <input class="form-control" type="file" name="avatar-file" />
+                            <br>
+                            <button class="btn btn-primary btn-sm" id="photoBtn" type="file" name="avatar-file"
+                                style="background: rgb(5,150,105);border-style: none;">
+                                Change Photo
+                            </button>
                         </div>
                         <div class="col-sm-8 col-md-8 col-lg-9 col-xl-10 col-xxl-10 align-self-center">
                             <div class="row">
@@ -28,15 +32,17 @@
                                         <label class="form-label" for="email">
                                             <strong>Email Address</strong>
                                         </label>
-                                        <input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" required="">
+                                        <input class="form-control" type="email" id="email" name="email"
+                                            th:value="${user.email}" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-start">
                                     <div class="mb-3">
                                         <label class="form-label" for="username">
-                                            <strong>Username</strong>
+                                            <strong th:text="#{username}"></strong>
                                         </label>
-                                        <input class="form-control" type="text" placeholder="Username" name="username" required="">
+                                        <input class="form-control" type="text" name="username"
+                                            th:value="${user.username}" required="">
                                     </div>
                                 </div>
                             </div>
@@ -44,27 +50,30 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="first_name">
-                                    <strong>First Name</strong>
+                                    <strong th:text="#{first_name}">first_name</strong>
                                 </label>
-                                <input class="form-control" type="text" placeholder="John" name="first_name" required="">
+                                <input class="form-control" type="text" name="firstname" th:value="${user.firstname}"
+                                    required="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="last_name">
-                                    <strong>Last Name</strong>
+                                    <strong th:text="#{last_name}">last_name</strong>
                                 </label>
-                                <input class="form-control" type="text" placeholder="Doe" name="last_name" required="">
+                                <input class="form-control" type="text" name="lastname" th:value="${user.lastname}"
+                                    required="">
                             </div>
                         </div>
                         <div class="col-md-6 text-start">
                             <label class="form-label" for="username">
-                                <stron>Password</strong>
+                                <strong th:text="#{password}">password</strong>
                             </label>
                             <div class="form-group position-relative">
-                                <input class="form-control pword" type="password" id="password" name="password" style="padding-right: 40px"
-                                    th:placeholder="#{password}" data-bs-toggle="tooltip" required/>
-                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility1()">
+                                <input class="form-control pword" type="password" id="password" name="password"
+                                    style="padding-right: 40px" th:placeholder="#{password}" data-bs-toggle="tooltip" required/>
+                                <div class="d-flex align-items-center position-absolute eye_control"
+                                    onclick="passwordVisibility1()">
                                     <i class="far fa-eye" id="show1"></i>
                                     <i class="far fa-eye-slash" id="hide1"></i>
                                 </div>
@@ -72,12 +81,13 @@
                         </div>
                         <div class="col-md-6 text-start">
                             <label class="form-label" for="username">
-                                <strong>Confirm Password</strong>
+                                <strong th:text="#{password2}">password2</strong>
                             </label>
                             <div class="form-group position-relative">
                                 <input class="form-control" type="password" id="password2" name="password2"
-                                    style="padding-right: 40px" th:placeholder="#{password2}" required />
-                                <div class="d-flex align-items-center position-absolute eye_control" onclick="passwordVisibility2()">
+                                    style="padding-right: 40px" th:placeholder="#{password2}" required/>
+                                <div class="d-flex align-items-center position-absolute eye_control"
+                                    onclick="passwordVisibility2()">
                                     <i class="far fa-eye" id="show2"></i>
                                     <i class="far fa-eye-slash" id="hide2"></i>
                                 </div>
@@ -88,17 +98,19 @@
                             <p id="passwordErrorMsg" class="text-danger" style="display:none;"></p>
                         </div>
                         <div class="col-md-12" style="text-align: right;margin-top: 5px;">
-                            <button class="btn btn-primary btn-sm" id="submitBtn" type="submit" style="background: rgb(5,150,105);border-style: none;">Save Settings</button>
+                            <button class="btn btn-primary btn-sm" id="submitBtn" type="submit"
+                                style="background: rgb(5,150,105);border-style: none;" th:text="#{savesettings}">Save
+                                Settings</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/passwd.js"></script>
-    <script src="js/jquery-v3.2.1.min.js"></script>
-    <script src="js/Profile-Edit-Form-profile.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/passwd.js"></script>
+    <script src="/js/jquery-v3.2.1.min.js"></script>
+    <script src="/js/Profile-Edit-Form-profile.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
     <script src="https://geodata.solutions/includes/countrystate.js"></script>
 </body>

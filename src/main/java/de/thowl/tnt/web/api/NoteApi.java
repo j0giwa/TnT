@@ -54,12 +54,13 @@ public class NoteApi {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ResponseEntity<String> addNote(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody NoteSchema note) {
-		log.info("entering addNote (POST-Method: /api/note/add)");
 
 		String username;
 		User user;
 		byte[] fileContent;
 		String mimeType;
+
+		log.info("entering addNote (POST-Method: /api/note/add)");
 
 		user = users.findByApiToken(apiToken);
 
@@ -99,11 +100,12 @@ public class NoteApi {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Object> getNote(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the note") @RequestParam long id) {
-		log.info("entering getNote (GET-Method: /api/note/get)");
 
 		String username;
 		User user;
 		Note note;
+
+		log.info("entering getNote (GET-Method: /api/note/get)");
 
 		user = users.findByApiToken(apiToken);
 		if (user == null)
@@ -135,11 +137,12 @@ public class NoteApi {
 	@RequestMapping(value = "/getall", method = RequestMethod.GET)
 	public ResponseEntity<Object> getAllNotes(
 			@Parameter(description = "Your api token") @RequestParam String apiToken) {
-		log.info("entering getAllNotes (GET-Method: /api/note/getall)");
 
 		String username;
 		User user;
 		List<Note> notes;
+
+		log.info("entering getAllNotes (GET-Method: /api/note/getall)");
 
 		user = users.findByApiToken(apiToken);
 		if (user == null)

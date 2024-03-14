@@ -71,6 +71,7 @@ public class TaskApi {
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Object> getTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
+
 		log.info("entering getTask (GET-Method: /api/task/get)");
 
 		if (users.findByApiToken(apiToken) == null)
@@ -96,10 +97,11 @@ public class TaskApi {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ResponseEntity<String> addTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody TaskSchema task) {
-		log.info("entering addTask (POST-Method: /api/task/add)");
 
 		String username;
 		User user;
+
+		log.info("entering addTask (POST-Method: /api/task/add)");
 
 		user = users.findByApiToken(apiToken);
 
@@ -132,10 +134,11 @@ public class TaskApi {
 	public ResponseEntity<String> markTaskDone(
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
-		log.info("entering markTaskDone (POST-Method: /api/task/done)");
 
 		String username;
 		User user;
+
+		log.info("entering markTaskDone (POST-Method: /api/task/done)");
 
 		user = users.findByApiToken(apiToken);
 
@@ -167,10 +170,11 @@ public class TaskApi {
 	public ResponseEntity<String> deleteTask(
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
-		log.info("entering deleteTask (DELETE-Method: /api/task/delete)");
 
 		String username;
 		User user;
+
+		log.info("entering deleteTask (DELETE-Method: /api/task/delete)");
 
 		user = users.findByApiToken(apiToken);
 

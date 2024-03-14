@@ -52,6 +52,7 @@ public class TodoController {
 	@RequestMapping(value = "/u/{username}/todo", method = RequestMethod.GET)
 	public String showTodoPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
+
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
 		// Prevent unauthrised access / extend session
@@ -74,9 +75,9 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
-		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
+		String referer;
 
-		String referer = request.getHeader("Referer");
+		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -85,6 +86,7 @@ public class TodoController {
 		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
 				form.getDate(), form.getTime());
 
+		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
 
@@ -98,9 +100,9 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
-		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
+		String referer;
 
-		String referer = request.getHeader("Referer");
+		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -108,6 +110,7 @@ public class TodoController {
 
 		this.tasksvc.toggleDone(form.getId(), username);
 
+		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
 
@@ -121,9 +124,9 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
-		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
+		String referer;
 
-		String referer = request.getHeader("Referer");
+		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -131,6 +134,7 @@ public class TodoController {
 
 		this.tasksvc.delete(form.getId(), username);
 
+		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
 

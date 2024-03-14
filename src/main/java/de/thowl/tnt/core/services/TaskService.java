@@ -46,7 +46,11 @@ public interface TaskService {
 	 * @param id       id of the {@link Task}
 	 * @param username The name of the {@link User} to verify ownership
 	 */
+<<<<<<< HEAD
+	public void toggleDone(long id);
+=======
 	public void toggleDone(long id, String username);
+>>>>>>> master
 
 	/**
 	 * Deletes a {@link Task} from the Database.

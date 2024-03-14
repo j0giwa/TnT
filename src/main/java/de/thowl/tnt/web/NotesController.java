@@ -77,9 +77,9 @@ public class NotesController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
-		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
+		String referer;
 
-		String referer = request.getHeader("Referer");
+		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -98,6 +98,7 @@ public class NotesController {
 		this.notessvc.addNote(username, form.getTitle(), form.getSubtitle(), form.getContent(),
 				fileContent, mimeType, form.getKategory(), form.getTags());
 
+		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
 
@@ -109,13 +110,16 @@ public class NotesController {
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.GET)
 	public String showEditPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
+
+		Note note;
+
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		Note note = this.notessvc.getNote(form.getId(), username);
+		note = this.notessvc.getNote(form.getId(), username);
 
 		model.addAttribute("editing", true);
 		model.addAttribute("noteTitle", note.getName());
@@ -133,13 +137,18 @@ public class NotesController {
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.POST)
 	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
+
+		byte[] fileContent;
+		String mimeType;
+
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		byte[] fileContent = null;
-		String mimeType = "text/markdown";
+		// Fallback values in case no file was uploaded.
+		fileContent = null;
+		mimeType = "application/octet-stream";
 
 		try {
 			fileContent = form.getFile().getBytes();
@@ -164,9 +173,9 @@ public class NotesController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
-		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
+		String referer;
 
-		String referer = request.getHeader("Referer");
+		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -174,6 +183,7 @@ public class NotesController {
 
 		this.notessvc.delete(form.getId(), username);
 
+		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
 }

@@ -20,6 +20,7 @@ package de.thowl.tnt.core.services;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.NullUserException;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Session;
 import de.thowl.tnt.storage.entities.User;
@@ -112,4 +113,19 @@ public interface AuthenticationService {
 	 */
 	public void logout(String token);
 
+	/**
+	 * Update the userinformation {@link User} in the Database.
+	 * 
+	 * @param id        The id of the {@link User} to edit.
+	 * @param firstname The new first name of the {@link User}.
+	 * @param lastname  The new last name of the {@link User}.
+	 * @param username  The new username of the {@link User}.
+	 * @param email     The new E-Mail address of the {@link User}.
+	 * @param password  The new password of the {@link User}.
+	 * 
+	 * @throws NullUserException when the given id does not belong to an existing
+	 *                           {@link User}.
+	 */
+	void updateUser(long id, String firstname, String lastname, String username, String email, String password)
+			throws NullUserException;
 }

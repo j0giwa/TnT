@@ -34,6 +34,8 @@ function passwordVisibility1(){
 
 }
 
+
+
 function passwordVisibility2(){
     var x = document.getElementById("password2");
     var y = document.getElementById("show2");

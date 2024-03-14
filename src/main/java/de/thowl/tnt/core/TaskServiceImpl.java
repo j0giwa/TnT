@@ -57,10 +57,10 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void flagTasksAsOverdue() {
 
-		log.debug("entering flagTasksAsOverdue");
-
 		Date now;
 		List<Task> tasks;
+
+		log.debug("entering flagTasksAsOverdue");
 
 		now = new Date();
 		tasks = this.tasks.findByDueDateAndTimeBefore(now, now);
@@ -81,9 +81,9 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void cleanupDoneTasks() {
 
-		log.debug("entering cleanupDoneTasks");
-
 		List<Task> doneTasks;
+
+		log.debug("entering cleanupDoneTasks");
 
 		doneTasks = this.tasks.findByDone(true);
 
@@ -112,10 +112,10 @@ public class TaskServiceImpl implements TaskService {
 	public void add(String username, String name, String content,
 			String priority, Date dueDate, Date time) {
 
-		log.debug("entering add");
-
 		User user;
 		Task task;
+
+		log.debug("entering add");
 
 		user = users.findByUsername(username);
 		task = Task.builder()
@@ -140,10 +140,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void toggleDone(long id, String username) {
 
-		log.debug("entering add");
-
 		User user;
 		Task task;
+
+		log.debug("entering add");
 
 		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
@@ -164,10 +164,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void delete(long id, String username) {
 
-		log.debug("entering delete");
-
 		User user;
 		Task task;
+
+		log.debug("entering delete");
 
 		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
@@ -187,9 +187,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllTasks(String username) {
 
-		log.debug("entering getAllTasks");
-
 		User user;
+
+		log.debug("entering getAllTasks");
 
 		user = users.findByUsername(username);
 
@@ -199,9 +199,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllOverdueTasks(String username) {
 
-		log.debug("entering getAllOverdueTasks");
-
 		User user;
+
+		log.debug("entering getAllOverdueTasks");
 
 		user = users.findByUsername(username);
 

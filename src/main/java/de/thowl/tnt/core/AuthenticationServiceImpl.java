@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.NullUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.GroupRepository;
 import de.thowl.tnt.storage.SessionRepository;
@@ -71,10 +72,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Scheduled(fixedRate = 60000)
 	public void cleanupExpiredSessions() {
 
-		log.debug("entering cleanupExpiredSessions");
-
 		Date now;
 		List<Session> expired;
+
+		log.debug("entering cleanupExpiredSessions");
 
 		now = new Date();
 		expired = sessions.findByExpiresAtBefore(now);
@@ -91,17 +92,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean validateEmail(String email) {
 
-		log.debug("entering validateEmail");
-
 		String regex;
 		boolean result;
+
+		log.debug("entering validateEmail");
 
 		if (null == email)
 			return false;
 
 		// Source https://ihateregex.io/expr/email/
 		regex = "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+";
-		
+
 		result = email.matches(regex);
 
 		log.debug("validateEmail(email: {}) returned: {}", email, result);
@@ -114,10 +115,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean validatePassword(String password) {
 
-		log.debug("entering validatePassword");
-
 		String regex;
 		boolean result;
+
+		log.debug("entering validatePassword");
 
 		if (null == password)
 			return false;
@@ -137,7 +138,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @param session The session to refresh
 	 */
 	private void refreshSession(Session session) {
-		
+
 		Calendar calendar;
 		Date expiryTime;
 
@@ -156,11 +157,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public boolean validateSession(AccessToken token, String username) {
 
-		log.debug("entering validateSession");
-
 		Session session;
 		User user = users.findByUsername(username);
 		boolean result;
+
+		log.debug("entering validateSession");
 
 		if (token == null) {
 			log.error("token was null");
@@ -195,9 +196,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public void register(String firstname, String lastname, String username,
 			String email, String password) throws DuplicateUserException {
 
-		log.debug("entering register");
-
 		User usr;
+
+		log.debug("entering register");
 
 		if (this.users.findByEmail(email) != null)
 			throw new DuplicateUserException("A User with this Email already exists");
@@ -226,21 +227,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	private boolean checkPassword(User user, String password) {
 
-		log.debug("entering checkPassword");
-	
 		String bHash;
 		boolean result;
+
+		log.debug("entering checkPassword");
 
 		if (null == password || password.isBlank())
 			return false;
 
 		bHash = user.getPassword();
-
 		log.debug("Comparing Form-password with BCrypt-hash");
 		result = encoder.matches(password, bHash);
 
 		log.debug("checkPassword(user: {}, password: {}) returned: {}", user.toString(), password, result);
-
 		return result;
 	}
 
@@ -252,12 +251,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	private AccessToken createSession(User user) {
 
-		log.debug("entering createSession");
-
 		AccessToken token;
 		UUID uuid;
 		Calendar calendar;
 		Date expiryTime;
+
+		log.debug("entering createSession");
 
 		calendar = Calendar.getInstance();
 		calendar.add(Calendar.MINUTE, 30);
@@ -283,9 +282,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public AccessToken login(String email, String password) throws InvalidCredentialsException {
 
-		log.debug("entering login");
-
 		User user;
+
+		log.debug("entering login");
 
 		if (email == null || password == null) {
 			log.error("One or more params were left empty");
@@ -312,12 +311,36 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void updateUser(long id, String firstname, String lastname, String username,
+			String email, String password) throws NullUserException {
+
+		User user;
+
+		log.debug("entering updateUser");
+
+		user = users.findById(id).orElseThrow(() -> new NullUserException("User not found"));
+
+		// update the user object in database
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setFirstname(firstname);
+		user.setLastname(lastname);
+		user.setPassword(encoder.encode(password));
+
+		this.users.save(user);
+		log.info("udated userdata of user id: {}", id);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void logout(String token) {
 
 		log.debug("entering logout");
 
 		Session session;
-		
+
 		session = this.sessions.findByAuthToken(token);
 
 		log.info("user with id: {} logged out", session.getUserId());

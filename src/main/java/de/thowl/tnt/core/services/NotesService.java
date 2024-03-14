@@ -21,6 +21,7 @@ package de.thowl.tnt.core.services;
 import java.util.List;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.SharedNote;
 import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 
@@ -107,5 +108,9 @@ public interface NotesService {
 	 * @param username The name of the {@link User} to verify ownership
 	 */
 	public void delete(long id, String username);
+
+	public void toggleSharing(long noteId);
+
+	public SharedNote getSharedNote(String id);
 
 }
