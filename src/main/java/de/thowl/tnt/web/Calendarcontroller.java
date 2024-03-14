@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class Calendarcontroller {
+public class CalendarController {
 
 	@Autowired
 	private AuthenticationService authsvc;

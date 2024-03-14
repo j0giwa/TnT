@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class Task {
+public class TaskSchema {
 
 	private String taskName;
 	private String taskContent;

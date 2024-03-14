@@ -31,7 +31,7 @@ import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.TaskRepository;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.api.schema.Task;
+import de.thowl.tnt.web.api.schema.TaskSchema;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -95,7 +95,7 @@ public class TaskApi {
 	})
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ResponseEntity<String> addTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
-			@RequestBody Task task) {
+			@RequestBody TaskSchema task) {
 		log.info("entering addTask (POST-Method: /api/task/add)");
 
 		String username;
