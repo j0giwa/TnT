@@ -43,12 +43,14 @@ public class RegisterController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegisterPage() {
+
 		log.info("entering showRegisterPage (GET-Method: /register)");
 		return "register";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(RegisterForm form, Model model) {
+
 		log.info("entering doRegister (POST-Method: /register)");
 
 		if (!authsvc.validateEmail(form.getEmail()))

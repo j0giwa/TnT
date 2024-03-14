@@ -36,10 +36,9 @@ public class ProfileController {
 	public String showProfilePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
-		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
-
-		// Profildetails
 		User user;
+
+		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -54,11 +53,10 @@ public class ProfileController {
 	@RequestMapping(value = "/u/{username}/profile", method = RequestMethod.POST)
 	public String updateProfile(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, RegisterForm form, Model model) {
-		log.info("entering updateProfile (PSOT-Method: /u/{username}/profile)");
 
 		User user;
 
-		log.info(username);
+		log.info("entering updateProfile (PSOT-Method: /u/{username}/profile)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
@@ -67,7 +65,7 @@ public class ProfileController {
 		user = this.users.findByUsername(username);
 
 		// Reload Userprofil
-        if (!authsvc.validateEmail(form.getEmail()))
+		if (!authsvc.validateEmail(form.getEmail()))
 			model.addAttribute("error", "email_error");
 
 		if (!authsvc.validatePassword(form.getPassword()))

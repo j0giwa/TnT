@@ -34,10 +34,10 @@ public class SearchController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
-		log.info("entering showNotePage (GET-Method: /notes)");
-
 		String query, referer;
 		NoteKategory kategory;
+
+		log.info("entering showNotePage (GET-Method: /notes)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))

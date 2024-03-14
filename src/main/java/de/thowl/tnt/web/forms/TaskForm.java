@@ -30,6 +30,7 @@ public class TaskForm {
 	private long id;
 
 	private String taskName;
+
 	private String taskContent;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -50,6 +50,7 @@ public class AuthController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
+
 		log.info("entering showLoginPage (GET-Method: /login)");
 		return "login";
 	}
@@ -61,11 +62,12 @@ public class AuthController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
-		log.info("entering doLogin (POST-Method: /login)");
 
 		AccessToken token;
 		String email = form.getEmail();
 		String password = form.getPassword();
+
+		log.info("entering doLogin (POST-Method: /login)");
 
 		try {
 			token = authsvc.login(email, password);

@@ -57,10 +57,10 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void flagTasksAsOverdue() {
 
-		log.debug("entering flagTasksAsOverdue");
-
 		Date now;
 		List<Task> tasks;
+
+		log.debug("entering flagTasksAsOverdue");
 
 		now = new Date();
 		tasks = this.tasks.findByDueDateAndTimeBefore(now, now);
@@ -81,9 +81,9 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void cleanupDoneTasks() {
 
-		log.debug("entering cleanupDoneTasks");
-
 		List<Task> doneTasks;
+
+		log.debug("entering cleanupDoneTasks");
 
 		doneTasks = this.tasks.findByDone(true);
 
@@ -112,10 +112,10 @@ public class TaskServiceImpl implements TaskService {
 	public void add(String username, String name, String content,
 			String priority, Date dueDate, Date time) {
 
-		log.debug("entering add");
-
 		User user;
 		Task task;
+
+		log.debug("entering add");
 
 		user = users.findByUsername(username);
 		task = Task.builder()
@@ -140,9 +140,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void toggleDone(long id) {
 
-		log.debug("entering add");
-
 		Task task;
+
+		log.debug("entering add");
 
 		task = this.tasks.findById(id);
 
@@ -158,9 +158,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void delete(long id) {
 
-		log.debug("entering delete");
-
 		Task task;
+
+		log.debug("entering delete");
 
 		task = this.tasks.findById(id);
 
@@ -176,9 +176,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllTasks(String username) {
 
-		log.debug("entering getAllTasks");
-
 		User user;
+
+		log.debug("entering getAllTasks");
 
 		user = users.findByUsername(username);
 
@@ -187,10 +187,9 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> getAllOverdueTasks(String username) {
+		User user;
 
 		log.debug("entering getAllOverdueTasks");
-
-		User user;
 
 		user = users.findByUsername(username);
 

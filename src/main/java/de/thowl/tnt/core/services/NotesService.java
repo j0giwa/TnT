@@ -21,6 +21,7 @@ package de.thowl.tnt.core.services;
 import java.util.List;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.SharedNote;
 import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 
@@ -74,5 +75,9 @@ public interface NotesService {
 	 * @param id id of the {@link Task}
 	 */
 	public void delete(long id);
+
+	public void toggleSharing(long noteId);
+
+	public SharedNote getSharedNote(String id);
 
 }

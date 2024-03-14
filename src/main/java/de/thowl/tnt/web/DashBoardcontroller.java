@@ -36,6 +36,7 @@ public class DashBoardcontroller {
 	public String showNotePage(HttpServletRequest request, HttpSession httpSession,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
+
 		log.info("entering showNotePage (GET-Method: /notes)");
 
 		// Prevent unauthrised access / extend session

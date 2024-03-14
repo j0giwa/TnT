@@ -22,6 +22,7 @@ public class Calendarcontroller {
 	@GetMapping("/u/{username}/calendar")
 	public String showCalendarPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
+
 		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
 
 		// Prevent unauthrised access / extend session
