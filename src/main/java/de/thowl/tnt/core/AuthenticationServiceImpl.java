@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import de.thowl.tnt.core.exceptions.DuplicateUserException;
 import de.thowl.tnt.core.exceptions.InvalidCredentialsException;
+import de.thowl.tnt.core.exceptions.NullUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.GroupRepository;
 import de.thowl.tnt.storage.SessionRepository;
@@ -101,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		// Source https://ihateregex.io/expr/email/
 		regex = "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+";
-		
+
 		result = email.matches(regex);
 
 		log.debug("validateEmail(email: {}) returned: {}", email, result);
@@ -137,7 +138,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @param session The session to refresh
 	 */
 	private void refreshSession(Session session) {
-		
+
 		Calendar calendar;
 		Date expiryTime;
 
@@ -172,8 +173,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			log.error("a session could not be found");
 			return false;
 		}
-		//String test = session.getAuthToken();
-		//users.findByApiToken(test);
+		// String test = session.getAuthToken();
+		// users.findByApiToken(test);
 		user = users.findByUsername(username);
 		if (user == null) {
 			log.error("user: {} could not be found", username);
@@ -228,7 +229,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private boolean checkPassword(User user, String password) {
 
 		log.debug("entering checkPassword");
-	
+
 		String bHash;
 		boolean result;
 
@@ -271,7 +272,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		token.setUserId(user.getId());
 		token.setLastActive(new Date());
 
-
 		this.sessions.save(new Session(token.getUsid(), user, expiryTime));
 
 		log.debug("createSession returned: {}", token.toString());
@@ -310,25 +310,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		throw new InvalidCredentialsException("Wrong Password");
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
-    @Override
-    public void updateUser (User updUser) {
+	@Override
+	public void updateUser(long id, String firstname, String lastname, String username,
+			String email, String password) throws NullUserException {
 
-        //update the user object in database
-        User existingUser = users.findById(updUser.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        existingUser.setUsername(updUser.getUsername());
-        existingUser.setEmail(updUser.getEmail());
-        existingUser.setFirstname(updUser.getFirstname());
-        existingUser.setLastname(updUser.getLastname());
+		User user;
 
+		user = users.findById(id).orElseThrow(() -> new NullUserException("User not found"));
 
+		// update the user object in database
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setFirstname(firstname);
+		user.setLastname(lastname);
+		user.setPassword(encoder.encode(password));
 
-        users.save(existingUser); //Save the changes in the database
-        log.info("saved succesfully");
-    }
+		this.users.save(user);
+		log.info("udated userdata of user id: {}", id);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -339,7 +341,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("entering logout");
 
 		Session session;
-		
+
 		session = this.sessions.findByAuthToken(token);
 
 		log.info("user with id: {} logged out", session.getUserId());
