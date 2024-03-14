@@ -53,7 +53,7 @@ public class ProfileController {
 
 	@RequestMapping(value = "/u/{username}/profile", method = RequestMethod.POST)
 	public String updateProfile(@SessionAttribute(name = "token", required = false) AccessToken token,
-			@PathVariable("username") String username, RegisterForm form) {
+			@PathVariable("username") String username, RegisterForm form, Model model) {
 		log.info("entering updateProfile (PSOT-Method: /u/{username}/profile)");
 
 		User user;
@@ -67,6 +67,14 @@ public class ProfileController {
 		user = this.users.findByUsername(username);
 
 		// Reload Userprofil
+        if (!authsvc.validateEmail(form.getEmail()))
+			model.addAttribute("error", "email_error");
+
+		if (!authsvc.validatePassword(form.getPassword()))
+			model.addAttribute("error", "password_error");
+
+		if (!form.getPassword().equals(form.getPassword2()))
+			model.addAttribute("error", "password_match_error");
 		try {
 			this.authsvc.updateUser(user.getId(), form.getFirstname(), form.getLastname(),
 					form.getUsername(),
