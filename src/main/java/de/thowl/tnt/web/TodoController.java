@@ -108,11 +108,7 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-<<<<<<< HEAD
-		this.tasksvc.toggleDone(form.getId());
-=======
 		this.tasksvc.toggleDone(form.getId(), username);
->>>>>>> master
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
