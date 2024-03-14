@@ -106,7 +106,7 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.toggleDone(form.getId());
+		this.tasksvc.toggleDone(form.getId(), username);
 
 		return "redirect:" + referer;
 	}
@@ -129,7 +129,7 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.delete(form.getId());
+		this.tasksvc.delete(form.getId(), username);
 
 		return "redirect:" + referer;
 	}

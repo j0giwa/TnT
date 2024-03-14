@@ -115,7 +115,7 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		Note note = this.notessvc.getNote(form.getId());
+		Note note = this.notessvc.getNote(form.getId(), username);
 
 		model.addAttribute("editing", true);
 		model.addAttribute("noteTitle", note.getName());
@@ -172,7 +172,7 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.notessvc.delete(form.getId());
+		this.notessvc.delete(form.getId(), username);
 
 		return "redirect:" + referer;
 	}

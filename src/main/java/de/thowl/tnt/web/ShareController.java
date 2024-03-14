@@ -51,6 +51,7 @@ public class ShareController {
 		Note note;
 
 		id = this.sharesvc.getSharedNote(uuid).getNote().getId();
+
 		note = this.notesvc.getNote(id);
 
 		model.addAttribute("note", note);

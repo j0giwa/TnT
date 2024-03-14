@@ -8,5 +8,21 @@ VALUES
 INSERT INTO 
 	tasks(content, created_at, name, done, due_date, overdue, priority, time, user_id) 
 VALUES 
-	('A simple test task', '2024-03-03 21:07:44.000000', 'A test task', false, '2002-07-20 00:00:00.000000', false, 0, '1970-01-01 00:30:00.000000', 1),
-	('Another simple test task', '2024-03-04 21:07:44.000000', 'Another test task', false, '2002-07-20 00:00:00.000000', false, 0, '1970-01-01 00:30:00.000000', 1);;
+	('A simple test task', '2024-03-03 21:07:44.000000', 'A test task', false, '2002-07-20 00:00:00.000000', false, 0, '1970-01-01 00:30:00.000000', 2),
+	('Another simple test task', '2024-03-04 21:07:44.000000', 'Another test task', false, '2002-07-20 00:00:00.000000', false, 0, '1970-01-01 00:30:00.000000', 2);
+
+INSERT INTO
+	notes (content, created_at, name, attachment, kategory, mime_type, subtitle, user_id) 
+VALUES
+	('Content', '2024-03-11 15:00:04.000000', 'Testnote 1', 'A fake file', 0, 'application/octet-stream', 'A test note', 3),
+	('Content', '2024-03-11 15:00:04.000000', 'Testnote 2', 'A fake file', 0, 'application/octet-stream', 'Another test note', 3);
+
+INSERT INTO 
+	note_tags (note_id, tags) 
+VALUES
+	(1, 'A'),
+	(1, 'test'),
+	(1, 'note'),
+	(2, 'Another'),
+	(2, 'test'),
+	(2, 'note');

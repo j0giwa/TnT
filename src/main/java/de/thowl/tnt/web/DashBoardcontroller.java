@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @SessionAttributes("notes")
-public class DashBoardcontroller {
+public class DashboardController {
 
 	@Autowired
 	private AuthenticationService authsvc;
