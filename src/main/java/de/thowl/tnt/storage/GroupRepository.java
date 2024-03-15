@@ -26,7 +26,22 @@ import org.springframework.data.repository.CrudRepository;
 
 @Repository
 public interface GroupRepository extends CrudRepository<Group, Long> {
+
+	/**
+	 * Finds a {@link Group} by its ID.
+	 *
+	 * @param id The ID of the {@link Group} to find.
+	 * @return The {@link Group} with the specified ID, or {@code null} if not
+	 *         found.
+	 */
 	public Group findById(int id);
 
+	/**
+	 * Finds a {@link Group} by its name.
+	 *
+	 * @param name The name of the {@link Group} to find.
+	 * @return The {@link Group} with the specified name, or {@code null} if not
+	 *         found.
+	 */
 	public Group findByName(String name);
 }

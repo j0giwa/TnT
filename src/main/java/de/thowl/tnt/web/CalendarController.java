@@ -20,6 +20,11 @@ public class CalendarController {
 	@Autowired
 	private AuthenticationService authsvc;
 
+	/**
+	 * Shows the calendar page
+	 * 
+	 * @return calendar.html
+	 */
 	@RequestMapping(value = "/u/{username}/calendar", method = RequestMethod.GET)
 	public String showCalendarPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {

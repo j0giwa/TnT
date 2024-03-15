@@ -196,6 +196,9 @@ public class TaskServiceImpl implements TaskService {
 		return this.tasks.findByUser(user);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> getAllOverdueTasks(String username) {
 

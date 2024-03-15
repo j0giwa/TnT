@@ -31,12 +31,17 @@ public class DashboardController {
 	@Autowired
 	private TaskService tasksvc;
 
+	/**
+	 * Shows the calendar page
+	 * 
+	 * @return dashboard.html
+	 */
 	@RequestMapping(value = "/u/{username}/", method = RequestMethod.GET)
-	public String showNotePage(HttpServletRequest request,
+	public String showDashbardPage(HttpServletRequest request,
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
-		log.info("entering showNotePage (GET-Method: /notes)");
+		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))

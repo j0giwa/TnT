@@ -30,13 +30,50 @@ import de.thowl.tnt.storage.entities.User;
 @Repository
 public interface NotesRepository extends CrudRepository<Note, Long> {
 
+	/**
+	 * Gets a {@link Note} from Database.
+	 * 
+	 * @param id The id of the {@link Note}.
+	 * @return a {@link Note}, or {@code null} if not found.
+	 */
 	Note findById(long id);
 
+	/**
+	 * Gets a list of {@link Note}s, created by a given user, from the Database.
+	 * 
+	 * @param user The {@link User} who created the {@link Note}s.
+	 * @return a list of {@link Note}s, or {@code null} if not found.
+	 */
 	List<Note> findByUser(User user);
 
+	/**
+	 * Gets a list of {@link Note}s, created by a given user, that match a list of
+	 * tags, from the Database.
+	 * 
+	 * @param user The {@link User} who created the {@link Note}s.
+	 * @param tags A list of tags that correspond to the {@link Note}.
+	 * @return a list of {@link Note}s, or {@code null} if not found.
+	 */
 	List<Note> findByUserAndTagsIn(User user, List<String> tags);
 
+	/**
+	 * Gets a list of {@link Note}s, created by a given user, that are in a specific
+	 * kategory, from the Database.
+	 * 
+	 * @param user     The {@link User} who created the {@link Note}s.
+	 * @param kategory The kategory of the {@link Note}.
+	 * @return a list of {@link Note}s, or {@code null} if not found.
+	 */
 	List<Note> findByUserAndKategory(User user, NoteKategory kategory);
 
+	/**
+	 * Gets a list of {@link Note}s, created by a given user, that match a list of
+	 * tags nd are in a specific kategory, from the Database.
+	 * 
+	 * @param user     The {@link User} who created the {@link Note}s.
+	 * @param tags     A list of tags that correspond to the {@link Note}.
+	 * @param kategory The kategory of the {@link Note}.
+	 * @return a list of {@link Note}s, or {@code null} if not found.
+	 */
 	List<Note> findByUserAndKategoryAndTagsIn(User user, NoteKategory kategory, List<String> tags);
 }
