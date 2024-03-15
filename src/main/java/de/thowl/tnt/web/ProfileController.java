@@ -50,6 +50,11 @@ public class ProfileController {
 		return "profile";
 	}
 
+	/**
+	 * Upadate the user profile
+	 * 
+	 * @return to profile page
+	 */
 	@RequestMapping(value = "/u/{username}/profile", method = RequestMethod.POST)
 	public String updateProfile(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, RegisterForm form, Model model) {
@@ -64,7 +69,6 @@ public class ProfileController {
 
 		user = this.users.findByUsername(username);
 
-		// Reload Userprofil
 		if (!authsvc.validateEmail(form.getEmail()))
 			model.addAttribute("error", "email_error");
 
@@ -73,6 +77,8 @@ public class ProfileController {
 
 		if (!form.getPassword().equals(form.getPassword2()))
 			model.addAttribute("error", "password_match_error");
+
+		// Reload Userprofil
 		try {
 			this.authsvc.updateUser(user.getId(), form.getFirstname(), form.getLastname(),
 					form.getUsername(),

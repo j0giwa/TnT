@@ -49,6 +49,11 @@ public class NotesController {
 	@Autowired
 	private NotesService notessvc;
 
+	/**
+	 * Shows the notes page
+	 * 
+	 * @return notes.html
+	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.GET)
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
@@ -70,7 +75,7 @@ public class NotesController {
 	/**
 	 * Adds a new note
 	 * 
-	 * @return todo.html
+	 * @return to request origin
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.POST)
 	public String doAddNote(HttpServletRequest request,
@@ -105,7 +110,7 @@ public class NotesController {
 	/**
 	 * Adds a new note
 	 * 
-	 * @return todo.html
+	 * @return notes page
 	 */
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.GET)
 	public String showEditPage(@SessionAttribute(name = "token", required = false) AccessToken token,
@@ -132,7 +137,7 @@ public class NotesController {
 	/**
 	 * Adds a new note
 	 * 
-	 * @return todo.html
+	 * @return to notes page
 	 */
 	@RequestMapping(value = "/u/{username}/notes/edit", method = RequestMethod.POST)
 	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
@@ -164,9 +169,9 @@ public class NotesController {
 	}
 
 	/**
-	 * Deletes a task
+	 * Deletes a note
 	 * 
-	 * @return todo.html
+	 * @return to request origin
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.DELETE)
 	public String doDeleteNote(HttpServletRequest request,

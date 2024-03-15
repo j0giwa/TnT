@@ -25,6 +25,7 @@ import de.thowl.tnt.storage.entities.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
+
 	public User findByUsername(String username);
 
 	public User findByEmail(String email);

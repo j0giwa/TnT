@@ -55,6 +55,12 @@ public class NotesServiceImpl implements NotesService {
 	@Autowired
 	private SharedNotesRepository sharedNotes;
 
+	/**
+	 * Converts a string to enum.
+	 * 
+	 * @param kategory
+	 * @return string as Kategory
+	 */
 	public NoteKategory setKategory(String kategory) {
 
 		switch (kategory.toLowerCase()) {
@@ -261,6 +267,9 @@ public class NotesServiceImpl implements NotesService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void toggleSharing(long noteId) {
 
@@ -282,6 +291,9 @@ public class NotesServiceImpl implements NotesService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SharedNote getSharedNote(String id) {
 

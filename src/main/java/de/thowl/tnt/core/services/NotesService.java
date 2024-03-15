@@ -109,8 +109,19 @@ public interface NotesService {
 	 */
 	public void delete(long id, String username);
 
+	/**
+	 * Creates/deletes a {@link SharedNote} from a {@link Note} in the Database.
+	 * 
+	 * @param id the id of the {@link Note} to share
+	 */
 	public void toggleSharing(long noteId);
 
+	/**
+	 * Retrieves a {@link SharedNote} from Database.
+	 * 
+	 * @param id the id of the {@link SharedNote}
+	 * @return a {@link SharedNote}
+	 */
 	public SharedNote getSharedNote(String id);
 
 }

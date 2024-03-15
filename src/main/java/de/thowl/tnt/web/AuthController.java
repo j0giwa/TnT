@@ -46,7 +46,7 @@ public class AuthController {
 	/**
 	 * Shows the login page
 	 * 
-	 * @return index.html
+	 * @return login.html
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
@@ -58,7 +58,7 @@ public class AuthController {
 	/**
 	 * Performs a login action
 	 * 
-	 * @return index.html
+	 * @return to dashboard page
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
@@ -87,7 +87,6 @@ public class AuthController {
 	/**
 	 * Performs a logout action
 	 */
-	// NOTE: GetMapping was easier than handling this via a post request
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String doLogout(@SessionAttribute("token") AccessToken token) {
 

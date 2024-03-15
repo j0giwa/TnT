@@ -216,6 +216,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void updateUser(long id, String firstname, String lastname, String username,
+			String email, String password) throws NullUserException {
+
+		User user;
+
+		log.debug("entering updateUser");
+
+		user = users.findById(id).orElseThrow(() -> new NullUserException("User not found"));
+
+		// update the user object in database
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setFirstname(firstname);
+		user.setLastname(lastname);
+		user.setPassword(encoder.encode(password));
+
+		this.users.save(user);
+		log.info("udated userdata of user id: {}", id);
+	}
+
+	/**
 	 * Checks if the input password matches the {@link User}s password stored in the
 	 * Database.
 	 *
@@ -305,30 +329,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 
 		throw new InvalidCredentialsException("Wrong Password");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updateUser(long id, String firstname, String lastname, String username,
-			String email, String password) throws NullUserException {
-
-		User user;
-
-		log.debug("entering updateUser");
-
-		user = users.findById(id).orElseThrow(() -> new NullUserException("User not found"));
-
-		// update the user object in database
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setFirstname(firstname);
-		user.setLastname(lastname);
-		user.setPassword(encoder.encode(password));
-
-		this.users.save(user);
-		log.info("udated userdata of user id: {}", id);
 	}
 
 	/**
