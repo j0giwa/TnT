@@ -158,12 +158,10 @@ public class NotesServiceImpl implements NotesService {
 		log.debug("entering getNote");
 
 		Note note;
-		User user;
 
 		note = this.notes.findById(id);
-		user = users.findById(userId).get();
 
-		if (user.getId() == note.getUser().getId()) {
+		if (userId == note.getUser().getId()) {
 			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
 			return note;
 		}
@@ -252,15 +250,13 @@ public class NotesServiceImpl implements NotesService {
 	public void delete(long id, long userId) {
 
 		Note note;
-		User user;
 
 		log.debug("entering delete");
 
 		note = this.notes.findById(id);
-		user = users.findById(userId).get();
 
 		if (null != note) {
-			if (user.getId() == note.getUser().getId()) {
+			if (userId == note.getUser().getId()) {
 				log.info("deleting task id: {}", id);
 				this.notes.delete(note);
 			}
@@ -271,7 +267,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void toggleSharing(long noteId) {
+	public void toggleSharing(long noteId, long userId) {
 
 		Note note;
 		SharedNote shared;
@@ -279,6 +275,9 @@ public class NotesServiceImpl implements NotesService {
 		log.debug("entering startSharing");
 
 		note = this.notes.findById(noteId);
+
+		if (userId != note.getUser().getId())
+			return;
 
 		// Assume it is already shared for easier toggling
 		shared = this.sharedNotes.findByNote(note);

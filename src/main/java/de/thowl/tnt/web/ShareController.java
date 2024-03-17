@@ -24,9 +24,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
+import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class ShareController {
+
+	@Autowired
+	private AuthenticationService authsvc;
 
 	@Autowired
 	private NotesService notesvc;
@@ -56,13 +63,20 @@ public class ShareController {
 	}
 
 	@RequestMapping(value = "/share", method = RequestMethod.POST)
-	public String addSharedNote(HttpServletRequest request, NoteForm form, Model model) {
+	public String addSharedNote(HttpServletRequest request,
+			@SessionAttribute(name = "token", required = false) AccessToken token,
+			NoteForm form, Model model) {
 
+		long userId;
+		User user;
 		String referer;
 
 		log.info("entering addSharedNote (Post-Method: /share)");
 
-		this.notesvc.toggleSharing(form.getId());
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		this.notesvc.toggleSharing(form.getId(), userId);
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
