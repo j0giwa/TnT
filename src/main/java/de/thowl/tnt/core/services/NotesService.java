@@ -30,7 +30,7 @@ public interface NotesService {
 	/**
 	 * Adds a new {@link Note} to the Database.
 	 *
-	 * @param username   Name of the {@link User}.
+	 * @param userId     The ID of the {@link User} creating the {@link Note}.
 	 * @param title      Title of the {@link Note}.
 	 * @param subtitle   Title of the {@link Note}.
 	 * @param content    Content of the {@link Note}.
@@ -41,7 +41,7 @@ public interface NotesService {
 	 * @param tags       Whitespace speprated list of keywords assosiated with the
 	 *                   {@link Note}.
 	 */
-	public void addNote(String username, String title, String subtitle,
+	public void addNote(long userId, String title, String subtitle,
 			String content, byte[] attachment, String mimeType, String kategory, String tags);
 
 	/**
@@ -57,36 +57,36 @@ public interface NotesService {
 	/**
 	 * Gets a single {@link Note} from Database.
 	 * 
-	 * @param id       The id of the {@link Note}.
-	 * @param username The name of the {@link User} to verify ownership
+	 * @param id     The ID of the {@link Note}.
+	 * @param userId The ID of the {@link User} to verify ownership
 	 * @return a {@link Note}
 	 */
-	public Note getNote(long id, String username);
+	public Note getNote(long id, long userId);
 
 	/**
 	 * Gets all {@link Note}s by a specific {@link User} from Database.
 	 * 
-	 * @param username The name of the {@link User} who created the {@link Note}s.
+	 * @param userId The ID of the {@link User} who created the {@link Note}s.
 	 * @return a {@link Note}
 	 */
-	public List<Note> getAllNotes(String username);
+	public List<Note> getAllNotes(long userId);
 
 	/**
 	 * Gets all matching {@link Note}s from the Database.
 	 * 
-	 * @param username The name of the {@link User} who created the {@link Note}s.
+	 * @param userId   The ID of the {@link User} who created the {@link Note}s.
 	 * @param kategory {@link NoteKategory} of the {@link Note}.
 	 * @param tags     Whitespace speprated list of keywords assosiated with the
 	 *                 {@link Note}.
 	 * @return a list of{@link Note}
 	 */
-	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags);
+	public List<Note> getNotesByParams(long userId, NoteKategory kategory, String tags);
 
 	/**
 	 * Overwrites a {@link Note} in the Database.
 	 *
 	 * @param id         The id of the {@link Note} to Overwrite
-	 * @param username   New name of the {@link User}
+	 * @param userId     The ID of the {@link User} to verify ownership
 	 * @param title      New title of the {@link Note}.
 	 * @param subtitle   New title of the {@link Note}.
 	 * @param content    New content of the {@link Note}
@@ -98,16 +98,16 @@ public interface NotesService {
 	 *                   the
 	 *                   {@link Note}
 	 */
-	public void editNote(long id, String username, String title, String subtitle,
+	public void editNote(long id, long userId, String title, String subtitle,
 			String content, byte[] attachment, String mimeType, String kategory, String tags);
 
 	/**
 	 * Deletes a {@link Note} from the Database.
 	 * 
-	 * @param id       id of the {@link Note}
-	 * @param username The name of the {@link User} to verify ownership
+	 * @param id     The ID of the {@link Note}
+	 * @param userId The ID of the {@link User} to verify ownership
 	 */
-	public void delete(long id, String username);
+	public void delete(long id, long userId);
 
 	/**
 	 * Creates/deletes a {@link SharedNote} from a {@link Note} in the Database.

@@ -30,7 +30,7 @@ public interface TaskService {
 	/**
 	 * Adds a new {@link Task} to the Database.
 	 *
-	 * @param username Name of the {@link User}
+	 * @param userId   Name of the {@link User} creating the {@link Task}.
 	 * @param name     Name (or Title) of the {@link Task}.
 	 * @param content  Content of the {@link Task}
 	 * @param priority {@link Priority} of the {@link Task}, valid values:
@@ -38,41 +38,41 @@ public interface TaskService {
 	 * @param dueDate  Date when the {@link Task} is due
 	 * @param time     Time when the {@link Task} is due
 	 */
-	public void add(String username, String name, String content, String priority, Date dueDate, Date time);
+	public void add(long userId, String name, String content, String priority, Date dueDate, Date time);
 
 	/**
 	 * Marks a {@link Task} as done.
 	 * 
-	 * @param id       id of the {@link Task}
-	 * @param username The name of the {@link User} to verify ownership
+	 * @param id     id of the {@link Task}.
+	 * @param userId The ID of the {@link User} to verify ownership.
 	 */
-	public void toggleDone(long id, String username);
+	public void toggleDone(long id, long userId);
 
 	/**
 	 * Deletes a {@link Task} from the Database.
 	 * 
-	 * @param id       id of the {@link Task}
-	 * @param username The name of the {@link User} to verify ownership
+	 * @param id     id of the {@link Task}
+	 * @param userId The ID of the {@link User} to verify ownership
 	 */
-	public void delete(long id, String username);
+	public void delete(long id, long userId);
 
 	/**
 	 * Gets all {@link Task} created by a specific {@link User}
 	 *
-	 * @param username The name of the {@link User}
+	 * @param userId The ID of the {@link User}.
 	 *
 	 * @return A list of {@link Task}s,
 	 *         {@code null} if the user did not create any tasks,
 	 */
-	public List<Task> getAllTasks(String username);
+	public List<Task> getAllTasks(long userId);
 
 	/**
 	 * Gets all overdue {@link Task} created by a specific {@link User}
 	 *
-	 * @param username The name of the {@link User}
+	 * @param userId The ID of the {@link User}.
 	 *
 	 * @return A list of overdue {@link Task}s,
 	 *         {@code null} if the user did not create any tasks,
 	 */
-	public List<Task> getAllOverdueTasks(String username);
+	public List<Task> getAllOverdueTasks(long userId);
 }

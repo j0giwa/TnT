@@ -96,7 +96,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addNote(String username, String title, String subtitle,
+	public void addNote(long userId, String title, String subtitle,
 			String content, byte[] attachment, String mimeType,
 			String kategory, String tags) {
 
@@ -105,7 +105,7 @@ public class NotesServiceImpl implements NotesService {
 
 		log.debug("entering add");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 		note = Note.builder()
 				.user(user)
 				.name(title)
@@ -153,7 +153,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Note getNote(long id, String username) {
+	public Note getNote(long id, long userId) {
 
 		log.debug("entering getNote");
 
@@ -161,7 +161,7 @@ public class NotesServiceImpl implements NotesService {
 		User user;
 
 		note = this.notes.findById(id);
-		user = this.users.findByUsername(username);
+		user = users.findById(userId).get();
 
 		if (user.getId() == note.getUser().getId()) {
 			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
@@ -175,14 +175,14 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Note> getAllNotes(String username) {
+	public List<Note> getAllNotes(long userId) {
 
 		User user;
 		List<Note> notes;
 
 		log.debug("entering getAllNotes");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 		notes = encodeNotes(this.notes.findByUser(user));
 
 		return notes;
@@ -192,7 +192,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags) {
+	public List<Note> getNotesByParams(long userId, NoteKategory kategory, String tags) {
 
 		User user;
 		List<Note> notes;
@@ -200,7 +200,7 @@ public class NotesServiceImpl implements NotesService {
 
 		log.debug("entering getNotesByParams");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 		noteTags = formatTags(tags);
 
 		if (kategory == NoteKategory.ALL) {
@@ -219,7 +219,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void editNote(long id, String username, String title,
+	public void editNote(long id, long userId, String title,
 			String subtitle, String content,
 			byte[] attachment, String mimeType,
 			String kategory, String tags) {
@@ -229,7 +229,7 @@ public class NotesServiceImpl implements NotesService {
 
 		log.debug("entering editNote");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 		note = Note.builder()
 				.id(id)
 				.user(user)
@@ -249,7 +249,7 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id, String username) {
+	public void delete(long id, long userId) {
 
 		Note note;
 		User user;
@@ -257,7 +257,7 @@ public class NotesServiceImpl implements NotesService {
 		log.debug("entering delete");
 
 		note = this.notes.findById(id);
-		user = this.users.findByUsername(username);
+		user = users.findById(userId).get();
 
 		if (null != note) {
 			if (user.getId() == note.getUser().getId()) {

@@ -226,7 +226,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		log.debug("entering updateUser");
 
-		user = users.findById(id).orElseThrow(() -> new NullUserException("User not found"));
+		user = users.findById(id).orElseThrow(
+				() -> new NullUserException("User not found"));
 
 		// update the user object in database
 		user.setUsername(username);
@@ -337,9 +338,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public void logout(String token) {
 
-		log.debug("entering logout");
-
 		Session session;
+
+		log.debug("entering logout");
 
 		session = this.sessions.findByAuthToken(token);
 
@@ -347,6 +348,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("deleting session: {} from Database", session.toString());
 
 		this.sessions.delete(session);
+	}
+
+	@Override
+	public User getUserbySession(AccessToken token) {
+
+		String usid;
+		Session session;
+		User user;
+
+		log.debug("entering getUserbySession");
+
+		usid = token.getUsid();
+		session = this.sessions.findByAuthToken(usid);
+		user = this.users.findById(session.getUserId()).get();
+
+		return user;
 	}
 
 }

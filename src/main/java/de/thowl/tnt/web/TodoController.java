@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.TaskForm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,14 +54,20 @@ public class TodoController {
 	public String showTodoPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
+		long userId;
+		User user;
+
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
+
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAllTasks(username));
+		model.addAttribute("tasks", this.tasksvc.getAllTasks(userId));
 
 		return "todo";
 	}
@@ -75,6 +82,8 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
+		long userId;
+		User user;
 		String referer;
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
@@ -83,7 +92,10 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.add(username, form.getTaskName(), form.getTaskContent(), form.getPriority(),
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		this.tasksvc.add(userId, form.getTaskName(), form.getTaskContent(), form.getPriority(),
 				form.getDate(), form.getTime());
 
 		referer = request.getHeader("Referer");
@@ -100,6 +112,8 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
+		long userId;
+		User user;
 		String referer;
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
@@ -108,7 +122,10 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.toggleDone(form.getId(), username);
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		this.tasksvc.toggleDone(form.getId(), userId);
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
@@ -124,6 +141,8 @@ public class TodoController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, TaskForm form, Model model) {
 
+		long userId;
+		User user;
 		String referer;
 
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
@@ -132,7 +151,10 @@ public class TodoController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.tasksvc.delete(form.getId(), username);
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		this.tasksvc.delete(form.getId(), userId);
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
