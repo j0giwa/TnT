@@ -13,6 +13,7 @@ import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +42,23 @@ public class DashboardController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
+		long userId;
+		User user;
+
 		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
+
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAllOverdueTasks(username));
+		model.addAttribute("tasks", this.tasksvc.getAllOverdueTasks(userId));
 
 		if (!model.containsAttribute("notes"))
-			model.addAttribute("notes", this.notessvc.getAllNotes(username));
+			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 
 		return "dashboard";
 	}

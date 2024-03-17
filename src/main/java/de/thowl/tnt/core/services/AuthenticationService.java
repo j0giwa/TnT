@@ -81,6 +81,14 @@ public interface AuthenticationService {
 	public boolean validateSession(AccessToken token, String username);
 
 	/**
+	 * Gets an actice {@link User} by his {@link AccessToken}
+	 * 
+	 * @param token The {@link AccessToken}.
+	 * @return The {@link User} having the {@link AccessToken}.
+	 */
+	public User getUserbySession(AccessToken token);
+
+	/**
 	 * Registers a new user
 	 * 
 	 * @param firstname The First Name of the user

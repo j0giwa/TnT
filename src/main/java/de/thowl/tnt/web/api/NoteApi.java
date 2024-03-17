@@ -55,7 +55,7 @@ public class NoteApi {
 	public ResponseEntity<String> addNote(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody NoteSchema note) {
 
-		String username;
+		long userId;
 		User user;
 		byte[] fileContent;
 		String mimeType;
@@ -67,7 +67,7 @@ public class NoteApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
+		userId = user.getId();
 		fileContent = null;
 		mimeType = "application/octet-stream";
 
@@ -77,7 +77,7 @@ public class NoteApi {
 		} catch (IOException e) {
 		}
 
-		this.notessvc.addNote(username, note.getTitle(), note.getSubtitle(), note.getContent(), fileContent,
+		this.notessvc.addNote(userId, note.getTitle(), note.getSubtitle(), note.getContent(), fileContent,
 				mimeType, note.getKategory(), note.getTags());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
@@ -101,7 +101,7 @@ public class NoteApi {
 	public ResponseEntity<Object> getNote(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the note") @RequestParam long id) {
 
-		String username;
+		long userId;
 		User user;
 		Note note;
 
@@ -111,8 +111,8 @@ public class NoteApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
-		note = this.notessvc.getNote(id, username);
+		userId = user.getId();
+		note = this.notessvc.getNote(id, userId);
 
 		if (note == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
@@ -138,7 +138,7 @@ public class NoteApi {
 	public ResponseEntity<Object> getAllNotes(
 			@Parameter(description = "Your api token") @RequestParam String apiToken) {
 
-		String username;
+		long userId;
 		User user;
 		List<Note> notes;
 
@@ -148,8 +148,8 @@ public class NoteApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
-		notes = this.notessvc.getAllNotes(username);
+		userId = user.getId();
+		notes = this.notessvc.getAllNotes(userId);
 
 		return ResponseEntity.status(HttpStatus.OK).body(notes);
 	}

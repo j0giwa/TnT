@@ -33,6 +33,7 @@ import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,17 +58,24 @@ public class NotesController {
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.GET)
 	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
+
+		long userId;
+		User user;
+
 		log.info("entering showNotePage (GET-Method: /notes)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
 		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
 
 		if (!model.containsAttribute("notes"))
-			model.addAttribute("notes", this.notessvc.getAllNotes(username));
+			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 
 		return "notes";
 	}
@@ -82,7 +90,10 @@ public class NotesController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
-		String referer;
+		long userId;
+		User user;
+		String referer, mimeType;
+		byte[] fileContent;
 
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
@@ -90,17 +101,21 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		byte[] fileContent = null;
-		String mimeType = "text/markdown";
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		// Fallbackvalues, they exist because they have to but don't realy matter
+		fileContent = null;
+		mimeType = "application/octet-stream";
 
 		try {
 			fileContent = form.getFile().getBytes();
 			mimeType = form.getFile().getContentType();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// No file was uploaded, this was probably intentional.
 		}
 
-		this.notessvc.addNote(username, form.getTitle(), form.getSubtitle(), form.getContent(),
+		this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
 				fileContent, mimeType, form.getKategory(), form.getTags());
 
 		referer = request.getHeader("Referer");
@@ -116,6 +131,8 @@ public class NotesController {
 	public String showEditPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
+		long userId;
+		User user;
 		Note note;
 
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
@@ -124,7 +141,10 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		note = this.notessvc.getNote(form.getId(), username);
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		note = this.notessvc.getNote(form.getId(), userId);
 
 		model.addAttribute("editing", true);
 		model.addAttribute("noteTitle", note.getName());
@@ -143,6 +163,8 @@ public class NotesController {
 	public String doEditNote(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
+		long userId;
+		User user;
 		byte[] fileContent;
 		String mimeType;
 
@@ -151,7 +173,10 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		// Fallback values in case no file was uploaded.
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		// Fallbackvalues, they exist because they have to but don't realy matter
 		fileContent = null;
 		mimeType = "application/octet-stream";
 
@@ -162,7 +187,7 @@ public class NotesController {
 			e.printStackTrace();
 		}
 
-		this.notessvc.editNote(form.getId(), username, form.getTitle(), form.getSubtitle(),
+		this.notessvc.editNote(form.getId(), userId, form.getTitle(), form.getSubtitle(),
 				form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
 
 		return "redirect:/u/" + username + "/notes";
@@ -178,6 +203,8 @@ public class NotesController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
+		long userId;
+		User user;
 		String referer;
 
 		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
@@ -186,7 +213,10 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		this.notessvc.delete(form.getId(), username);
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
+		this.notessvc.delete(form.getId(), userId);
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
