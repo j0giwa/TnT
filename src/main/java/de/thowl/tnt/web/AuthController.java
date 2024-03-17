@@ -81,6 +81,9 @@ public class AuthController {
 		httpSession.setAttribute("token", token);
 		httpSession.setAttribute("username", user.getUsername());
 
+		// NOTE: The URL in the username was the old user identifier,
+		// kept due to the workload of changing it now.
+		// Also looks kind of cool in the browser
 		return "redirect:/u/" + user.getUsername() + "/";
 	}
 

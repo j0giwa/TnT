@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.exceptions.NullUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
-import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
@@ -23,9 +22,6 @@ public class ProfileController {
 
 	@Autowired
 	private AuthenticationService authsvc;
-
-	@Autowired
-	private UserRepository users;
 
 	/**
 	 * Shows the profile page
@@ -44,7 +40,7 @@ public class ProfileController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		user = this.users.findByUsername(username);
+		user = this.authsvc.getUserbySession(token);
 
 		model.addAttribute("user", user);
 		return "profile";
@@ -61,13 +57,13 @@ public class ProfileController {
 
 		User user;
 
-		log.info("entering updateProfile (PSOT-Method: /u/{username}/profile)");
+		log.info("entering updateProfile (POST-Method: /u/{username}/profile)");
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
-		user = this.users.findByUsername(username);
+		user = this.authsvc.getUserbySession(token);
 
 		if (!authsvc.validateEmail(form.getEmail()))
 			model.addAttribute("error", "email_error");

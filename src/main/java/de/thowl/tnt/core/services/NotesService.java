@@ -47,7 +47,8 @@ public interface NotesService {
 	/**
 	 * Gets a single {@link Note} from Database.
 	 * 
-	 * WARNING: THIS DOES NOT CHECK OWNERSHIP, FOR SHARESERVICE ONLY !!!
+	 * <b>!!! WARNING: THIS DOES NOT CHECK OWNERSHIP !!!</b>
+	 * USED ONLY IN {@link de.thowl.tnt.web.ShareController} FOR PUBLIC NOTES.
 	 * 
 	 * @param id The id of the {@link Note}.
 	 * @return a {@link Note}
@@ -112,14 +113,16 @@ public interface NotesService {
 	/**
 	 * Creates/deletes a {@link SharedNote} from a {@link Note} in the Database.
 	 * 
-	 * @param id the id of the {@link Note} to share
+	 * @param id     the ID of the {@link Note} to share
+	 * @param userId The ID of the {@link User} to verify ownership
 	 */
-	public void toggleSharing(long noteId);
+	public void toggleSharing(long noteId, long userId);
 
 	/**
 	 * Retrieves a {@link SharedNote} from Database.
 	 * 
-	 * @param id the id of the {@link SharedNote}
+	 * @param id the id of the {@link SharedNote}.
+	 * 
 	 * @return a {@link SharedNote}
 	 */
 	public SharedNote getSharedNote(String id);
