@@ -80,8 +80,12 @@ class TestAuthenticationService {
 	 */
 	@Test
 	void testLogin() {
+
+		AccessToken token;
+
 		log.info("entering Integration test testLogin");
-		AccessToken token = null;
+
+		token = null;
 
 		try {
 			token = this.authsvc.login("ruediger@thowl.de", "P@ssw0rd");
@@ -130,13 +134,15 @@ class TestAuthenticationService {
 
 	@Test
 	void testRegister() {
-		log.info("entering test testRegister");
 
+		User usr;
 		String firstName;
 		String lastName;
 		String uname;
 		String passwd;
 		String email;
+
+		log.info("entering test testRegister");
 
 		firstName = "test";
 		lastName = "user";
@@ -150,7 +156,7 @@ class TestAuthenticationService {
 			fail("this user alredy exists");
 		}
 
-		User usr = this.users.findByUsername(uname);
+		usr = this.users.findByUsername(uname);
 
 		assertNotNull(usr, "User resgistration failed");
 		assertEquals(firstName, usr.getFirstname(), "Wrong first name");
