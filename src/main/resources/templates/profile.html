@@ -4,8 +4,14 @@
 <head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='Profile | TnT')}"></head>
 
 <body>
-    <div class="container-fluid">
-        <h3 class="text-dark mb-4" th:text="#{profile}">Profile</h3>
+    <div class="container-fluid" >
+        
+        <div class="row">
+            <div class="col-md-12 alert-col relative">
+                <div class="alert alert-info alert-dismissible absolue center" role="alert"><button class="close" type="button" aria-label="Close" data-dismiss="alert"><span aria-hidden="true">×</span></button><span>Profile save with success</span></div>
+            </div>
+        </div>
+            
         <div class="card shadow mb-3">
             <div class="card-header py-3">
                 <p class="m-0 fw-bold text-success" th:text="#{usersettings}">User Settings</p>
