@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,11 @@ import org.springframework.stereotype.Service;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.NotesRepository;
+import de.thowl.tnt.storage.SharedNotesRepository;
 import de.thowl.tnt.storage.UserRepository;
 import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.storage.entities.NoteKategory;
+import de.thowl.tnt.storage.entities.SharedNote;
 import de.thowl.tnt.storage.entities.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +51,9 @@ public class NotesServiceImpl implements NotesService {
 
 	@Autowired
 	private NotesRepository notes;
+
+	@Autowired
+	private SharedNotesRepository sharedNotes;
 
 	public NoteKategory setKategory(String kategory) {
 
@@ -73,6 +79,8 @@ public class NotesServiceImpl implements NotesService {
 
 		String[] tagsArray;
 
+		log.debug("entering formatTags");
+
 		tagsArray = tags.split("\\s+");
 
 		return Arrays.asList(tagsArray);
@@ -86,10 +94,10 @@ public class NotesServiceImpl implements NotesService {
 			String content, byte[] attachment, String mimeType,
 			String kategory, String tags) {
 
-		log.debug("entering add");
-
 		User user;
 		Note note;
+
+		log.debug("entering add");
 
 		user = users.findByUsername(username);
 		note = Note.builder()
@@ -104,9 +112,7 @@ public class NotesServiceImpl implements NotesService {
 				.tags(formatTags(tags))
 				.build();
 
-		if (null != note) {
-			this.notes.save(note);
-		}
+		this.notes.save(note);
 	}
 
 	/**
@@ -128,14 +134,12 @@ public class NotesServiceImpl implements NotesService {
 	@Override
 	public Note getNote(long id) {
 
-		log.debug("entering getNote");
-
 		Note note;
 
+		log.debug("entering getNote");
+
 		note = this.notes.findById(id);
-
 		note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
-
 		return note;
 	}
 
@@ -143,11 +147,34 @@ public class NotesServiceImpl implements NotesService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Note getNote(long id, String username) {
+
+		log.debug("entering getNote");
+
+		Note note;
+		User user;
+
+		note = this.notes.findById(id);
+		user = this.users.findByUsername(username);
+
+		if (user.getId() == note.getUser().getId()) {
+			note.setEncodedAttachment(Base64.getEncoder().encodeToString(note.getAttachment()));
+			return note;
+		}
+
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public List<Note> getAllNotes(String username) {
-		log.debug("entering getAllNotes");
 
 		User user;
 		List<Note> notes;
+
+		log.debug("entering getAllNotes");
 
 		user = users.findByUsername(username);
 		notes = encodeNotes(this.notes.findByUser(user));
@@ -161,34 +188,24 @@ public class NotesServiceImpl implements NotesService {
 	@Override
 	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags) {
 
-		log.debug("entering getNotesByParams");
-
 		User user;
 		List<Note> notes;
 		List<String> noteTags;
 
+		log.debug("entering getNotesByParams");
+
 		user = users.findByUsername(username);
 		noteTags = formatTags(tags);
 
-		// TODO: Code ugly
 		if (kategory == NoteKategory.ALL) {
-
-			if (noteTags.get(0).isEmpty()) {
-				notes = this.notes.findByUser(user);
-			} else {
-				notes = this.notes.findByUserAndTagsIn(user, noteTags);
-			}
-
+			notes = noteTags.get(0).isEmpty() ? this.notes.findByUser(user)
+					: this.notes.findByUserAndTagsIn(user, noteTags);
 		} else {
-			if (noteTags.get(0).isEmpty()) {
-				notes = this.notes.findByUserAndKategory(user, kategory);
-			} else {
-				notes = this.notes.findByUserAndKategoryAndTagsIn(user, kategory, noteTags);
-			}
+			notes = noteTags.get(0).isEmpty() ? this.notes.findByUserAndKategory(user, kategory)
+					: this.notes.findByUserAndKategoryAndTagsIn(user, kategory, noteTags);
 		}
 
 		notes = encodeNotes(notes);
-
 		return notes;
 	}
 
@@ -201,10 +218,10 @@ public class NotesServiceImpl implements NotesService {
 			byte[] attachment, String mimeType,
 			String kategory, String tags) {
 
-		log.debug("entering editNote");
-
 		User user;
 		Note note;
+
+		log.debug("entering editNote");
 
 		user = users.findByUsername(username);
 		note = Note.builder()
@@ -219,27 +236,57 @@ public class NotesServiceImpl implements NotesService {
 				.tags(formatTags(tags))
 				.build();
 
-		if (null != note) {
-			this.notes.save(note);
-		}
+		this.notes.save(note);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id) {
+	public void delete(long id, String username) {
+
+		Note note;
+		User user;
 
 		log.debug("entering delete");
 
-		Note note;
-
 		note = this.notes.findById(id);
+		user = this.users.findByUsername(username);
 
 		if (null != note) {
-			log.info("deleting task id: {}", id);
-			this.notes.delete(note);
+			if (user.getId() == note.getUser().getId()) {
+				log.info("deleting task id: {}", id);
+				this.notes.delete(note);
+			}
 		}
 	}
 
+	@Override
+	public void toggleSharing(long noteId) {
+
+		Note note;
+		SharedNote shared;
+
+		log.debug("entering startSharing");
+
+		note = this.notes.findById(noteId);
+
+		// Assume it is already shared for easier toggling
+		shared = this.sharedNotes.findByNote(note);
+
+		if (shared != null) {
+			this.sharedNotes.delete(shared);
+		} else {
+			shared = new SharedNote(UUID.randomUUID().toString(), note);
+			this.sharedNotes.save(shared);
+		}
+	}
+
+	@Override
+	public SharedNote getSharedNote(String id) {
+
+		log.debug("entering getSharedNote");
+
+		return this.sharedNotes.findByGuid(id);
+	}
 }

@@ -22,6 +22,7 @@ public class TimetrackerController {
 	@GetMapping("/u/{username}/timetracker")
 	public String showTimetrackerPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
+
 		log.info("entering showTimetrackerPage (GET-Method: /u/{username}/timetracker)");
 
 		// Prevent unauthrised access / extend session

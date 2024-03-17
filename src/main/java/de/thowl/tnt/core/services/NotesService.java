@@ -21,6 +21,7 @@ package de.thowl.tnt.core.services;
 import java.util.List;
 
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.SharedNote;
 import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
 
@@ -35,7 +36,7 @@ public interface NotesService {
 	 * @param content    Content of the {@link Note}.
 	 * @param attachment File to attach to the the {@link Note}.
 	 * @param mimeType   MIMEtype of the file.
-	 * @param kategory   {@link Type} of the {@link Note}, valid values:
+	 * @param kategory   {@link NoteKategory} of the {@link Note}, valid values:
 	 *                   {@code lecture}, {@code litterature}, {@code misc}.
 	 * @param tags       Whitespace speprated list of keywords assosiated with the
 	 *                   {@link Note}.
@@ -43,10 +44,42 @@ public interface NotesService {
 	public void addNote(String username, String title, String subtitle,
 			String content, byte[] attachment, String mimeType, String kategory, String tags);
 
+	/**
+	 * Gets a single {@link Note} from Database.
+	 * 
+	 * WARNING: THIS DOES NOT CHECK OWNERSHIP, FOR SHARESERVICE ONLY !!!
+	 * 
+	 * @param id The id of the {@link Note}.
+	 * @return a {@link Note}
+	 */
 	public Note getNote(long id);
 
+	/**
+	 * Gets a single {@link Note} from Database.
+	 * 
+	 * @param id       The id of the {@link Note}.
+	 * @param username The name of the {@link User} to verify ownership
+	 * @return a {@link Note}
+	 */
+	public Note getNote(long id, String username);
+
+	/**
+	 * Gets all {@link Note}s by a specific {@link User} from Database.
+	 * 
+	 * @param username The name of the {@link User} who created the {@link Note}s.
+	 * @return a {@link Note}
+	 */
 	public List<Note> getAllNotes(String username);
 
+	/**
+	 * Gets all matching {@link Note}s from the Database.
+	 * 
+	 * @param username The name of the {@link User} who created the {@link Note}s.
+	 * @param kategory {@link NoteKategory} of the {@link Note}.
+	 * @param tags     Whitespace speprated list of keywords assosiated with the
+	 *                 {@link Note}.
+	 * @return a list of{@link Note}
+	 */
 	public List<Note> getNotesByParams(String username, NoteKategory kategory, String tags);
 
 	/**
@@ -69,10 +102,15 @@ public interface NotesService {
 			String content, byte[] attachment, String mimeType, String kategory, String tags);
 
 	/**
-	 * Deletes a {@link Task} from the Database.
+	 * Deletes a {@link Note} from the Database.
 	 * 
-	 * @param id id of the {@link Task}
+	 * @param id       id of the {@link Note}
+	 * @param username The name of the {@link User} to verify ownership
 	 */
-	public void delete(long id);
+	public void delete(long id, String username);
+
+	public void toggleSharing(long noteId);
+
+	public SharedNote getSharedNote(String id);
 
 }

@@ -57,10 +57,10 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void flagTasksAsOverdue() {
 
-		log.debug("entering flagTasksAsOverdue");
-
 		Date now;
 		List<Task> tasks;
+
+		log.debug("entering flagTasksAsOverdue");
 
 		now = new Date();
 		tasks = this.tasks.findByDueDateAndTimeBefore(now, now);
@@ -81,9 +81,9 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void cleanupDoneTasks() {
 
-		log.debug("entering cleanupDoneTasks");
-
 		List<Task> doneTasks;
+
+		log.debug("entering cleanupDoneTasks");
 
 		doneTasks = this.tasks.findByDone(true);
 
@@ -112,10 +112,10 @@ public class TaskServiceImpl implements TaskService {
 	public void add(String username, String name, String content,
 			String priority, Date dueDate, Date time) {
 
-		log.debug("entering add");
-
 		User user;
 		Task task;
+
+		log.debug("entering add");
 
 		user = users.findByUsername(username);
 		task = Task.builder()
@@ -138,35 +138,46 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void toggleDone(long id) {
+	public void toggleDone(long id, String username) {
+
+		User user;
+		Task task;
 
 		log.debug("entering add");
 
-		Task task;
-
+		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
 
-		log.info("switching state of task id: {}", id);
-		task.setDone(!task.isDone());
+		if (null != task) {
+			if (user.getId() == task.getUser().getId()) {
+				log.info("switching state of task id: {}", id);
+				task.setDone(!task.isDone());
 
-		this.tasks.save(task);
+				this.tasks.save(task);
+			}
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id) {
+	public void delete(long id, String username) {
+
+		User user;
+		Task task;
 
 		log.debug("entering delete");
 
-		Task task;
-
+		user = this.users.findByUsername(username);
 		task = this.tasks.findById(id);
 
 		if (null != task) {
-			log.info("deleting task id: {}", id);
-			this.tasks.delete(task);
+
+			if (user.getId() == task.getUser().getId()) {
+				log.info("deleting task id: {}", id);
+				this.tasks.delete(task);
+			}
 		}
 	}
 
@@ -176,9 +187,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllTasks(String username) {
 
-		log.debug("entering getAllTasks");
-
 		User user;
+
+		log.debug("entering getAllTasks");
 
 		user = users.findByUsername(username);
 
@@ -188,9 +199,9 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getAllOverdueTasks(String username) {
 
-		log.debug("entering getAllOverdueTasks");
-
 		User user;
+
+		log.debug("entering getAllOverdueTasks");
 
 		user = users.findByUsername(username);
 
