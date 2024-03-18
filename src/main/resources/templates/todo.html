@@ -88,11 +88,7 @@
 						<h6 class="card-subtitle mb-2" th:text="#{vorhaben}">Was
 							hast du vor?</h6>
 						<ul class="list-unstyled" th:each="task: ${tasks}">
-
-							<li
-								th:replace="~{fragments/todo::taskItem(id=${task.id}, done=${task.done}, title=${task.name}, content=${task.content})}">
-							</li>
-
+							<li th:replace="~{fragments/todo::taskItem(task=${task})}"></li>
 						</ul>
 					</div>
 				</div>
