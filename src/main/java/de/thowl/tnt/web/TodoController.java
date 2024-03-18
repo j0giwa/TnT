@@ -95,8 +95,12 @@ public class TodoController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		this.tasksvc.add(userId, form.getTaskName(), form.getTaskContent(), form.getPriority(),
-				form.getDate(), form.getTime());
+		try {
+			this.tasksvc.add(userId, form.getTaskName(), form.getTaskContent(), form.getPriority(),
+					form.getDate(), form.getTime());
+		} catch (NullPointerException e) {
+			model.addAttribute("error", "input_error");
+		}
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
