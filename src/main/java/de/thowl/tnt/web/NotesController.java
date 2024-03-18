@@ -197,12 +197,12 @@ public class NotesController {
 			e.printStackTrace();
 		}
 
-		try {
-			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
-				fileContent, mimeType, form.getKategory(), form.getTags());
-
-		} catch (NullPointerException e) {
+		if (form.getTitle().isEmpty() || form.getSubtitle().isEmpty() || form.getContent().isEmpty()
+				|| form.getTags().isEmpty()) {
 			model.addAttribute("error", "input_error");
+		} else {
+			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
+					fileContent, mimeType, form.getKategory(), form.getTags());
 		}
 
 		return "redirect:/u/" + username + "/notes";
