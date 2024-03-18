@@ -30,26 +30,12 @@
 							</div>
 						</div>
 						<div class="d-flex justify-content-between" id="div_dropdown" style="margin-top: 14px;">
-
-
-							<div class="dropdown">
+							<div>
 								<button class="btn btn-primary datum" aria-expanded="false" data-bs-toggle="dropdown" type="button"
-									style="border-color: #059669;border-left-color: #059669;" th:text="#{expirydate}">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
-										fill="currentColor" style="margin-right: 5px;margin-top: -5px;">
-										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-										<path
-											d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z">
-										</path>
-									</svg>
-									<span th:text="#{expirydate}">Fälligkeitsdatum</span>
+									style="border-color: #059669;border-left-color: #059669;">
+									<input type="date" id="date" name="date"
+											style="background: transparent;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
 								</button>
-								<div class="dropdown-menu" style="background: #c0e5d9;">
-									<a class="dropdown-item" href="#">
-										<input type="date" id="date" name="date"
-											style="background: #c0e5d9;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
-									</a>
-								</div>
 							</div>
 
 							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
@@ -64,9 +50,9 @@
 								</option>
 							</select>
 
-							<div class="dropdown">
+							<div>
 								<button class="btn btn-primary zeit" aria-expanded="false" data-bs-toggle="dropdown" type="button"
-									style="border-color: #059669;" th:text="#{time}">
+									style="border-color: #059669;">
 									<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
 										viewBox="0 0 16 16" class="bi bi-clock" style="margin-right: 5px;margin-top: -5px;">
 										<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z">
@@ -74,14 +60,9 @@
 										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0">
 										</path>
 									</svg>
-									<span>Zeit</span>
+									<input type="time" id="time" name="time"
+											style="background: transparent; border-color: rgba(33,37,41,0);">
 								</button>
-								<div class="dropdown-menu" style="background: #c0e5d9;">
-									<a class="dropdown-item" href="#" type="">
-										<input type="time" id="time" name="time"
-											style="background: #c0e5d9; border-color: rgba(33,37,41,0);">
-									</a>
-								</div>
 							</div>
 						</div>
 						<div class="d-flex justify-content-center" style="margin-top: 12px;">
