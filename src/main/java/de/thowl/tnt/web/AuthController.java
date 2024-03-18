@@ -99,8 +99,9 @@ public class AuthController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String doLogout(@SessionAttribute("token") AccessToken token, HttpSession httpSession) {
 
-		httpSession.removeAttribute("token");
-		httpSession.removeAttribute("username");
+		log.info("entering doLogin (GET-Method: /logout)");
+
+		httpSession.invalidate();
 
 		authsvc.logout(token.getUsid());
 		return "index";
