@@ -76,6 +76,8 @@ public class TaskServiceImpl implements TaskService {
 				task.setOverdue(true);
 			}
 		}
+
+		this.tasks.saveAll(tasks);
 	}
 
 	/**
