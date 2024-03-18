@@ -1,3 +1,4 @@
+
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.NoteKategory;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("notes")
+@SessionAttributes("noteSearchResults")
 public class SearchController {
 
 	@Autowired
@@ -34,6 +36,8 @@ public class SearchController {
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, NoteForm form, Model model) {
 
+		long userId;
+		User user;
 		String query, referer;
 		NoteKategory kategory;
 
@@ -42,6 +46,9 @@ public class SearchController {
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
 
 		query = form.getQuery();
 
@@ -63,7 +70,7 @@ public class SearchController {
 
 		referer = request.getHeader("Referer");
 
-		model.addAttribute("notes", this.notessvc.getNotesByParams(username, kategory, query));
+		model.addAttribute("noteSearchResults", this.notessvc.getNotesByParams(userId, kategory, query));
 
 		return "redirect:" + referer;
 	}

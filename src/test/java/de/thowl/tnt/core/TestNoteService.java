@@ -39,7 +39,8 @@ import lombok.extern.slf4j.Slf4j;
 @ActiveProfiles("test")
 public class TestNoteService {
 
-	private final String USERNAME = "Notestester";
+	private final long NOTEUSERID = 3L;
+	private final String NOTEUSER = "Notestester";
 
 	@Autowired
 	private NotesService notessvc;
@@ -52,41 +53,44 @@ public class TestNoteService {
 
 	@Test
 	public void testAddNote() {
-		log.info("entering test testAddNote");
 
 		long notesAmount;
+
+		log.info("entering test testAddNote");
 
 		notesAmount = this.notes.count();
 
 		this.notessvc.addNote(
-				USERNAME, "Test Note", "Test Note Subtile",
+				NOTEUSERID, "Test Note", "Test Note Subtile",
 				"Test Content", null, null, "misc", "test");
 		assertEquals(notesAmount + 1, this.notes.count());
 	}
 
 	@Test
 	public void testDeleteNote() {
-		log.info("entering test testDeleteNote");
 
 		long notesAmount;
 
+		log.info("entering test testDeleteNote");
+
 		notesAmount = this.notes.count();
-		this.notessvc.delete(1, USERNAME);
+		this.notessvc.delete(1, NOTEUSERID);
 		assertEquals(notesAmount - 1, this.notes.count());
 	}
 
 	// @Test
 	// TODO: for some reason this test needs to be isolated to work
 	public void testGetAllNotes() {
-		log.info("entering test testGetAllNotes");
 
 		User user;
 		List<Note> notes;
 		List<Note> result;
 
-		user = this.users.findByUsername(USERNAME);
+		log.info("entering test testGetAllNotes");
+
+		user = this.users.findByUsername(NOTEUSER);
 		notes = this.notes.findByUser(user);
-		result = this.notessvc.getAllNotes(USERNAME);
+		result = this.notessvc.getAllNotes(NOTEUSERID);
 
 		assertEquals(notes.size(), result.size(), "These should be the same size");
 	}

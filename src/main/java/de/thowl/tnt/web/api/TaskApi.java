@@ -98,7 +98,7 @@ public class TaskApi {
 	public ResponseEntity<String> addTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody TaskSchema task) {
 
-		String username;
+		long userId;
 		User user;
 
 		log.info("entering addTask (POST-Method: /api/task/add)");
@@ -108,9 +108,9 @@ public class TaskApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
+		userId = user.getId();
 
-		this.tasksvc.add(username, task.getTaskName(), task.getTaskContent(), task.getPriority(),
+		this.tasksvc.add(userId, task.getTaskName(), task.getTaskContent(), task.getPriority(),
 				task.getDate(), task.getTime());
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
@@ -135,7 +135,7 @@ public class TaskApi {
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
 
-		String username;
+		long userId;
 		User user;
 
 		log.info("entering markTaskDone (POST-Method: /api/task/done)");
@@ -145,9 +145,9 @@ public class TaskApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
+		userId = user.getId();
 
-		this.tasksvc.toggleDone(id, username);
+		this.tasksvc.toggleDone(id, userId);
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}
@@ -171,7 +171,7 @@ public class TaskApi {
 			@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@Parameter(description = "The id of the task") @RequestParam long id) {
 
-		String username;
+		long userId;
 		User user;
 
 		log.info("entering deleteTask (DELETE-Method: /api/task/delete)");
@@ -181,9 +181,9 @@ public class TaskApi {
 		if (user == null)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unathorised");
 
-		username = user.getUsername();
+		userId = user.getId();
 
-		this.tasksvc.delete(id, username);
+		this.tasksvc.delete(id, userId);
 
 		return ResponseEntity.status(HttpStatus.OK).body("success");
 	}

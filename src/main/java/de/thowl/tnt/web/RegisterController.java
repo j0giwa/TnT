@@ -48,6 +48,11 @@ public class RegisterController {
 		return "register";
 	}
 
+	/**
+	 * Registers a new user.
+	 * 
+	 * @return to register page
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String doRegister(RegisterForm form, Model model) {
 

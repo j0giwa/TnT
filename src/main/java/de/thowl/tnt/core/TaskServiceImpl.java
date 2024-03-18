@@ -109,7 +109,7 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void add(String username, String name, String content,
+	public void add(long userId, String name, String content,
 			String priority, Date dueDate, Date time) {
 
 		User user;
@@ -117,7 +117,7 @@ public class TaskServiceImpl implements TaskService {
 
 		log.debug("entering add");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 		task = Task.builder()
 				.user(user)
 				.name(name)
@@ -138,14 +138,14 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void toggleDone(long id, String username) {
+	public void toggleDone(long id, long userId) {
 
 		User user;
 		Task task;
 
 		log.debug("entering add");
 
-		user = this.users.findByUsername(username);
+		user = users.findById(userId).get();
 		task = this.tasks.findById(id);
 
 		if (null != task) {
@@ -162,14 +162,14 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void delete(long id, String username) {
+	public void delete(long id, long userId) {
 
 		User user;
 		Task task;
 
 		log.debug("entering delete");
 
-		user = this.users.findByUsername(username);
+		user = users.findById(userId).get();
 		task = this.tasks.findById(id);
 
 		if (null != task) {
@@ -185,25 +185,28 @@ public class TaskServiceImpl implements TaskService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Task> getAllTasks(String username) {
+	public List<Task> getAllTasks(long userId) {
 
 		User user;
 
 		log.debug("entering getAllTasks");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 
 		return this.tasks.findByUser(user);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public List<Task> getAllOverdueTasks(String username) {
+	public List<Task> getAllOverdueTasks(long userId) {
 
 		User user;
 
 		log.debug("entering getAllOverdueTasks");
 
-		user = users.findByUsername(username);
+		user = users.findById(userId).get();
 
 		return this.tasks.findByUserAndOverdue(user, true);
 	}

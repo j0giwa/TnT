@@ -46,19 +46,20 @@ public class AuthController {
 	/**
 	 * Shows the login page
 	 * 
-	 * @return index.html
+	 * @return login.html
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
 
 		log.info("entering showLoginPage (GET-Method: /login)");
+
 		return "login";
 	}
 
 	/**
 	 * Performs a login action
 	 * 
-	 * @return index.html
+	 * @return to dashboard page
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
@@ -78,20 +79,29 @@ public class AuthController {
 
 		User user = this.users.findByEmail(form.getEmail());
 
+
+		// HACK: esuseres the attributes are properly set
+		httpSession.removeAttribute("token");
+		httpSession.removeAttribute("username");
+
 		httpSession.setAttribute("token", token);
 		httpSession.setAttribute("username", user.getUsername());
 
+		// NOTE: The username in URL the was the legacy user identifier,
+		// kept due to the workload of changing it now.
+		// Also looks kind of cool in the browser.
 		return "redirect:/u/" + user.getUsername() + "/";
 	}
 
 	/**
 	 * Performs a logout action
 	 */
-	// NOTE: GetMapping was easier than handling this via a post request
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String doLogout(@SessionAttribute("token") AccessToken token) {
+	public String doLogout(@SessionAttribute("token") AccessToken token, HttpSession httpSession) {
 
-		log.info(token.toString());
+		httpSession.removeAttribute("token");
+		httpSession.removeAttribute("username");
+
 		authsvc.logout(token.getUsid());
 		return "index";
 	}

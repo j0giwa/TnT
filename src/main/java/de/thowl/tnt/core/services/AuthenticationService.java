@@ -81,6 +81,14 @@ public interface AuthenticationService {
 	public boolean validateSession(AccessToken token, String username);
 
 	/**
+	 * Gets an actice {@link User} by his {@link AccessToken}
+	 * 
+	 * @param token The {@link AccessToken}.
+	 * @return The {@link User} having the {@link AccessToken}.
+	 */
+	public User getUserbySession(AccessToken token);
+
+	/**
 	 * Registers a new user
 	 * 
 	 * @param firstname The First Name of the user
@@ -91,6 +99,22 @@ public interface AuthenticationService {
 	 */
 	public void register(String firstname, String lastname, String username, String email, String password)
 			throws DuplicateUserException;
+
+	/**
+	 * Update the userinformation {@link User} in the Database.
+	 * 
+	 * @param id        The id of the {@link User} to edit.
+	 * @param firstname The new first name of the {@link User}.
+	 * @param lastname  The new last name of the {@link User}.
+	 * @param username  The new username of the {@link User}.
+	 * @param email     The new E-Mail address of the {@link User}.
+	 * @param password  The new password of the {@link User}.
+	 * 
+	 * @throws NullUserException when the given id does not belong to an existing
+	 *                           {@link User}.
+	 */
+	void updateUser(long id, String firstname, String lastname, String username, String email, String password)
+			throws NullUserException;
 
 	/**
 	 * Performs a login action and stores an active {@link Session} in the Database.
@@ -113,19 +137,4 @@ public interface AuthenticationService {
 	 */
 	public void logout(String token);
 
-	/**
-	 * Update the userinformation {@link User} in the Database.
-	 * 
-	 * @param id        The id of the {@link User} to edit.
-	 * @param firstname The new first name of the {@link User}.
-	 * @param lastname  The new last name of the {@link User}.
-	 * @param username  The new username of the {@link User}.
-	 * @param email     The new E-Mail address of the {@link User}.
-	 * @param password  The new password of the {@link User}.
-	 * 
-	 * @throws NullUserException when the given id does not belong to an existing
-	 *                           {@link User}.
-	 */
-	void updateUser(long id, String firstname, String lastname, String username, String email, String password)
-			throws NullUserException;
 }

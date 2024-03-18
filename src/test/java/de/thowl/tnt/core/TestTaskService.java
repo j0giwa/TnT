@@ -43,7 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 @ActiveProfiles("test")
 public class TestTaskService {
 
-	private final String USERNAME = "Tasktester";
+	private final long TASKUSERID = 2L;
+	private final String TASKUSER = "Tasktester";
 
 	@Autowired
 	private TaskService tasksvc;
@@ -58,46 +59,49 @@ public class TestTaskService {
 	void testToggleDone() {
 		log.info("entering test testToggleDone");
 
-		this.tasksvc.toggleDone(1, USERNAME);
+		this.tasksvc.toggleDone(1, TASKUSERID);
 		assertTrue(this.tasks.findById(1).isDone(), "This should be true");
 
-		this.tasksvc.toggleDone(1, USERNAME);
+		this.tasksvc.toggleDone(1, TASKUSERID);
 		assertFalse(this.tasks.findById(1).isDone(), "This should be false");
 	}
 
 	@Test
 	public void testAddTask() {
-		log.info("entering test testAddTask");
 
 		long taskAmount;
 
+		log.info("entering test testAddTask");
+
 		taskAmount = this.tasks.count();
-		this.tasksvc.add(USERNAME, "Test Task", "Task Content", "High", new Date(), new Date());
+		this.tasksvc.add(TASKUSERID, "Test Task", "Task Content", "High", new Date(), new Date());
 		assertEquals(taskAmount + 1, this.tasks.count());
 	}
 
 	@Test
 	public void testDeleteTask() {
-		log.info("entering test testDeleteTask");
 
 		long taskAmount;
 
+		log.info("entering test testDeleteTask");
+
 		taskAmount = this.tasks.count();
-		this.tasksvc.delete(1, USERNAME);
+		this.tasksvc.delete(1, TASKUSERID);
 		assertEquals(taskAmount - 1, this.tasks.count());
 	}
 
 	@Test
 	public void testGetAllTasks() {
-		log.info("entering test testGetAllTasks");
 
 		User user;
 		List<Task> tasks;
 		List<Task> result;
 
-		user = this.users.findByUsername(USERNAME);
+		log.info("entering test testGetAllTasks");
+
+		user = this.users.findByUsername(TASKUSER);
 		tasks = this.tasks.findByUser(user);
-		result = this.tasksvc.getAllTasks(USERNAME);
+		result = this.tasksvc.getAllTasks(TASKUSERID);
 
 		assertEquals(tasks.size(), result.size(), "These should be the same size");
 	}

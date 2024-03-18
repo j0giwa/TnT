@@ -19,6 +19,11 @@ public class TimetrackerController {
 	@Autowired
 	private AuthenticationService authsvc;
 
+	/**
+	 * Shows the timetracker page
+	 * 
+	 * @return timetracker.html
+	 */
 	@GetMapping("/u/{username}/timetracker")
 	public String showTimetrackerPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
