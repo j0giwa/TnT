@@ -210,5 +210,20 @@ public class TaskServiceImpl implements TaskService {
 
 		return this.tasks.findByUserAndOverdue(user, true);
 	}
+	
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Task> getTasksByPriority(long userId, Priority priority) {
+
+		User user;
+
+		log.debug("entering getTasksByPriority");
+
+		user = users.findById(userId).get();
+
+		return this.tasks.findByUserAndPriority(user, priority);
+	}
 }

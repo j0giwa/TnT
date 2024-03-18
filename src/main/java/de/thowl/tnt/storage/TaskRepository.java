@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.Task;
 import de.thowl.tnt.storage.entities.User;
+import de.thowl.tnt.storage.entities.Priority;
 
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Long> {
@@ -36,6 +37,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 	public List<Task> findByDone(boolean done);
 
 	public List<Task> findByUserAndOverdue(User User, boolean overdue);
+
+	public List<Task> findByUserAndPriority(User User, Priority priority);
 
 	public List<Task> findByDueDateAndTimeBefore(Date currentDate, Date currentTime);
 }
