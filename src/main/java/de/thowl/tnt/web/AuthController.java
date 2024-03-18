@@ -52,6 +52,7 @@ public class AuthController {
 	public String showLoginPage() {
 
 		log.info("entering showLoginPage (GET-Method: /login)");
+
 		return "login";
 	}
 
@@ -78,6 +79,11 @@ public class AuthController {
 
 		User user = this.users.findByEmail(form.getEmail());
 
+
+		// HACK: esuseres the attributes are properly set
+		httpSession.removeAttribute("token");
+		httpSession.removeAttribute("username");
+
 		httpSession.setAttribute("token", token);
 		httpSession.setAttribute("username", user.getUsername());
 
@@ -91,9 +97,11 @@ public class AuthController {
 	 * Performs a logout action
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String doLogout(@SessionAttribute("token") AccessToken token) {
+	public String doLogout(@SessionAttribute("token") AccessToken token, HttpSession httpSession) {
 
-		log.info(token.toString());
+		httpSession.removeAttribute("token");
+		httpSession.removeAttribute("username");
+
 		authsvc.logout(token.getUsid());
 		return "index";
 	}
