@@ -1,3 +1,4 @@
+
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("notes")
+@SessionAttributes("noteSearchResults")
 public class SearchController {
 
 	@Autowired
@@ -69,7 +70,7 @@ public class SearchController {
 
 		referer = request.getHeader("Referer");
 
-		model.addAttribute("notes", this.notessvc.getNotesByParams(userId, kategory, query));
+		model.addAttribute("noteSearchResults", this.notessvc.getNotesByParams(userId, kategory, query));
 
 		return "redirect:" + referer;
 	}

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("notes")
+@SessionAttributes("noteSearchResults")
 public class DashboardController {
 
 	@Autowired
@@ -57,8 +57,14 @@ public class DashboardController {
 		model.addAttribute("user", username);
 		model.addAttribute("tasks", this.tasksvc.getAllOverdueTasks(userId));
 
-		if (!model.containsAttribute("notes"))
+		if (model.containsAttribute("noteSearchResults")) {
+
+			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
+			// TODO: This had not the desired effect, reset button nessesary
+			// request.getSession().removeAttribute("noteSearchResults");
+		} else {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
+		}
 
 		return "dashboard";
 	}

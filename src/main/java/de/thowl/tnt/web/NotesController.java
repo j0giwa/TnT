@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("notes")
+@SessionAttributes("noteSearchResults")
 public class NotesController {
 
 	@Autowired
@@ -74,8 +74,14 @@ public class NotesController {
 		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
 
-		if (!model.containsAttribute("notes"))
+		if (model.containsAttribute("noteSearchResults")) {
+
+			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
+			// TODO: This had not the desired effect, reset button nessesary
+			// request.getSession().removeAttribute("noteSearchResults");
+		} else {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
+		}
 
 		return "notes";
 	}
