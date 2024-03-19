@@ -51,7 +51,7 @@ public class CalendarController {
 		User user;
 		String avatar, mimetype;
 
-		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
+		log.info("entering showCalendarPage (GET-Method: /u/{}/calendar)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))

@@ -58,7 +58,7 @@ public class TodoController {
 		User user;
 		String avatar, mimetype;
 
-		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
+		log.info("entering showLoginPage (GET-Method: /u/{}/todo)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))

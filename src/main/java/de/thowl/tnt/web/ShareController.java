@@ -54,7 +54,7 @@ public class ShareController {
 		User user;
 		String username, avatar, mimetype;
 
-		log.info("entering showSharePage (GET-Method: /share)");
+		log.info("entering showSharePage (GET-Method: /share/{})", uuid);
 
 		// Fallbackvalues, beeing looged is is optional
 		username = "Guest";

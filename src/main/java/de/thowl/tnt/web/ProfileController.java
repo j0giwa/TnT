@@ -36,7 +36,7 @@ public class ProfileController {
 
 		User user;
 
-		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
+		log.info("entering showProfilePage (GET-Method: /u/{}/profile)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
@@ -72,7 +72,7 @@ public class ProfileController {
 		String mimeType;
 		byte[] fileContent;
 
-		log.info("entering updateProfile (POST-Method: /u/{username}/profile)");
+		log.info("entering updateProfile (POST-Method: /u/{}/profile)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))

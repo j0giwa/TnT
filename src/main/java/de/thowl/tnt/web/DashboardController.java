@@ -70,7 +70,7 @@ public class DashboardController {
 		List<Task> tasks;
 		String avatar, mimetype;
 
-		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
+		log.info("entering showDashboardPage (GET-Method: /u/{}/)", username);
 
 		// Prevent unauthrised access
 		try {

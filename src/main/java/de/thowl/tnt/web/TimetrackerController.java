@@ -32,7 +32,7 @@ public class TimetrackerController {
 		User user;
 		String avatar, mimetype;
 
-		log.info("entering showTimetrackerPage (GET-Method: /u/{username}/timetracker)");
+		log.info("entering showTimetrackerPage (GET-Method: /u/{}/timetracker)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))

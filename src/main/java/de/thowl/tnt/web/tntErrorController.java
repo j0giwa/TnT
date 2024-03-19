@@ -19,6 +19,7 @@
 package de.thowl.tnt.web;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
+
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -36,9 +37,11 @@ import lombok.extern.slf4j.Slf4j;
 public class tntErrorController implements ErrorController {
 
 	@RequestMapping(value = "/error")
-	public String handleError(HttpServletRequest request, Model model) {
+	public String showErrorPage(HttpServletRequest request, Model model) {
 
 		String code, header, message;
+
+		log.info("entering showErrorPage (Method: /error)");
 
 		code = request.getAttribute("code").toString();
 		header = request.getAttribute("header").toString();
@@ -60,7 +63,7 @@ public class tntErrorController implements ErrorController {
 		request.setAttribute("header", "Hold Up!");
 		request.setAttribute("message", "You need to be logged in to access this resource");
 
-		return handleError(request, model);
+		return showErrorPage(request, model);
 	}
 
 	@ExceptionHandler(JpaSystemException.class)
@@ -72,6 +75,6 @@ public class tntErrorController implements ErrorController {
 		request.setAttribute("header", "Whoops! Something went Wrong :(");
 		request.setAttribute("message", "Have you tried turning it of and on again?");
 
-		return handleError(request, model);
+		return showErrorPage(request, model);
 	}
 }

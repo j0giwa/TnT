@@ -21,7 +21,6 @@ package de.thowl.tnt.web;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,18 +56,18 @@ public class NotesController {
 	 * @return notes.html
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.GET)
-	public ResponseEntity<?> showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
 		long userId;
 		User user;
 		String avatar, mimetype;
 
-		log.info("entering showNotePage (GET-Method: /notes)");
+		log.info("entering showNotePage (GET-Method: /u/{}/notes)", username);
 
-		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
                 	throw new AccessDeniedException("Access Forbidden");
+			
 
 		this.authsvc.refreshSession(token);
 
@@ -89,8 +88,7 @@ public class NotesController {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 		}
 
-		//return "notes";
-		return ResponseEntity.ok("notes");
+		return "notes";
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class SearchController {
 		String query, referer;
 		NoteKategory kategory;
 
-		log.info("entering showNotePage (GET-Method: /notes)");
+		log.info("entering showNotePage (GET-Method: /u/{}/search)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
