@@ -18,6 +18,7 @@
 
 package de.thowl.tnt.core;
 
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -133,15 +134,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	/**
-	 * Sets expiry time (e.g., 30 minutes from now)
-	 * 
-	 * @param session The session to refresh
+	 * {@inheritDoc}
 	 */
-	private void refreshSession(Session session) {
+	@Override
+	public boolean validateSession(AccessToken token, String username) {
 
+		Session session;
+		User user;
+		boolean result;
+
+		log.debug("entering validateSession");
+
+		if (token == null) {
+			log.error("token was null");
+			return false;
+		}
+
+		user = users.findByUsername(username);
+		session = sessions.findByAuthToken(token.getUsid());
+		if (session == null) {
+			log.error("a session could not be found");
+			return false;
+		}
+
+		user = users.findByUsername(username);
+		if (user == null) {
+			log.error("user: {} could not be found", username);
+			return false;
+		}
+
+		result = user.getId() == session.getUserId();
+		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void refreshSession(AccessToken token) {
+
+		Session session;
 		Calendar calendar;
 		Date expiryTime;
 
+		session = sessions.findByAuthToken(token.getUsid());
 		calendar = Calendar.getInstance();
 		calendar.add(Calendar.MINUTE, 30);
 		expiryTime = calendar.getTime();
@@ -155,36 +192,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean validateSession(AccessToken token, String username) {
+	public User getUserbySession(AccessToken token) {
 
+		String usid;
 		Session session;
-		User user = users.findByUsername(username);
-		boolean result;
+		User user;
 
-		log.debug("entering validateSession");
+		log.debug("entering getUserbySession");
 
-		if (token == null) {
-			log.error("token was null");
-			return false;
-		}
+		usid = token.getUsid();
+		session = this.sessions.findByAuthToken(usid);
+		user = this.users.findById(session.getUserId()).get();
 
-		session = sessions.findByAuthToken(token.getUsid());
-		if (session == null) {
-			log.error("a session could not be found");
-			return false;
-		}
+		if (user.getAvatar() != null)
+			user.setEncodedAvatar(Base64.getEncoder().encodeToString(user.getAvatar()));
 
-		user = users.findByUsername(username);
-		if (user == null) {
-			log.error("user: {} could not be found", username);
-			return false;
-		}
-
-		refreshSession(session);
-
-		result = user.getId() == session.getUserId();
-		log.debug("validateSession(token: {}, username:{}) returned: {}", token, username, result);
-		return result;
+		return user;
 	}
 
 	/**
@@ -220,7 +243,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public void updateUser(long id, String firstname, String lastname, String username,
-			String email, String password) throws NullUserException {
+			String email, String password, byte[] avatar, String mimeType) throws NullUserException {
 
 		User user;
 
@@ -235,6 +258,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		user.setFirstname(firstname);
 		user.setLastname(lastname);
 		user.setPassword(encoder.encode(password));
+		user.setAvatar(avatar);
+		user.setMimeType(mimeType);
 
 		this.users.save(user);
 		log.info("udated userdata of user id: {}", id);
@@ -349,23 +374,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		this.sessions.delete(session);
 	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public User getUserbySession(AccessToken token) {
-
-		String usid;
-		Session session;
-		User user;
-
-		log.debug("entering getUserbySession");
-
-		usid = token.getUsid();
-		session = this.sessions.findByAuthToken(usid);
-		user = this.users.findById(session.getUserId()).get();
-
-		return user;
-	}
+	
 
 }

@@ -8,7 +8,12 @@
         
         <div class="row">
             <div class="col-md-12 alert-col relative">
-                <div class="alert alert-info alert-dismissible absolue center" role="alert"><button class="close" type="button" aria-label="Close" data-dismiss="alert"><span aria-hidden="true">×</span></button><span>Profile save with success</span></div>
+                <div class="alert alert-info alert-dismissible absolue center" role="alert">
+                    <button class="close" type="button" aria-label="Close" data-dismiss="alert">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <span>Profile save with success</span>
+                </div>
             </div>
         </div>
             
@@ -17,17 +22,18 @@
                 <p class="m-0 fw-bold text-success" th:text="#{usersettings}">User Settings</p>
             </div>
             <div class="card-body bg-body">
-                <form th:action="@{'/u/' + ${username} + '/profile'}" method="POST">
+                <form th:action="@{'/u/' + ${username} + '/profile'}" method="POST" enctype="multipart/form-data">
                     <div class="row" style="margin-bottom: 25px;text-align: left;">
                         <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 col-xxl-2"
                             style="display: inline;text-align: center;margin-bottom: 25px;">
                             <div class="avatar">
+                                <img th:if="${avatarMimeType.startsWith('image/')}" th:src="'data:' + ${avatarMimeType} + ';base64,' + ${avatar}" alt="avatar">
                                 <div class="avatar-bg center"></div>
                             </div>
-                            <input class="form-control bg-body" type="file" name="avatar-file" />
+                            <input class="form-control bg-body" type="file" name="avatar" />
                             <br>
-                            <button class="btn btn-primary btn-sm" id="photoBtn" type="file" name="avatar-file"
-                                style="background: rgb(5,150,105);border-style: none;">
+                            <button class="btn btn-primary btn-sm" id="photoBtn" type="file"
+                                style="background: rgb(5,150,105);border-style: none;" th:formaction="@{'/u/' + ${username} + '/profile/avatar'}">
                                 Change Photo
                             </button>
                         </div>

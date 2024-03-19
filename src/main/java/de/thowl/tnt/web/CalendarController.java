@@ -31,9 +31,11 @@ public class CalendarController {
 
 		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		model.addAttribute("user", username);
 

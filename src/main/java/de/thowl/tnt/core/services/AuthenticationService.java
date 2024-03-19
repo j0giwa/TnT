@@ -68,9 +68,6 @@ public interface AuthenticationService {
 	 * <p>
 	 * Checks if the given {@link AccessToken} belongs to a session with this
 	 * {@link AccessToken}.
-	 * <p>
-	 * The Session expires 30 Minutes after its creation / Validation.
-	 * Running this resets the timer.
 	 *
 	 * @param token    The {@link AccessToken} to check.
 	 * @param username The name of the {@link User} to check.
@@ -79,6 +76,16 @@ public interface AuthenticationService {
 	 *         {@code false} if something does not match
 	 */
 	public boolean validateSession(AccessToken token, String username);
+
+	/**
+	 * Resets the session expiry time.
+	 * 
+	 * A valid Session expires after 30 Minutes.
+	 * Running this resets the timer.
+	 * 
+	 * @param session The session to refresh
+	 */
+	public void refreshSession(AccessToken token);
 
 	/**
 	 * Gets an actice {@link User} by his {@link AccessToken}
@@ -113,7 +120,8 @@ public interface AuthenticationService {
 	 * @throws NullUserException when the given id does not belong to an existing
 	 *                           {@link User}.
 	 */
-	void updateUser(long id, String firstname, String lastname, String username, String email, String password)
+	public void updateUser(long id, String firstname, String lastname, String username, String email, String password, byte[] avatar, 
+			String mimeType)
 			throws NullUserException;
 
 	/**

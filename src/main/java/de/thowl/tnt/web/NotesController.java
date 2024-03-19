@@ -75,10 +75,7 @@ public class NotesController {
 		model.addAttribute("user", username);
 
 		if (model.containsAttribute("noteSearchResults")) {
-
 			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
-			// TODO: This had not the desired effect, reset button nessesary
-			// request.getSession().removeAttribute("noteSearchResults");
 		} else {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 		}
@@ -121,9 +118,10 @@ public class NotesController {
 			// No file was uploaded, this was probably intentional.
 		}
 
-		if (form.getTitle().isEmpty() || form.getSubtitle().isEmpty() || form.getContent().isEmpty() || form.getTags().isEmpty()) {
+		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");
 		} else {
+			log.info("adding note");
 			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
 					fileContent, mimeType, form.getKategory(), form.getTags());
 		}
@@ -197,8 +195,7 @@ public class NotesController {
 			e.printStackTrace();
 		}
 
-		if (form.getTitle().isEmpty() || form.getSubtitle().isEmpty() || form.getContent().isEmpty()
-				|| form.getTags().isEmpty()) {
+		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");
 		} else {
 			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
@@ -224,9 +221,11 @@ public class NotesController {
 
 		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

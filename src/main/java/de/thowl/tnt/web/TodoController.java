@@ -62,9 +62,11 @@ public class TodoController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		model.addAttribute("user", username);
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(userId));
@@ -88,9 +90,11 @@ public class TodoController {
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
@@ -122,9 +126,11 @@ public class TodoController {
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
@@ -151,9 +157,11 @@ public class TodoController {
 
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

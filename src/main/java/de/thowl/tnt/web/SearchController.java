@@ -43,9 +43,11 @@ public class SearchController {
 
 		log.info("entering showNotePage (GET-Method: /notes)");
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

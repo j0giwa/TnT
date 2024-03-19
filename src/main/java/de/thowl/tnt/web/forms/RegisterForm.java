@@ -18,6 +18,8 @@
 
 package de.thowl.tnt.web.forms;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -25,6 +27,7 @@ public class RegisterForm {
 
   private String firstname;
   private String lastname;
+  private MultipartFile avatar;
   private String username;
   private String email;
   private String password;

@@ -342,3 +342,8 @@ textarea {
   border-radius: 25px;
   background-color: black;
 }
+
+#avatar {
+  width: 60px;
+  height: 60px;
+}

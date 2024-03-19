@@ -56,9 +56,14 @@ public class DashboardController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
+
+		model.addAttribute("avatar", user.getEncodedAvatar());
+		model.addAttribute("avatarMimeType", user.getMimeType());
 
 		model.addAttribute("user", username);
 		
