@@ -78,6 +78,7 @@ public interface AuthenticationService {
 	public boolean validateSession(AccessToken token, String username);
 
 	/**
+<<<<<<< HEAD
 	 * Resets the session expiry time.
 	 * 
 	 * A valid Session expires after 30 Minutes.
@@ -88,6 +89,8 @@ public interface AuthenticationService {
 	public void refreshSession(AccessToken token);
 
 	/**
+=======
+>>>>>>> master
 	 * Gets an actice {@link User} by his {@link AccessToken}
 	 * 
 	 * @param token The {@link AccessToken}.

@@ -374,6 +374,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		this.sessions.delete(session);
 	}
-	
 
 }
