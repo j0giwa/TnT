@@ -255,11 +255,9 @@ public class NotesServiceImpl implements NotesService {
 
 		note = this.notes.findById(id);
 
-		if (null != note) {
-			if (userId == note.getUser().getId()) {
-				log.info("deleting task id: {}", id);
-				this.notes.delete(note);
-			}
+		if (userId == note.getUser().getId()) {
+			log.info("deleting note id: {}", id);
+			this.notes.delete(note);
 		}
 	}
 

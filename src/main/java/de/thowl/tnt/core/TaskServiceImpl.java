@@ -18,6 +18,8 @@
 
 package de.thowl.tnt.core;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -57,20 +59,25 @@ public class TaskServiceImpl implements TaskService {
 	@Scheduled(fixedRate = 60000)
 	public void flagTasksAsOverdue() {
 
-		Date now;
+		DateTimeFormatter formatter;
+		String now;
 		List<Task> tasks;
 
 		log.debug("entering flagTasksAsOverdue");
 
-		now = new Date();
-		tasks = this.tasks.findByDueDateAndTimeBefore(now, now);
+		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		now = LocalDateTime.now().format(formatter);
+
+		tasks = this.tasks.findByDueDateTimeBefore(now);
 
 		if (!tasks.isEmpty()) {
-			log.info("Found {} overdue tasks. ", tasks.size());
+			log.info("Found {} overdue tasks.", tasks.size());
 			for (Task task : tasks) {
 				task.setOverdue(true);
 			}
 		}
+
+		this.tasks.saveAll(tasks);
 	}
 
 	/**
@@ -88,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
 		doneTasks = this.tasks.findByDone(true);
 
 		if (!doneTasks.isEmpty()) {
-			log.info("Found {} done tasks. Deleting...", doneTasks.size());
+			log.info("Deleted {} done tasks", doneTasks.size());
 			this.tasks.deleteAll(doneTasks);
 		}
 	}
@@ -210,5 +217,20 @@ public class TaskServiceImpl implements TaskService {
 
 		return this.tasks.findByUserAndOverdue(user, true);
 	}
+	
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Task> getTasksByPriority(long userId, Priority priority) {
+
+		User user;
+
+		log.debug("entering getTasksByPriority");
+
+		user = users.findById(userId).get();
+
+		return this.tasks.findByUserAndPriority(user, priority);
+	}
 }

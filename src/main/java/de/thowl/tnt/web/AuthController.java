@@ -79,7 +79,6 @@ public class AuthController {
 
 		User user = this.users.findByEmail(form.getEmail());
 
-
 		// HACK: esuseres the attributes are properly set
 		httpSession.removeAttribute("token");
 		httpSession.removeAttribute("username");

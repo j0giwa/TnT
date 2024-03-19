@@ -20,11 +20,14 @@ package de.thowl.tnt.storage;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import de.thowl.tnt.storage.entities.Task;
 import de.thowl.tnt.storage.entities.User;
+import de.thowl.tnt.storage.entities.Priority;
 
 @Repository
 public interface TaskRepository extends CrudRepository<Task, Long> {
@@ -37,5 +40,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 
 	public List<Task> findByUserAndOverdue(User User, boolean overdue);
 
-	public List<Task> findByDueDateAndTimeBefore(Date currentDate, Date currentTime);
+	public List<Task> findByUserAndPriority(User User, Priority priority);
+
+	@Query("SELECT t FROM Task t WHERE CONCAT(t.dueDate, ' ', t.time) < :currentDateTime")
+	public List<Task> findByDueDateTimeBefore(@Param("currentDateTime") String currentDateTime);
 }

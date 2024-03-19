@@ -121,8 +121,12 @@ public class NotesController {
 			// No file was uploaded, this was probably intentional.
 		}
 
-		this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
-				fileContent, mimeType, form.getKategory(), form.getTags());
+		if (form.getTitle().isEmpty() || form.getSubtitle().isEmpty() || form.getContent().isEmpty() || form.getTags().isEmpty()) {
+			model.addAttribute("error", "input_error");
+		} else {
+			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
+					fileContent, mimeType, form.getKategory(), form.getTags());
+		}
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
@@ -193,8 +197,13 @@ public class NotesController {
 			e.printStackTrace();
 		}
 
-		this.notessvc.editNote(form.getId(), userId, form.getTitle(), form.getSubtitle(),
-				form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
+		if (form.getTitle().isEmpty() || form.getSubtitle().isEmpty() || form.getContent().isEmpty()
+				|| form.getTags().isEmpty()) {
+			model.addAttribute("error", "input_error");
+		} else {
+			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
+					fileContent, mimeType, form.getKategory(), form.getTags());
+		}
 
 		return "redirect:/u/" + username + "/notes";
 	}

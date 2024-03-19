@@ -1,5 +1,8 @@
 package de.thowl.tnt.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,8 @@ import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.core.services.TaskService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.Priority;
+import de.thowl.tnt.storage.entities.Task;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +49,7 @@ public class DashboardController {
 
 		long userId;
 		User user;
+		List<Task> tasks;
 
 		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
 
@@ -55,7 +61,12 @@ public class DashboardController {
 			throw new ForbiddenException("Unathorised access");
 
 		model.addAttribute("user", username);
-		model.addAttribute("tasks", this.tasksvc.getAllOverdueTasks(userId));
+		
+		tasks = new ArrayList<Task>();
+		tasks.addAll(this.tasksvc.getAllOverdueTasks(userId));
+		tasks.addAll(this.tasksvc.getTasksByPriority(userId, Priority.HIGH));
+
+		model.addAttribute("tasks", tasks);
 
 		if (model.containsAttribute("noteSearchResults")) {
 
