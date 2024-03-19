@@ -162,10 +162,14 @@ public class NotesController {
 
 		note = this.notessvc.getNote(form.getId(), userId);
 
+		model.addAttribute("user", username);
+		model.addAttribute("avatar", user.getEncodedAvatar());
+		model.addAttribute("avatarMimeType", user.getMimeType());
 		model.addAttribute("editing", true);
 		model.addAttribute("noteTitle", note.getName());
 		model.addAttribute("noteSubtitle", note.getSubtitle());
 		model.addAttribute("noteContent", note.getContent());
+		model.addAttribute("noteTags", String.join(" ", note.getTags()));
 
 		return "notes";
 	}

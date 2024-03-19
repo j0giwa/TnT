@@ -23,15 +23,15 @@
 					<div class="card-body">
 						<h4 class="card-title">
 							<input type="text" name="title" id="title" style="background: transparent;border-style: none;width: 100%;"
-								th:placeholder="#{title}" width="">
+								th:placeholder="#{title}" th:value="${noteTitle}" width="">
 						</h4>
 						<h6 class="text-secondary card-subtitle mb-2">
-							<input type="text" name="subtitle" id="subtitle"
+							<input type="text" name="subtitle" id="subtitle" th:value="${noteSubtitle}"
 								style="background: transparent;border-style: none;width: 100%;" th:placeholder="#{subtitle}">
 						</h6>
 						<h6 class="text-secondary mb-2">
 							<input type="text" name="tags" id="tags" style="background: transparent; border-style: none; width: 100%;"
-								placeholder="tags">
+								placeholder="tags" th:value="${noteTags}">
 						</h6>
 						<br>
 						<select name="kategory" id="kategory">
