@@ -212,8 +212,8 @@ public class NotesController {
 		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");
 		} else {
-			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
-					fileContent, mimeType, form.getKategory(), form.getTags());
+			this.notessvc.editNote(form.getId(), userId,  form.getTitle(), form.getSubtitle(), 
+					form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
 		}
 
 		return "redirect:/u/" + username + "/notes";
