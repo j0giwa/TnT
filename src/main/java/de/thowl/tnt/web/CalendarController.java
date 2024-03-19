@@ -31,6 +31,7 @@ public class CalendarController {
 			@PathVariable("username") String username, Model model) {
 
 		User user;
+		String avatar, mimetype;
 
 		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
 
@@ -42,9 +43,12 @@ public class CalendarController {
 
 		user = this.authsvc.getUserbySession(token);
 
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
 		model.addAttribute("user", username);
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
 
 		return "calendar";
 	}

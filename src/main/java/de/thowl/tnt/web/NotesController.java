@@ -61,6 +61,7 @@ public class NotesController {
 
 		long userId;
 		User user;
+		String avatar, mimetype;
 
 		log.info("entering showNotePage (GET-Method: /notes)");
 
@@ -73,10 +74,13 @@ public class NotesController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		model.addAttribute("editing", false);
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
 		model.addAttribute("user", username);
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
+		model.addAttribute("editing", false);
 
 		if (model.containsAttribute("noteSearchResults")) {
 			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
@@ -147,6 +151,7 @@ public class NotesController {
 		long userId;
 		User user;
 		Note note;
+		String avatar, mimetype;
 
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
 
@@ -159,11 +164,15 @@ public class NotesController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		note = this.notessvc.getNote(form.getId(), userId);
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
 
 		model.addAttribute("user", username);
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
+
+		note = this.notessvc.getNote(form.getId(), userId);
+
 		model.addAttribute("editing", true);
 		model.addAttribute("noteTitle", note.getName());
 		model.addAttribute("noteSubtitle", note.getSubtitle());
@@ -207,11 +216,6 @@ public class NotesController {
 		} catch (IOException e) {
 			// No file was uploaded, this was probably intentional.
 		}
-
-		log.info("mimetype {}", mimeType); 
-		// HACK: this ensures there is alway a mimetype
-		if(mimeType == null)
-			mimeType = "application/octet-stream";
 
 		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");

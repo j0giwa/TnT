@@ -56,6 +56,7 @@ public class TodoController {
 
 		long userId;
 		User user;
+		String avatar, mimetype;
 
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
@@ -68,9 +69,13 @@ public class TodoController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
 		model.addAttribute("user", username);
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
+
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(userId));
 
 		return "todo";
