@@ -203,7 +203,7 @@
             <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
               <span class="d-none d-lg-inline me-2 text-gray-600 small"
                 style="color: var(--bs-emphasis-color);font-weight: bold;" th:text="${user}">Username</span>
-              <img class="border rounded-circle img-profile avatar" th:unless="${avatar != null}" th:src="@{/images/avatars/avatar1.jpeg}">
+              <img class="border rounded-circle img-profile avatar" th:unless="${avatar != ''}" th:src="@{/images/avatars/defaultavatar.png}" style="width: 60px; height: 60px;" alt="avatar">
               <img class="border rounded-circle img-profile avatar" th:if="${#strings.startsWith(avatarMimeType, 'image/')}"
                 th:src="'data:' + ${avatarMimeType} + ';base64,' + ${avatar}" style="width: 60px; height: 60px;" alt="avatar">
             </a>
@@ -293,7 +293,7 @@
             <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
               <span class="d-none d-lg-inline me-2 text-gray-600 small"
                 style="color: var(--bs-emphasis-color);font-weight: bold;" th:text="${user}">Username</span>
-              <img class="border rounded-circle img-profile avatar" th:unless="${avatar != null}" th:src="@{/images/avatars/avatar1.jpeg}">
+              <img class="border rounded-circle img-profile avatar" th:unless="${avatar != ''}" th:src="@{/images/avatars/defaultavatar.png}" style="width: 60px; height: 60px;" alt="avatar">
               <img class="border rounded-circle img-profile avatar" th:if="${#strings.startsWith(avatarMimeType, 'image/')}"
                 th:src="'data:' + ${avatarMimeType} + ';base64,' + ${avatar}" style="width: 60px; height: 60px;" alt="avatar">
             </a>
