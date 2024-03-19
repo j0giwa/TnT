@@ -127,7 +127,6 @@ public class NotesController {
 		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");
 		} else {
-			log.info("adding note");
 			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
 					fileContent, mimeType, form.getKategory(), form.getTags());
 		}
@@ -206,8 +205,13 @@ public class NotesController {
 			fileContent = form.getFile().getBytes();
 			mimeType = form.getFile().getContentType();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// No file was uploaded, this was probably intentional.
 		}
+
+		log.info("mimetype {}", mimeType); 
+		// HACK: this ensures there is alway a mimetype
+		if(mimeType == null)
+			mimeType = "application/octet-stream";
 
 		if (form.getTitle().isEmpty()) {
 			model.addAttribute("error", "input_error");

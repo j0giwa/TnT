@@ -235,6 +235,7 @@ public class NotesServiceImpl implements NotesService {
 				.subtitle(subtitle)
 				.content(content)
 				.attachment(attachment)
+				.mimeType(mimeType)
 				.createdAt(new Date())
 				.kategory(setKategory(kategory))
 				.tags(formatTags(tags))

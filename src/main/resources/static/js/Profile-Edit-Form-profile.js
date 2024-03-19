@@ -33,7 +33,7 @@
         }
     }
 
-    $("input.form-control[name=avatar-file]").change(function(){
+    $("input.form-control[name=avatar]").change(function(){
         readURL(this);
     });
     
