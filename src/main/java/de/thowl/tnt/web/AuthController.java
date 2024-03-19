@@ -64,6 +64,7 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String doLogin(LoginForm form, Model model, HttpSession httpSession) {
 
+		User user;
 		AccessToken token;
 		String email = form.getEmail();
 		String password = form.getPassword();
@@ -77,7 +78,7 @@ public class AuthController {
 			return "login";
 		}
 
-		User user = this.users.findByEmail(form.getEmail());
+		user = this.users.findByEmail(form.getEmail());
 
 		// HACK: esuseres the attributes are properly set
 		httpSession.removeAttribute("token");
