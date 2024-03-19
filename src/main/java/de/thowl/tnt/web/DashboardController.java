@@ -3,6 +3,7 @@ package de.thowl.tnt.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.internal.lang.annotation.ajcDeclareEoW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +51,7 @@ public class DashboardController {
 		long userId;
 		User user;
 		List<Task> tasks;
+		String avatar, mimetype;
 
 		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
 
@@ -62,9 +64,18 @@ public class DashboardController {
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
+		if (avatar == null)
+			avatar = "";
+
+		if (mimetype == null)
+			mimetype = "";
+
 		model.addAttribute("user", username);
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		model.addAttribute("avatar", avatar);
+		model.addAttribute("avatarMimeType", mimetype);
 		
 		tasks = new ArrayList<Task>();
 		tasks.addAll(this.tasksvc.getAllOverdueTasks(userId));
