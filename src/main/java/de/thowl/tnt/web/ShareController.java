@@ -46,16 +46,36 @@ public class ShareController {
 	private NotesService notesvc;
 
 	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
-	public String showSharePage(@PathVariable("uuid") String uuid, Model model) {
-
-		log.info("entering showSharePage (GET-Method: /share)");
+	public String showSharePage(@SessionAttribute(name = "token", required = false) AccessToken token, 
+			@PathVariable("uuid") String uuid, Model model) {
 
 		long id;
 		Note note;
+		User user;
+		String username, avatar, mimetype;
 
+		log.info("entering showSharePage (GET-Method: /share)");
+
+		// Fallbackvalues, beeing looged is is optional
+		username = "Guest";
+		avatar = "";
+		mimetype = "";
+
+		try {
+			user = this.authsvc.getUserbySession(token);
+			username = user.getUsername();
+			avatar = user.getEncodedAvatar();
+			mimetype = user.getMimeType();
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		
 		id = this.notesvc.getSharedNote(uuid).getNote().getId();
-
 		note = this.notesvc.getNote(id);
+
+		model.addAttribute("user", username);
+		model.addAttribute("avatar", avatar);
+		model.addAttribute("avatarMimeType", mimetype);
 
 		model.addAttribute("note", note);
 
