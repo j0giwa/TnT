@@ -41,6 +41,7 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 
 	public List<Task> findByUserAndPriority(User User, Priority priority);
 
-	@Query("SELECT t FROM Task t WHERE CONCAT(t.dueDate, ' ', t.time) < :currentDateTime")
-	public List<Task> findByDueDateTimeBefore(@Param("currentDateTime") String currentDateTime);
+	@Query("SELECT t FROM Task t WHERE CONCAT(t.dueDate, ' ', t.time) < :currentDateTime AND t.overdue = false")
+	public List<Task> findByDueDateTimeAndNotOverdue(@Param("currentDateTime") String currentDateTime);
+
 }
