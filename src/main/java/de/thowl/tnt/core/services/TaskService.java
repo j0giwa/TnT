@@ -75,4 +75,16 @@ public interface TaskService {
 	 *         {@code null} if the user did not create any tasks,
 	 */
 	public List<Task> getAllOverdueTasks(long userId);
+
+	/**
+	 * Gets all {@link Task}s with the given created {@link Priority}
+	 *
+	 * @param userId The ID of the {@link User}.
+	 * @param priority The {@link Priority} of the {@link Task}s.
+	 *
+	 * @return A list of {@link Task}s,
+	 *         {@code null} if the user did not create any tasks,
+	 */
+	public List<Task> getTasksByPriority(long userId, Priority priority);
+
 }

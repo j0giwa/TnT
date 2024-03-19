@@ -1,5 +1,7 @@
 package de.thowl.tnt.web;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,13 +38,24 @@ public class ProfileController {
 
 		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 
 		model.addAttribute("user", user);
+
+		if (user.getAvatar() != null) {
+			model.addAttribute("avatar", user.getEncodedAvatar());
+			model.addAttribute("avatarMimeType", user.getEncodedAvatar());
+		} else {
+			model.addAttribute("avatar", "");
+			model.addAttribute("avatarMimeType", "");
+		}
+	
 		return "profile";
 	}
 
@@ -56,12 +69,16 @@ public class ProfileController {
 			@PathVariable("username") String username, RegisterForm form, Model model) {
 
 		User user;
+		String mimeType;
+		byte[] fileContent;
 
 		log.info("entering updateProfile (POST-Method: /u/{username}/profile)");
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 
@@ -74,11 +91,21 @@ public class ProfileController {
 		if (!form.getPassword().equals(form.getPassword2()))
 			model.addAttribute("error", "password_match_error");
 
-		// Reload Userprofil
+		
+		fileContent = null;
+		mimeType = "application/octet-stream";
+
+		try {
+			fileContent = form.getAvatar().getBytes();
+			mimeType = form.getAvatar().getContentType();
+		} catch (IOException e) {
+			log.error("Cannot update avatar without a file");
+		}
+
 		try {
 			this.authsvc.updateUser(user.getId(), form.getFirstname(), form.getLastname(),
 					form.getUsername(),
-					form.getEmail(), form.getPassword());
+					form.getEmail(), form.getPassword(), fileContent, mimeType);
 		} catch (NullUserException e) {
 
 			log.error("User could not be updated");

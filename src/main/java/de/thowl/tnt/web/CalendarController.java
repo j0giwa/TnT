@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.entities.AccessToken;
+import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.exceptions.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,13 +30,25 @@ public class CalendarController {
 	public String showCalendarPage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
+		User user;
+		String avatar, mimetype;
+
 		log.info("entering showCalendarPage (GET-Method: /u/{username}/calendar)");
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		this.authsvc.refreshSession(token);
+
+		user = this.authsvc.getUserbySession(token);
+
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
 		model.addAttribute("user", username);
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
 
 		return "calendar";
 	}

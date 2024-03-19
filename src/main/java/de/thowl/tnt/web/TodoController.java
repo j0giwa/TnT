@@ -56,17 +56,26 @@ public class TodoController {
 
 		long userId;
 		User user;
+		String avatar, mimetype;
 
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
+
+		// Prevent unauthrised access
+		if (!this.authsvc.validateSession(token, username))
+			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		// Prevent unauthrised access / extend session
-		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
 
 		model.addAttribute("user", username);
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
+
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(userId));
 
 		return "todo";
@@ -88,15 +97,21 @@ public class TodoController {
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		this.tasksvc.add(userId, form.getTaskName(), form.getTaskContent(), form.getPriority(),
-				form.getDate(), form.getTime());
+		try {
+			this.tasksvc.add(userId, form.getTaskName(), form.getTaskContent(), form.getPriority(),
+					form.getDate(), form.getTime());
+		} catch (NullPointerException e) {
+			model.addAttribute("error", "input_error");
+		}
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
@@ -118,9 +133,11 @@ public class TodoController {
 
 		log.info("entering doAddTask (POST-Method: /u/{}/todo/done)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
@@ -147,9 +164,11 @@ public class TodoController {
 
 		log.info("entering doDeleteTask (DELETE-Method: /u/{}/todo)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

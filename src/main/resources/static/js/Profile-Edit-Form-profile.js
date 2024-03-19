@@ -33,7 +33,7 @@
         }
     }
 
-    $("input.form-control[name=avatar-file]").change(function(){
+    $("input.form-control[name=avatar]").change(function(){
         readURL(this);
     });
     
@@ -47,21 +47,6 @@
         setTimeout(function(){
             $(inst).find("button[type = submit]").removeClass("loading").prop("disabled", false);
             toggleAlert("alert-success");
-        },1000);
-        
-        return false;
-    });
-    
-    $('#profile').delegate('form', 'reset', function (e) {
-        var inst = this;
-        var formData = new FormData($(this)[0]);
-
-        $(inst).find("button[type = reset]").addClass("loading").prop("disabled", true);
-        toggleAlert("alert-danger",true);
-        
-        setTimeout(function(){
-            $(inst).find("button[type = reset]").removeClass("loading").prop("disabled", false);
-            toggleAlert("alert-danger");
         },1000);
         
         return false;

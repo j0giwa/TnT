@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("notes")
+@SessionAttributes("noteSearchResults")
 public class NotesController {
 
 	@Autowired
@@ -61,6 +61,7 @@ public class NotesController {
 
 		long userId;
 		User user;
+		String avatar, mimetype;
 
 		log.info("entering showNotePage (GET-Method: /notes)");
 
@@ -68,14 +69,24 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		this.authsvc.refreshSession(token);
+
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
-		model.addAttribute("editing", false);
-		model.addAttribute("user", username);
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
 
-		if (!model.containsAttribute("notes"))
+		model.addAttribute("user", username);
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
+		model.addAttribute("editing", false);
+
+		if (model.containsAttribute("noteSearchResults")) {
+			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
+		} else {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
+		}
 
 		return "notes";
 	}
@@ -101,6 +112,8 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		this.authsvc.refreshSession(token);
+
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
@@ -115,8 +128,12 @@ public class NotesController {
 			// No file was uploaded, this was probably intentional.
 		}
 
-		this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
-				fileContent, mimeType, form.getKategory(), form.getTags());
+		if (form.getTitle().isEmpty()) {
+			model.addAttribute("error", "input_error");
+		} else {
+			this.notessvc.addNote(userId, form.getTitle(), form.getSubtitle(), form.getContent(),
+					fileContent, mimeType, form.getKategory(), form.getTags());
+		}
 
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
@@ -134,15 +151,25 @@ public class NotesController {
 		long userId;
 		User user;
 		Note note;
+		String avatar, mimetype;
 
 		log.info("entering showEditPage (POST-Method: /u/{}/notes/edit)", username);
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+		
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
+
+		avatar = user.getEncodedAvatar();
+		mimetype = user.getMimeType();
+
+		model.addAttribute("user", username);
+		model.addAttribute("avatar", (avatar != null) ? avatar : "");
+		model.addAttribute("avatarMimeType", (mimetype != null) ? mimetype : "");
 
 		note = this.notessvc.getNote(form.getId(), userId);
 
@@ -150,6 +177,7 @@ public class NotesController {
 		model.addAttribute("noteTitle", note.getName());
 		model.addAttribute("noteSubtitle", note.getSubtitle());
 		model.addAttribute("noteContent", note.getContent());
+		model.addAttribute("noteTags", String.join(" ", note.getTags()));
 
 		return "notes";
 	}
@@ -173,6 +201,8 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		this.authsvc.refreshSession(token);
+
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
@@ -184,11 +214,15 @@ public class NotesController {
 			fileContent = form.getFile().getBytes();
 			mimeType = form.getFile().getContentType();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// No file was uploaded, this was probably intentional.
 		}
 
-		this.notessvc.editNote(form.getId(), userId, form.getTitle(), form.getSubtitle(),
-				form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
+		if (form.getTitle().isEmpty()) {
+			model.addAttribute("error", "input_error");
+		} else {
+			this.notessvc.editNote(form.getId(), userId,  form.getTitle(), form.getSubtitle(), 
+					form.getContent(), fileContent, mimeType, form.getKategory(), form.getTags());
+		}
 
 		return "redirect:/u/" + username + "/notes";
 	}
@@ -209,9 +243,11 @@ public class NotesController {
 
 		log.info("entering doDeleteNote (DELETE-Method: /u/{}/notes)", username);
 
-		// Prevent unauthrised access / extend session
+		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

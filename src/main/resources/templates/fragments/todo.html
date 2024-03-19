@@ -1,16 +1,16 @@
-<li th:fragment="taskItem (id, done, title, content)" style="margin-bottom: 3px;">
+<li th:fragment="taskItem (task)" style="margin-bottom: 3px;">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex">
 			<form th:action="@{'/u/' + ${username} + '/todo/done'}" method="post">
-				<input type="hidden" th:value="${id}" name="id">
+				<input type="hidden" th:value="${task.id}" name="id">
 				<button class="btn btn-transparent" type="submit">
-					<svg th:if="${done} == true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em"
+					<svg th:if="${task.done} == true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em"
 						fill="currentColor">
 						<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
 						<path
 							d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
 					</svg>
-					<svg th:if="${done} == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em"
+					<svg th:if="${task.done} == false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em"
 						height="1em" fill="currentColor">
 						<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
 						<path
@@ -18,12 +18,17 @@
 					</svg>
 				</button>
 			</form>
-			<span class="mx-1 py-2 fw-bold" th:text="${title}">Task</span>
-			<span class="mx-2 py-2" th:text="${content}">Task</span>
+			<span class="mx-1 py-2 fw-bold" th:switch="${task.priority}">
+				<span th:case="${T(de.thowl.tnt.storage.entities.Priority).LOW}" th:text="'&#x1F7E9;'">🟩</span>
+				<span th:case="${T(de.thowl.tnt.storage.entities.Priority).MEDIUM}" th:text="'&#x1F7E8;'">🟨</span>
+				<span th:case="${T(de.thowl.tnt.storage.entities.Priority).HIGH}" th:text="'&#x1F7E5;'">🟥</span>
+			</span>
+			<span class="mx-1 py-2 fw-bold" th:text="${task.name}">Task</span>
+			<span class="mx-2 py-2" th:text="${task.content}">Task</span>
 		</div>
 		<div>
 			<form th:method="delete">
-				<input type="hidden" th:value="${id}" name="id">
+				<input type="hidden" th:value="${task.id}" name="id">
 				<button class="btn btn-transparent" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor"
 						id="delete" class="delete" style="font-size: 20px;">

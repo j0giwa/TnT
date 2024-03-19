@@ -235,6 +235,7 @@ public class NotesServiceImpl implements NotesService {
 				.subtitle(subtitle)
 				.content(content)
 				.attachment(attachment)
+				.mimeType(mimeType)
 				.createdAt(new Date())
 				.kategory(setKategory(kategory))
 				.tags(formatTags(tags))
@@ -255,11 +256,9 @@ public class NotesServiceImpl implements NotesService {
 
 		note = this.notes.findById(id);
 
-		if (null != note) {
-			if (userId == note.getUser().getId()) {
-				log.info("deleting task id: {}", id);
-				this.notes.delete(note);
-			}
+		if (userId == note.getUser().getId()) {
+			log.info("deleting note id: {}", id);
+			this.notes.delete(note);
 		}
 	}
 
