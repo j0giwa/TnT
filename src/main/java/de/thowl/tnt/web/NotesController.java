@@ -68,11 +68,15 @@ public class NotesController {
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
+		this.authsvc.refreshSession(token);
+
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
 
 		model.addAttribute("editing", false);
 		model.addAttribute("user", username);
+		model.addAttribute("avatar", user.getEncodedAvatar());
+		model.addAttribute("avatarMimeType", user.getMimeType());
 
 		if (model.containsAttribute("noteSearchResults")) {
 			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
@@ -103,6 +107,8 @@ public class NotesController {
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
@@ -148,6 +154,8 @@ public class NotesController {
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+		
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();
@@ -180,6 +188,8 @@ public class NotesController {
 
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
 		userId = user.getId();

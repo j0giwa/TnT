@@ -39,10 +39,6 @@ a {
   color: red;
 }
 
-a:hover {
-  /*--bs-link-color-rgb: var(--bs-link-hover-color-rgb);*/
-}
-
 #navbar_menu {
   background: rgb(5, 150, 105);
   min-height: 100vh;
@@ -103,10 +99,6 @@ a:hover {
   width: 100%;
 }
 
-#div_dropdown {
-  /*overflow-x: auto;*/
-}
-
 .datum {
   background-color: #212529;
 }
@@ -139,10 +131,6 @@ a:hover {
   #content-wrapper {
     margin-left: 137px;
   }
-}
-
-#navbar_top {
-  /*position: fixed;*/
 }
 
 #navbar_top {
@@ -179,11 +167,6 @@ textarea {
 #world_icon {
   font-size: 26px;
   /*color: #8ed0bb;*/
-}
-
-#world_icon:hover {
-  /*font-size: 26px;*/
-  /*color: #c0e5d9;*/
 }
 
 #add_button {

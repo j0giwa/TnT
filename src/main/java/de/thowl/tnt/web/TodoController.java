@@ -59,16 +59,18 @@ public class TodoController {
 
 		log.info("entering showLoginPage (GET-Method: /u/{username}/todo)");
 
-		user = this.authsvc.getUserbySession(token);
-		userId = user.getId();
-
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		this.authsvc.refreshSession(token);
 
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
+
 		model.addAttribute("user", username);
+		model.addAttribute("avatar", user.getEncodedAvatar());
+		model.addAttribute("avatarMimeType", user.getMimeType());
 		model.addAttribute("tasks", this.tasksvc.getAllTasks(userId));
 
 		return "todo";

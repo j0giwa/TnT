@@ -53,19 +53,18 @@ public class DashboardController {
 
 		log.info("entering showDashboardPage (GET-Method: /u/{username}/)");
 
-		user = this.authsvc.getUserbySession(token);
-		userId = user.getId();
-
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
 			throw new ForbiddenException("Unathorised access");
 
 		this.authsvc.refreshSession(token);
 
-		model.addAttribute("avatar", user.getEncodedAvatar());
-		model.addAttribute("avatarMimeType", user.getMimeType());
+		user = this.authsvc.getUserbySession(token);
+		userId = user.getId();
 
 		model.addAttribute("user", username);
+		model.addAttribute("avatar", user.getEncodedAvatar());
+		model.addAttribute("avatarMimeType", user.getMimeType());
 		
 		tasks = new ArrayList<Task>();
 		tasks.addAll(this.tasksvc.getAllOverdueTasks(userId));
