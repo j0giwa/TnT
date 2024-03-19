@@ -1,5 +1,5 @@
 <li th:fragment="noteItem (note)" style="margin-bottom: 3px;">
-	<div class="card" style="width: 18rem;">
+	<div class="card bg-body-secondary" style="width: 18rem;">
 		<img class="card-img-top" th:if="${note.mimeType.startsWith('image/')}" th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" alt="Attachment">
 		<audio class="card-img-top" th:if="${note.mimeType.startsWith('audio/')}" controls>
 			<source th:src="'data:' + ${note.mimeType} + ';base64,' + ${note.encodedAttachment}" th:type="${note.mimeType}">

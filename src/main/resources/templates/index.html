@@ -3,18 +3,131 @@
 
 <head th:replace="~{fragments/baselayout::htmlhead(pageTitle='TnT')}"></head>
 
-<body class="bg-body">
+<body class="bg-body" style="background-color: #121621;">
 
   <nav th:replace="~{fragments/baselayout::navbar}"></nav>
 
   <main class="mt-5">
     <div
       class="container-fluid d-flex justify-content-center align-items-center align-content-center justify-content-sm-center">
-      <div>
-        <p style="font-size: 55px;" th:text="#{startmessage}">Let's organize and plan your day
+      <div style="padding-bottom: 50px;">
+        <p style="font-size: 55px; text-align:center;" th:text="#{startmessage}">Let's organize and plan your day
           with TnT</p>
       </div>
     </div>
+    <div class="d-flex flex-wrap" style="padding-left:50px">
+      <div class="d-flex flex-wrap" style="padding-bottom: 60px;">
+          <div class="col d-flex flex-column justify-content-around align-items-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center align-items-center align-content-center" style="margin-right: 6px;">
+                    <i class="far fa-list-alt" style="margin-right: 13px;color: aqua;font-size: 32px;margin-top: -1%;"></i>
+                      <p style="font-size: 31px;">
+                        <strong>
+                          <span style="color: rgb(255, 255, 255);" th:text="#{paragraph1}">
+                          </span>
+                        </strong>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col d-flex flex-column justify-content-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <img th:src="@{/images/Screenshots/Screenshot_Task.png}" style="height: 339px;width: 641.96px;" />
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="d-flex justify-content-between flex-wrap" style="padding-bottom: 60px;">
+          <div class="col d-flex flex-column justify-content-around align-items-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center align-items-center align-content-center" style="margin-right: 6px;">
+                    <i class="far fa-edit" style="margin-right: 13px;color: aqua;font-size: 32px;margin-top: -1%;"></i>
+                      <p style="font-size: 31px;">
+                        <strong>
+                          <span style="color: rgb(255, 255, 255);" th:text="#{paragraph2}">
+                          </span>
+                        </strong>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col d-flex flex-column justify-content-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <img th:src="@{/images/Screenshots/Screenshot_Note.png}" style="height: 339px;width: 641.96px;" />
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="d-flex flex-wrap" style="padding-bottom: 60px;">
+          <div class="col d-flex align-items-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center align-items-center align-content-center" style="margin-right: 6px;">
+                    <i class="far fa-share-square" style="margin-right: 13px;color: aqua;font-size: 32px;margin-top: -1%;"></i>
+                      <p style="font-size: 31px;">
+                        <strong>
+                          <span style="color: rgb(255, 255, 255);" th:text="#{paragraph3}">
+                          </span>
+                        </strong>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col">
+              <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <img th:src="@{/images/Screenshots/Screenshot_Share.png}" style="height: 339px;width: 641.96px;" />
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="d-flex flex-wrap" style="padding-bottom: 60px;">
+          <div class="col d-flex align-items-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center align-items-center align-content-center" style="margin-right: 6px;">
+                    <i class="material-icons" style="margin-right: 13px;color: aqua;font-size: 38px;margin-top: 0%;">timer</i>
+                      <p style="font-size: 31px;">
+                        <strong>
+                          <span style="color: rgb(255, 255, 255);" th:text="#{paragraph4}">
+                          </span>
+                        </strong>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col">
+              <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <img th:src="@{/images/Screenshots/Screenshot_Task.png}" style="height: 339px;width: 641.96px;" />
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="d-flex flex-wrap" style="padding-bottom: 60px;">
+          <div class="col d-flex align-items-center">
+              <div class="row">
+                  <div class="col d-flex justify-content-center align-items-center align-content-center" style="margin-right: 6px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="1em" viewBox="0 0 24 24" width="1em" fill="currentColor" style="margin-right: 13px;color: aqua;font-size: 124px;margin-top: 0%;">
+                          <rect fill="none" height="24" width="24"></rect>
+                          <path d="M11,21H5c-1.1,0-2-0.9-2-2V5c0-1.1,0.9-2,2-2h6V21z M13,21h6c1.1,0,2-0.9,2-2v-7h-8V21z M21,10V5c0-1.1-0.9-2-2-2h-6v7H21z"></path>
+                      </svg>
+                      <p style="font-size: 31px;">
+                        <strong>
+                          <span style="color: rgb(255, 255, 255);" th:text="#{paragraph5}">
+                          </span>
+                        </strong>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div class="col">
+              <div class="row">
+                  <div class="col d-flex justify-content-center"><img th:src="@{/images/Screenshots/Screenshot_Task.png}" style="height: 339px;width: 641.96px;" /></div>
+              </div>
+          </div>
+      </div>
+  </div>
   </main>
 
 </body>
