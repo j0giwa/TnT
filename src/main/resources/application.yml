@@ -1,7 +1,13 @@
-#server:
-#  address: 192.168.68.171
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+# address: 192.168.68.171
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration
   task:
     scheduling:
       thread-name-prefix: scheduling-

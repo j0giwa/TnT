@@ -4,7 +4,11 @@
 <head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='Profile | TnT')}"></head>
 
 <body class="bg-body">
-    <div class="container-fluid" >
+
+    <nav th:replace="~{fragments/baselayout::sidebar}"></nav>
+       
+    
+    <div id="content-wrapper">
         
         <div class="row">
             <div class="col-md-12 alert-col relative">

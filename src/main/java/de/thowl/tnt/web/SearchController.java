@@ -2,6 +2,7 @@
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,6 @@ import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.NoteKategory;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class SearchController {
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new AccessDeniedException("Access Forbidden");
 
 		this.authsvc.refreshSession(token);
 

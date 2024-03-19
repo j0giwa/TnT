@@ -21,6 +21,8 @@ package de.thowl.tnt.web;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +36,6 @@ import de.thowl.tnt.core.services.NotesService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Note;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class NotesController {
 	 * @return notes.html
 	 */
 	@RequestMapping(value = "/u/{username}/notes", method = RequestMethod.GET)
-	public String showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
+	public ResponseEntity<?> showNotePage(@SessionAttribute(name = "token", required = false) AccessToken token,
 			@PathVariable("username") String username, Model model) {
 
 		long userId;
@@ -67,7 +68,7 @@ public class NotesController {
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+                	throw new AccessDeniedException("Access Forbidden");
 
 		this.authsvc.refreshSession(token);
 
@@ -88,7 +89,8 @@ public class NotesController {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 		}
 
-		return "notes";
+		//return "notes";
+		return ResponseEntity.ok("notes");
 	}
 
 	/**
@@ -110,7 +112,7 @@ public class NotesController {
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new AccessDeniedException("Access Forbidden");
 
 		this.authsvc.refreshSession(token);
 
@@ -157,7 +159,7 @@ public class NotesController {
 
 		// Prevent unauthrised access / extend session
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new AccessDeniedException("Access Forbidden");
 		
 		this.authsvc.refreshSession(token);
 
@@ -199,7 +201,7 @@ public class NotesController {
 		log.info("entering doAddNote (POST-Method: /u/{}/notes)", username);
 
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new AccessDeniedException("Access Forbidden");
 
 		this.authsvc.refreshSession(token);
 
@@ -245,7 +247,7 @@ public class NotesController {
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new AccessDeniedException("Access Forbidden");
 
 		this.authsvc.refreshSession(token);
 
