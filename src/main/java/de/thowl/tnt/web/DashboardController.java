@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
@@ -73,13 +74,8 @@ public class DashboardController {
 		log.info("entering showDashboardPage (GET-Method: /u/{}/)", username);
 
 		// Prevent unauthrised access
-		try {
-			if (!this.authsvc.validateSession(token, username))
-				throw new AccessDeniedException("Access Forbidden");
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-		}
-		
+		if (!this.authsvc.validateSession(token, username))
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
 
 		this.authsvc.refreshSession(token);
 

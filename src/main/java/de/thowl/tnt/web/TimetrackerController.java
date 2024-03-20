@@ -1,12 +1,13 @@
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.entities.AccessToken;
@@ -36,7 +37,7 @@ public class TimetrackerController {
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new AccessDeniedException("Access Forbidden");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
 
 		this.authsvc.refreshSession(token);
 
