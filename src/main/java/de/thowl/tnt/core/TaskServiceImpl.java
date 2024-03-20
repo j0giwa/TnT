@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		now = LocalDateTime.now().format(formatter);
 
-		tasks = this.tasks.findByDueDateTimeBefore(now);
+		tasks = this.tasks.findByDueDateTimeAndNotOverdue(now);
 
 		if (!tasks.isEmpty()) {
 			log.info("Found {} overdue tasks.", tasks.size());

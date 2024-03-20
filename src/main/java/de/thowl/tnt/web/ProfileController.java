@@ -3,18 +3,19 @@ package de.thowl.tnt.web;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.exceptions.NullUserException;
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.exceptions.ForbiddenException;
 import de.thowl.tnt.web.forms.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,11 +37,11 @@ public class ProfileController {
 
 		User user;
 
-		log.info("entering showProfilePage (GET-Method: /u/{username}/profile)");
+		log.info("entering showProfilePage (GET-Method: /u/{}/profile)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
 
 		this.authsvc.refreshSession(token);
 
@@ -72,11 +73,11 @@ public class ProfileController {
 		String mimeType;
 		byte[] fileContent;
 
-		log.info("entering updateProfile (POST-Method: /u/{username}/profile)");
+		log.info("entering updateProfile (POST-Method: /u/{}/profile)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
 
 		this.authsvc.refreshSession(token);
 

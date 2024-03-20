@@ -39,7 +39,7 @@ public class Session {
 	private long id;
 	private String authToken;
 	private Date createdAt;
-	private Date expiresAt; // TODO: probaly better to calculate
+	private Date expiresAt;
 	private long userId;
 
 	public Session(String usid, User usr, Date expiryTime) {

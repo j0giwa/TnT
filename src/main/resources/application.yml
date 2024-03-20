@@ -1,7 +1,13 @@
-#server:
-#  address: 192.168.68.171
+server:
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+# address: 192.168.68.171
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration
   task:
     scheduling:
       thread-name-prefix: scheduling-
@@ -31,8 +37,8 @@ spring:
       mode: always
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+      max-file-size: 40MB
+      max-request-size: 40MB
 
 springdoc:
   api-docs:

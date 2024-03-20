@@ -19,17 +19,21 @@
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
+import de.thowl.tnt.storage.SharedNotesRepository;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.Note;
+import de.thowl.tnt.storage.entities.SharedNote;
 import de.thowl.tnt.storage.entities.User;
 import de.thowl.tnt.web.forms.NoteForm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +49,9 @@ public class ShareController {
 	@Autowired
 	private NotesService notesvc;
 
+	@Autowired
+	private SharedNotesRepository notes;
+
 	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
 	public String showSharePage(@SessionAttribute(name = "token", required = false) AccessToken token, 
 			@PathVariable("uuid") String uuid, Model model) {
@@ -54,7 +61,7 @@ public class ShareController {
 		User user;
 		String username, avatar, mimetype;
 
-		log.info("entering showSharePage (GET-Method: /share)");
+		log.info("entering showSharePage (GET-Method: /share/{})", uuid);
 
 		// Fallbackvalues, beeing looged is is optional
 		username = "Guest";
@@ -67,7 +74,7 @@ public class ShareController {
 			avatar = user.getEncodedAvatar();
 			mimetype = user.getMimeType();
 		} catch (NullPointerException e) {
-			// TODO: handle exception
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		id = this.notesvc.getSharedNote(uuid).getNote().getId();
@@ -89,7 +96,8 @@ public class ShareController {
 
 		long userId;
 		User user;
-		String referer;
+		SharedNote note;
+		String sharelink;
 
 		log.info("entering addSharedNote (Post-Method: /share)");
 
@@ -98,8 +106,16 @@ public class ShareController {
 
 		this.notesvc.toggleSharing(form.getId(), userId);
 
-		referer = request.getHeader("Referer");
-		return "redirect:" + referer;
+		sharelink = "";
+		try {
+			note = this.notes.findByNote(this.notesvc.getNote(form.getId()));
+			sharelink = "/share/" + note.getGuid();
+		} catch (NullPointerException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not find not for share link");
+		}
+
+		log.info("User {} shared a Note, redireting to: {}", user.getId(), sharelink);
+		return "redirect:" + sharelink;
 	}
 
 }

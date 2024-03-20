@@ -1,16 +1,17 @@
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.storage.entities.AccessToken;
 import de.thowl.tnt.storage.entities.User;
-import de.thowl.tnt.web.exceptions.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,11 +33,11 @@ public class TimetrackerController {
 		User user;
 		String avatar, mimetype;
 
-		log.info("entering showTimetrackerPage (GET-Method: /u/{username}/timetracker)");
+		log.info("entering showTimetrackerPage (GET-Method: /u/{}/timetracker)", username);
 
 		// Prevent unauthrised access
 		if (!this.authsvc.validateSession(token, username))
-			throw new ForbiddenException("Unathorised access");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
 
 		this.authsvc.refreshSession(token);
 

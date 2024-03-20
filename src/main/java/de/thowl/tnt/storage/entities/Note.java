@@ -30,7 +30,7 @@ public class Note extends Entry {
 	private String subtitle;
 
 	@Lob
-	@Column(columnDefinition = "mediumblob")
+	@Column(columnDefinition = "longblob")
 	private byte[] attachment;
 
 	private String mimeType;

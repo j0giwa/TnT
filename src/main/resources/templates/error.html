@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle=${errorCode})}"></head>
+
+<body class="bg-body" style="background-color: #121621;">
+
+	<nav th:replace="~{fragments/baselayout::navbar}"></nav>
+
+	<div id="content-wrapper">
+		<div class="container">
+			<div class="mx-auto">
+				<div class="h-100 p-5">
+					<h1 class="text-muted" th:text="${errorCode}">CODE</h1>
+					<h2 th:text="#{${errorHeader}}">HEADER</h2>
+					<p th:text="#{${errorMessage}}">MESSAGE</p>
+					<a class="btn btn-outline-primary" href="/">Go Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

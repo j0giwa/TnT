@@ -180,7 +180,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		session = sessions.findByAuthToken(token.getUsid());
 		calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 30);
+		calendar.add(Calendar.HOUR, 2);
 		expiryTime = calendar.getTime();
 
 		session.setExpiresAt(expiryTime);
@@ -309,7 +309,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		log.debug("entering createSession");
 
 		calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 30);
+		calendar.add(Calendar.HOUR, 2);
 		expiryTime = calendar.getTime();
 
 		// Todo: Refactor AccessToken
