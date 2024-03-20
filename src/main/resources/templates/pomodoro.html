@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/baselayout::htmlhead_postlogin(pageTitle='Pomodoro Timer | TnT')}"></head>
+
+<body id="bod" class="bg-body">
+
+    <div id="wrapper" style="padding-bottom: 100%;">
+
+        <nav th:replace="~{fragments/baselayout::sidebar}"></nav>
+
+        <div id="content-wrapper">
+
+            <nav th:replace="~{fragments/baselayout::topbar}"></nav>
+
+            <div class="container" style="margin-top: 95px;">
+                <div id="timeContainer" style="background: #2b3035;">
+                    
+                    <div class="section-container">Pomodoro Timer</div>
+                    <button id="focus" class="btn btn-timer btn-focus">Focus</button>
+                    <button id="shortbreak" class="btn btn-shortbreak">Short Break</button>
+                    <button id="longbreak" class="btn btn-longbreak">Long Break</button>
+                <div class ="time-btn-container"></div>
+                    <span id="timeDisplay"></span>
+            <div class="btn-container">
+                <button id="btn-start" class="showPomo">Start</button>
+                <button id="btn-pause" class="hidePomo">Pause</button>
+                <button id="btn-reset" class="hidePomo">Reset</button>
+            </div>
+                <script src="/js/pomodoro.js"></script>
+</body>
+
+</html>

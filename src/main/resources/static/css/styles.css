@@ -301,7 +301,17 @@ textarea {
   border-color: #059669;
 }
 
-.timerBtn {
+.btn-focus {
+  background-color: #059669
+}
+
+.section-container {
+  font-size: 45px;
+}
+
+.timerBtn,
+.hidePomo,
+.showPomo {
   width: 80px;
   height: 30px;
   border: 3px solid;
