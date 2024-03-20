@@ -96,10 +96,7 @@ public class DashboardController {
 		model.addAttribute("tasks", tasks);
 
 		if (model.containsAttribute("noteSearchResults")) {
-
 			model.addAttribute("notes", model.getAttribute("noteSearchResults"));
-			// TODO: This had not the desired effect, reset button nessesary
-			// request.getSession().removeAttribute("noteSearchResults");
 		} else {
 			model.addAttribute("notes", this.notessvc.getAllNotes(userId));
 		}

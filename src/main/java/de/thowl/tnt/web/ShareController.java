@@ -19,12 +19,14 @@
 package de.thowl.tnt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
 import de.thowl.tnt.core.services.NotesService;
@@ -67,7 +69,7 @@ public class ShareController {
 			avatar = user.getEncodedAvatar();
 			mimetype = user.getMimeType();
 		} catch (NullPointerException e) {
-			// TODO: handle exception
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		id = this.notesvc.getSharedNote(uuid).getNote().getId();
