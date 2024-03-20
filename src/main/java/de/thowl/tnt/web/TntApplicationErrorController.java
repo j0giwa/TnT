@@ -48,31 +48,8 @@ public class TntApplicationErrorController implements ErrorController {
 		code = status.value();
 		reason = e.getReason();
 
-		header = "";
-		message = "";
-
-		switch (code) {
-			case 400: {
-				header = "Bad Request";
-				message = "You need to be logged in to access this resource";
-				break;
-			}
-			case 401: {
-				header = "Hold Up!";
-				message ="You need to be logged in to access this resource";
-				break;
-			}
-			case 404: {
-				header = "Not Found";
-				message = "This isn't the page your looking for";
-				break;
-			}
-			case 500: {
-				header = "Whoops! Something went Wrong :(";
-				message = "Have you tried turning it of and on again?";
-				break;
-			}
-		}
+		header = "http_" + code + "_header";
+		message = "http_" + code + "_message";
 
 		log.error("CODE: {} REASON: {}", code, reason, e);
 

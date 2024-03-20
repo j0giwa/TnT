@@ -12,8 +12,8 @@
 			<div class="mx-auto">
 				<div class="h-100 p-5">
 					<h1 class="text-muted" th:text="${errorCode}">CODE</h1>
-					<h2 th:text="${errorHeader}">HEADER</h2>
-					<p th:text="${errorMessage}">MESSAGE</p>
+					<h2 th:text="#{${errorHeader}}">HEADER</h2>
+					<p th:text="#{${errorMessage}}">MESSAGE</p>
 					<a class="btn btn-outline-primary" href="/">Go Home</a>
 				</div>
 			</div>
