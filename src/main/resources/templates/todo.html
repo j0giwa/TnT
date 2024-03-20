@@ -21,7 +21,7 @@
 						<div id="container_textinput">
 							<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<input type="text" id="FormInput-1" name="taskName" class="mdl-textfield__input"
-									style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}">
+									style="border-radius: 0px;border-bottom-color: #059669;" th:placeholder="#{taskname}" required>
 							</div>
 							<div id="textinput2" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 								<textarea id="taskContent" name="taskContent" th:placeholder="#{description}"
@@ -33,18 +33,21 @@
 								<button class="btn btn-primary datum" aria-expanded="false" data-bs-toggle="dropdown" type="button"
 									style="border-color: #059669;border-left-color: #059669;">
 									<input type="date" id="date" name="date"
-											style="background: transparent;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);">
+											style="background: transparent;color: var(--bs-dropdown-color);border-color: rgba(33,37,41,0);" required>
 								</button>
 							</div>
 
 							<select class="btn btn-primary priorität" style="border-color: #059669;" name="priority" id="priority">
 								<option value="low" selected>
+									<div>🟩</div>
 									<span th:text="#{P1}">Priority 1</span>
 								</option>
 								<option value="medium">
+									<div>🟨</div>
 									<span th:text="#{P2}">Priority 2</span>
 								</option>
 								<option value="high">
+									<div>🟥</div>
 									<span th:text="#{P3}">Priority 3</span>
 								</option>
 							</select>
