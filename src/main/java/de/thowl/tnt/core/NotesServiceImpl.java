@@ -275,7 +275,7 @@ public class NotesServiceImpl implements NotesService {
 
 		note = this.notes.findById(noteId);
 
-		if (userId != note.getUser().getId())
+		if (note == null || userId != note.getUser().getId())
 			return;
 
 		// Assume it is already shared for easier toggling
