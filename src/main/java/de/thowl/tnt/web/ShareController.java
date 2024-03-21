@@ -164,4 +164,26 @@ public class ShareController {
 		referer = request.getHeader("Referer");
 		return "redirect:" + referer;
 	}
+
+	@RequestMapping(value = "/u/{username}/share/hideui", method = RequestMethod.POST)
+	public String hidePopup(HttpServletRequest request, SessionStatus status,
+			@PathVariable("username") String username, 
+			@SessionAttribute(name = "token", required = false) AccessToken token) {
+
+		String referer;
+
+		log.info("entering hidePopup (Post-Method: /u/{username}/share/hideui)", username);
+
+		// Prevent unauthrised access
+		if (!this.authsvc.validateSession(token, username))
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
+
+		this.authsvc.refreshSession(token);
+
+		status.setComplete();
+
+		referer = request.getHeader("Referer");
+		return "redirect:" + referer;	
+	}
+
 }

@@ -23,7 +23,7 @@
 				</button>
 			</form>
 
-			<form th:action="@{'/u/' + ${username} + '/share/getlink/'}"  method="get">
+			<form th:action="@{'/u/' + ${username} + '/share/getlink'}" method="get">
 				<input type="hidden" th:value="${note.id}" name="id">
 				<button class="btn btn-transparent" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em" fill="currentColor" id="share" class="delete" style="font-size: 20px;">
@@ -48,27 +48,28 @@
 </li>
 
 <div th:fragment="noteSharePopup (sharelink)" >
-	<script>
-		$(document).ready(function () {
-				$('#shareModal').modal('show');
-			});
-	</script>
 	<div class="modal fade" id="shareModal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body">
-					<form th:action="@{share}" method="post">
+		<form th:action="@{share}" method="post">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Modal title</h5>
+							<button th:formaction="@{'/u/' + ${username} + '/share/hideui'}" type="submit" class="close">&times;</button>
+					</div>
+					<div class="modal-body">
 						<input type="text" th:value="${sharelink}" name="link" readonly>
 						<button class="btn btn-transparent" type="submit">
 							stop sharing
 						</button>
-					</form>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
+	<script>
+		// Show modal at launch
+		$(document).ready(function () {
+			$('#shareModal').modal('show');
+		});
+	</script>
 </div>
