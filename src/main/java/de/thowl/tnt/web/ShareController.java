@@ -121,7 +121,7 @@ public class ShareController {
 			sharedNote = this.sharedNotes.findByNote(note);
 		}
 
-		sharelink = "/share/" + sharedNote.getGuid() + "/";
+		sharelink = "/share/" + sharedNote.getGuid();
 		model.addAttribute("shareurl", sharelink);
 
 		referer = request.getHeader("Referer");
