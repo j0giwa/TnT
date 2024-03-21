@@ -8,6 +8,10 @@
 
 		<nav th:replace="~{fragments/baselayout::sidebar}"></nav>
 
+		<div th:unless="${shareurl} == null">
+			<div th:replace="~{fragments/note::noteSharePopup(sharelink=${shareurl})}"></div>
+		</div>
+
 		<div id="content-wrapper">
 
 			<nav th:replace="~{fragments/baselayout::topbar1}"></nav>
