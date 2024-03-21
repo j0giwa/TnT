@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import de.thowl.tnt.core.services.AuthenticationService;
@@ -41,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@SessionAttributes("shareurl")
 public class ShareController {
 
 	@Autowired
@@ -50,7 +53,7 @@ public class ShareController {
 	private NotesService notesvc;
 
 	@Autowired
-	private SharedNotesRepository notes;
+	private SharedNotesRepository sharedNotes;
 
 	@RequestMapping(value = "/share/{uuid}", method = RequestMethod.GET)
 	public String showSharePage(@SessionAttribute(name = "token", required = false) AccessToken token, 
@@ -89,33 +92,76 @@ public class ShareController {
 		return "share";
 	}
 
-	@RequestMapping(value = "/share", method = RequestMethod.POST)
-	public String addSharedNote(HttpServletRequest request,
+	@RequestMapping(value = "/u/{username}/share/getlink", method = RequestMethod.GET)
+	public String getShareLink(HttpServletRequest request, SessionStatus status,
+			@SessionAttribute(name = "token", required = false) AccessToken token, 
+			@PathVariable("username") String username, NoteForm form, Model model) {
+
+		User user;
+		Note note;
+		SharedNote sharedNote;
+		String sharelink;
+		String referer;
+
+		log.info("entering getShareLink (GET-Method: /u/{}/share/getlink)", username);
+
+		// Prevent unauthrised access
+		if (!this.authsvc.validateSession(token, username))
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
+
+		this.authsvc.refreshSession(token);
+
+		user = this.authsvc.getUserbySession(token);
+		note = this.notesvc.getNote(form.getId(), user.getId());
+		sharedNote = this.sharedNotes.findByNote(note);
+
+		// If note is'nt shared yet, share it.
+		if (null == sharedNote){
+			toggleSharedNote(request, status, username, token, form, model);
+			sharedNote = this.sharedNotes.findByNote(note);
+		}
+
+		sharelink = "/share/" + sharedNote.getGuid() + "/";
+		model.addAttribute("shareurl", sharelink);
+
+		referer = request.getHeader("Referer");
+		return "redirect:" + referer;
+	}
+
+	@RequestMapping(value = "/u/{username}/share", method = RequestMethod.POST)
+	public String toggleSharedNote(HttpServletRequest request, SessionStatus status,
+			@PathVariable("username") String username, 
 			@SessionAttribute(name = "token", required = false) AccessToken token,
 			NoteForm form, Model model) {
 
-		long userId;
 		User user;
-		SharedNote note;
-		String sharelink;
+		Note note;
+		SharedNote sharedNote;
+		String guid, referer;
 
-		log.info("entering addSharedNote (Post-Method: /share)");
+		log.info("entering toggleSharedNote (Post-Method: /u/{}/share)", username);
+
+		// Prevent unauthrised access
+		if (!this.authsvc.validateSession(token, username))
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Denied");
+
+		this.authsvc.refreshSession(token);
 
 		user = this.authsvc.getUserbySession(token);
-		userId = user.getId();
 
-		this.notesvc.toggleSharing(form.getId(), userId);
+		if (form.getId() == 0) {
+			String[] parts = form.getLink().split("/");
+			guid = parts[2];
+			sharedNote = this.sharedNotes.findByGuid(guid);
+			note = sharedNote.getNote();
+			this.notesvc.toggleSharing(note.getId(), user.getId());
 
-		sharelink = "";
-		try {
-			note = this.notes.findByNote(this.notesvc.getNote(form.getId()));
-			sharelink = "/share/" + note.getGuid();
-		} catch (NullPointerException e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not find not for share link");
+			status.setComplete();
+		} else {
+			this.notesvc.toggleSharing(form.getId(), user.getId());
 		}
 
-		log.info("User {} shared a Note, redireting to: {}", user.getId(), sharelink);
-		return "redirect:" + sharelink;
+		referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
-
 }
