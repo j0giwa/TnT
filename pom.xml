@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.thowl</groupId>
 	<artifactId>TnT</artifactId>
-	<version>0.0.96</version>
+	<version>0.0.99</version>
 	<name>TnT</name>
 	<description>Todo's 'n' Texts</description>
 	<properties>
