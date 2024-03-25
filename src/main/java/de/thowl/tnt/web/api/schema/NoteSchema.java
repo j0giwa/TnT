@@ -22,6 +22,4 @@ public class NoteSchema {
 
 	private String tags;
 
-	private String query;
-
 }
