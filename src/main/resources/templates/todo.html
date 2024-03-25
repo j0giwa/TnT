@@ -131,7 +131,8 @@
 			return hours + ':' + minutes;
 		}
 
-		function formatTimestamps() {
+		document.addEventListener("DOMContentLoaded", function (event) {
+			
 			var timestampElements = document.getElementsByName('timestamp');
 
 			timestampElements.forEach(function (element) {
@@ -139,10 +140,6 @@
 				var formattedTime = formatDatetime(datetimeString);
 				element.innerText = formattedTime;
 			});
-		}
-
-		document.addEventListener("DOMContentLoaded", function (event) {
-			formatTimestamps();
 		});
 	</script>
 
