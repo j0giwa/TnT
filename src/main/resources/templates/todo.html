@@ -115,6 +115,38 @@
 		  node.appendChild(timeNode)
 		})
 	</script>
+
+	<script>
+
+		function formatDatetime(datetimeString) {
+			
+			var datetime = new Date(datetimeString);
+			
+			var hours = datetime.getHours();
+			var minutes = datetime.getMinutes();
+
+			// left pad
+			hours = ( hours < 10 ? '0' : '') + hours;
+			minutes = ( minutes < 10 ? '0' : '') + minutes;
+ 
+			return hours + ':' + minutes;
+		}
+
+		function formatTimestamps() {
+			var timestampElements = document.getElementsByName('timestamp');
+
+			timestampElements.forEach(function (element) {
+				var datetimeString = element.innerText;
+				var formattedTime = formatDatetime(datetimeString);
+				element.innerText = formattedTime;
+			});
+		}
+
+		document.addEventListener("DOMContentLoaded", function (event) {
+			formatTimestamps();
+		});
+	</script>
+
 </body>
 
 </html>

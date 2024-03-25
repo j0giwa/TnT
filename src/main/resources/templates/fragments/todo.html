@@ -29,7 +29,7 @@
 		<div class="d-flex align-items-center align-content-center">
 			<div class="d-flex align-items-center align-content-center" id="taskItems" style="height: 38.4px;padding-right: 5px;">
 				<i class="material-icons" id="timIcon" style="color: aqua;font-size: 24px;margin-top: 20%;padding-right: 5px;">access_time</i>
-				<span th:text="${task.dueDate}" style="margin-top: 20%; font-weight: bold;"> </span>
+				<span name="timestamp" th:text="${task.Time}" style="margin-top: 20%; font-weight: bold;"> </span>
 			</div>
 			<form th:method="delete">
 				<input type="hidden" th:value="${task.id}" name="id">
