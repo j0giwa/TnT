@@ -83,16 +83,21 @@ public class ProfileController {
 
 		user = this.authsvc.getUserbySession(token);
 
-		if (!authsvc.validateEmail(form.getEmail()))
+		if (!authsvc.validateEmail(form.getEmail())) {
 			model.addAttribute("error", "email_error");
+			return "redirect:/u/" + form.getUsername() + "/profile";
+		}
 
-		if (!authsvc.validatePassword(form.getPassword()))
+		if (!authsvc.validatePassword(form.getPassword())) {
 			model.addAttribute("error", "password_error");
+			return "redirect:/u/" + form.getUsername() + "/profile";
+		}
 
-		if (!form.getPassword().equals(form.getPassword2()))
+		if (!form.getPassword().equals(form.getPassword2())) {
 			model.addAttribute("error", "password_match_error");
+			return "redirect:/u/" + form.getUsername() + "/profile";
+		}
 
-		
 		fileContent = null;
 		mimeType = "application/octet-stream";
 
