@@ -1,0 +1,349 @@
+@startuml tnt-core
+
+skinparam monochrome true
+scale 200 width
+scale 700 height
+
+left to right direction
+
+package de.thowl.tnt.core {
+	package sercices {
+		interface AuthenticationService {
+			+ validateEmail(email: String): boolean
+			+ validatePassword(password: String): boolean
+			+ validateSession(password: AccessToken, username: String): boolean
+			+ refreshSession(token: AccessToken): void
+			+ getUserbySession(token: AccessToken): User
+			+ register(firstname: String, lastname: String, username: String, email: String, password: String): void
+			+ updateUser(id: long, firstname: String, lastname: String, username: String, email: String, password: String, avatar: byte[], mimeType: String): void
+		}
+
+		interface NotesService {
+			+ addNote(userId: long, title: String, subtitle: String, content: String, attachment: byte[], mimeType: String, kategory: String, tags: String): void
+			+ getNote(id: long): Note
+			+ getNote(id: long, userId: long): Note
+			+ getAllNotes(userId: long): List<Note>
+			+ getNotesByParams(userId: long, kategory: NoteKategory, tags: String): List<Note>
+			+ editNote(id: long, userId: long, title: String, subtitle: String, content: String, attachment: byte[], mimeType: String, kategory: String, tags: String): void
+			+ delete(id: long, userId: long): void
+			+ toggleSharing(noteId: long, userId: long): void
+			+ getSharedNote(String id): SharedNote
+		}
+
+		interface TaskService {
+			+ add(userId: long, name: String, content: String, priority: String, dueDate: Date, time: Date): void
+			+ toggleDone(id: long, userId: long): void
+			+ delete(long id, long userId): void
+			+ getAllTasks(userId: long): List<Task>
+			+ getAllOverdueTasks(userId: long): List<Task>
+			+ getTasksByPriority(userId: long, priority: Priority): List<Task>
+		}
+		
+	}
+
+	package exceptions {
+		exception DuplicateUserException
+		exception InvalidCredentialsException
+		exception NullUserException
+	}
+
+	AuthenticationService -- DuplicateUserException
+	AuthenticationService -- InvalidCredentialsException
+	AuthenticationService -- NullUserException
+}
+
+@enduml
+
+@startuml tnt-storage
+
+skinparam monochrome true
+skinparam dpi 400
+scale 200 width
+scale 700 height
+
+left to right direction
+
+package de.thowl.tnt.storage {
+
+	interface GroupRepository {
+		findById(id: int): Group
+		findByName(name: String): Group
+	}
+
+	interface NotesRepository {
+		findById(id: long): Note
+		findByUser(user: User): List<Note>
+		findByUserAndTagsIn(user: User, tags: List<String>): List<Note>
+		findByUserAndKategory(user: User, kategory: NoteKategory): List<Note>
+	}
+
+	interface SessionRepository {
+		findById(id: long): Session
+		findByAuthToken(authToken: String): Session
+		findByUserId(userId: long ): Session
+		findByExpiresAtBefore(currentTime: Date): List<Session>
+
+	}
+
+	interface SharedNotesRepository {
+		findById(id: long): SharedNote
+		findByGuid(guid: String): SharedNote
+		findByNote(note: Note): SharedNote
+	}
+
+	interface TaskRepository {
+		findById(id: long): Task
+		findByUser(user: User): List<Task>
+		findByDone(done: boolean): List<Task>
+		findByUserAndOverdue(user: User, overdue: boolean): List<Task>
+		findByUserAndPriority(user: User, priority: Priority): List<Task>
+		findByDueDateTimeAndNotOverdue(currentDateTime: String): List<Task>
+	}
+
+	interface UserRepository {
+		findByUsername(username: String): User
+		findByEmail(email: String): User
+		findByApiToken(apiToken: String): User
+	}
+
+	package entities {
+
+		class User {
+			- id: long
+			- group: Group
+			- avatar: byte[]
+			- mimeType: String
+			- encodedAvatar: String
+			- firstname: String
+			- lastname: String
+			- username: String
+			- email: String
+			- password: String
+			- apiToken: String
+
+		}
+
+		class Group {
+			- id: long
+			- members: List<User>
+			- name: String
+			- admin: boolean
+		}
+
+		class AccessToken {
+			- usid: String
+			- lastActive: Date
+			- userId: long
+		}
+
+		class Entry {
+			- id: long
+			- user: User
+			- name: String
+			- content: String
+			- createdAt: Date
+		}
+
+		class Note extends Entry {
+			- subtitle: String
+			- attachment: byte[]
+			- mimeType: String
+			- encodedAttachment: String
+			- kategory: NoteKategory
+			- tags: List<String>
+			- sharedNote: SharedNote
+		}
+
+		class Task extends Entry {
+			- priority: Priority
+			- dueDate: Date
+			- time: Date
+			- done: boolean
+			- overdue: boolean
+
+		}
+
+		enum NoteKategory{
+			LECTURE
+			LITTERATURE
+			MISC
+			ALL
+		}
+
+		enum Priority {
+			LOW
+			MEDIUM
+			HIGH
+		}
+
+		class Session {
+			- id: long
+			- authToken: String 
+			- createdAt: Date 
+			- expiresAt: Date 
+			- userId: long
+		}
+	}
+
+	User -- UserRepository
+	User -- AccessToken
+	Group -- GroupRepository
+	Session -- SessionRepository
+	Task -- TaskRepository
+	Note -- NotesRepository
+	Note -- SharedNotesRepository
+	Note -- NoteKategory
+	Task -- Priority
+}
+
+@enduml
+
+@startuml tnt-web
+
+skinparam monochrome true
+skinparam dpi 300
+scale 1200 width
+scale 700 height
+
+left to right direction
+
+package de.thowl.tnt.web {
+
+	class AuthController {
+		+ showLoginPage(): String
+		+ doLogin(form: LoginForm, model: Model, httpSession: HttpSession): String
+		+ doLogout(token: AccessToken, httpSession: HttpSession): String
+	}
+
+	class DashboardController {
+		+ showDashbardPage(request: HttpServletRequest, token: AccessToken, username: String, model: Model): String
+	}
+
+	class NotesController {
+		+ showNotePage(token: AccessToken, username: String, model Model): String
+		+ doAddNote(token: AccessToken, username: String, form: NoteForm, model Model): String
+		+ showEditPage(token: AccessToken, username: String, form: NoteForm, model Model): String
+		+ doEditNote(token: AccessToken, username: String, model Model): String
+	}
+
+	class ProfileController {
+		+ showProfilePage(token: AccessToken, username: String, model: Model): String
+		+ updateProfile(token: AccessToken, username: String, form: RegisterForm, model: Model): String
+	}
+
+	class RegisterController {
+		+ showRegisterPage(): String
+		+ doRegister(RegisterForm, model: Model): String
+	}
+
+	class SearchController {
+		+ findNotesByFilter(request: HttpServletRequest, token: AccessToken, username: String, form: NoteForm, model: Model): String
+	}
+
+	class ShareController {
+		+ showSharePage(token: AccessToken, uuid: String, model: Model): String
+	}
+
+	class TntApplicationErrorController implements ErrorController {
+		+ showErrorPage(request: HttpServletRequest,  response: HttpServletResponse, model: Model, e: ResponseStatusException): String
+	}
+
+	class TodoController {
+		+ showTodoPage(token: AccessToken, username: String, model: Model): String
+		+ doAddTask(request: HttpServletRequest, token: AccessToken, username: String, form: TaskForm, model: Model)
+		+ doMarkAsDone(request: HttpServletRequest, token: AccessToken, username: String, form: TaskForm, model: Model)
+		+ doDeleteTask(request: HttpServletRequest, token: AccessToken, username: String, form: TaskForm, model: Model)
+	}
+
+	package forms {
+		class LoginForm {
+			- email: String
+  			- password: String
+		}
+
+		class NoteForm {
+			- id: long
+			- title: String
+			- subtitle: String
+			- content: String
+			- file: MultipartFile
+			- type: String
+			- kategory: String
+			- tags: String
+			- query: String
+		}
+
+		class RegisterForm {
+			- firstname: String
+  			- lastname: String
+  			- avatar: String
+  			- username: String
+  			- email: String
+  			- password: String
+  			- password2: String
+		}
+
+		class TaskForm {
+			- id: long
+			- taskName: String
+			- taskContent: String
+			- date: Date
+			- time: Date
+			- priority: String
+		}
+		
+	}
+
+	package api {
+		class TeaPotApi {
+			+ teapot(): ResponseEntity<String> teapot()
+		}
+
+		class NoteApi {
+			+ addNote(apiToken: String, note: NoteSchema): ResponseEntity<String>
+			+ getNote(apiToken: String, id: long): ResponseEntity<Object>
+			+ getAllNotes(apiToken: String): ResponseEntity<Object> 
+		}
+
+		class TaskApi {
+			+ getTask(apiToken: String, id: long): ResponseEntity<Object>
+			+ addTask(apiToken: String, note: TaskSchema): ResponseEntity<String>
+			+ markTaskDone(apiToken: String, id: long): ResponseEntity<String>
+			+ deleteTask(apiToken: String, id: long): ResponseEntity<String>
+		}
+
+		package Schemas{ 
+
+			class NoteSchema {
+				- id: long
+				- title: String
+				- subtitle: String
+				- content: String
+				- file: MultipartFile
+				- type: String
+				- kategory: String
+				- tags: String
+			}
+
+			class TaskSchema {
+				- taskName: String
+				- taskContent: String
+				- date: Date
+				- time Date
+				- priority: String
+			}
+		}
+		
+		NoteApi -- NoteSchema
+		TaskApi -- TaskSchema
+	}
+
+	RegisterController -- RegisterForm
+	ProfileController -- RegisterForm
+	AuthController -- LoginForm
+	NotesController -- NoteForm
+	SearchController -- NoteForm
+	TodoController -- TaskForm
+}
+
+@enduml
