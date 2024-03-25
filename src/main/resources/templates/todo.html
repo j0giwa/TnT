@@ -16,7 +16,7 @@
 				<header>
 					<h2 style="font-weight: bold;" th:text="#{letsgo}">Let's go!!</h2>
 				</header>
-				<form class="card" method="post" style="background: #252a2f; height: 273.4px;">
+				<form class="card" method="post" id="todoForm" style="background: #252a2f; height: 273.4px;">
 					<div class="card-body bg-body-secondary" style="padding-bottom:0;">
 						<div id="container_textinput">
 							<div id="textinput1" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -100,6 +100,20 @@
 
 	</div>
 	<script th:src="@{/js/ChangeActiveNavbar.js}"></script>
+	<script>
+		document.querySelector("#todoForm").addEventListener("submit", function(event){
+		  //event.preventDefault()
+		  let timIcon = document.querySelector("#timIcon").value
+		  let time = document.querySelector("#time").value
+		  let node = document.querySelector("#taskItems");
+
+		  let timeNode = document.createElement("SPAN")
+		  let timeText = document.createTextNode(time)
+		  timeNode.appendChild(timeText)
+		  timeNode.style.marginTop="20%"
+		  node.appendChild(timeNode)
+		})
+	</script>
 </body>
 
 </html>
