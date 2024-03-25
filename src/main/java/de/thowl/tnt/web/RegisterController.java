@@ -58,14 +58,20 @@ public class RegisterController {
 
 		log.info("entering doRegister (POST-Method: /register)");
 
-		if (!authsvc.validateEmail(form.getEmail()))
+		if (!authsvc.validateEmail(form.getEmail())) {
 			model.addAttribute("error", "email_error");
+    return "register";
+  }
 
-		if (!authsvc.validatePassword(form.getPassword()))
+		if (!authsvc.validatePassword(form.getPassword())) {
 			model.addAttribute("error", "password_error");
+   return "register";
+  }
 
-		if (!form.getPassword().equals(form.getPassword2()))
+		if (!form.getPassword().equals(form.getPassword2())) {
 			model.addAttribute("error", "password_match_error");
+   return "register";
+  }
 
 		try {
 			this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(),
