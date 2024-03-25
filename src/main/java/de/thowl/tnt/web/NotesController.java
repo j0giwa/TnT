@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes("noteSearchResults")
+@SessionAttributes({"noteSearchResults", "shareurl"})
 public class NotesController {
 
 	@Autowired

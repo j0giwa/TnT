@@ -16,5 +16,6 @@ public class NoteForm {
 	private String kategory;
 	private String tags;
 	private String query;
+	private String link;
 
 }
