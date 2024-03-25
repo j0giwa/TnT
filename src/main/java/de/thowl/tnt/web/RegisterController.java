@@ -60,18 +60,18 @@ public class RegisterController {
 
 		if (!authsvc.validateEmail(form.getEmail())) {
 			model.addAttribute("error", "email_error");
-    return "register";
-  }
+			return "register";
+		}
 
 		if (!authsvc.validatePassword(form.getPassword())) {
 			model.addAttribute("error", "password_error");
-   return "register";
-  }
+			return "register";
+		}
 
 		if (!form.getPassword().equals(form.getPassword2())) {
 			model.addAttribute("error", "password_match_error");
-   return "register";
-  }
+			return "register";
+		}
 
 		try {
 			this.authsvc.register(form.getFirstname(), form.getLastname(), form.getUsername(),
