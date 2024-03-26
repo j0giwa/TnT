@@ -191,8 +191,11 @@ package de.thowl.tnt.storage {
 	Session -- SessionRepository
 	Task -- TaskRepository
 	Note -- NotesRepository
-	Note -- SharedNotesRepository
+	Note -- SharedNote
+ SharedNote -- SharedNotesRepository
 	Note -- NoteKategory
+ Note -- SharedNote
+ User -- Group
 	Task -- Priority
 }
 
