@@ -8,7 +8,7 @@ left to right direction
 
 package de.thowl.tnt.core {
 	package sercices {
-		interface AuthenticationService {
+		interface AuthenticationService <<Interface>> {
 			+ validateEmail(email: String): boolean
 			+ validatePassword(password: String): boolean
 			+ validateSession(password: AccessToken, username: String): boolean
@@ -18,7 +18,7 @@ package de.thowl.tnt.core {
 			+ updateUser(id: long, firstname: String, lastname: String, username: String, email: String, password: String, avatar: byte[], mimeType: String): void
 		}
 
-		interface NotesService {
+		interface NotesService <<Interface>> {
 			+ addNote(userId: long, title: String, subtitle: String, content: String, attachment: byte[], mimeType: String, kategory: String, tags: String): void
 			+ getNote(id: long): Note
 			+ getNote(id: long, userId: long): Note
@@ -30,7 +30,7 @@ package de.thowl.tnt.core {
 			+ getSharedNote(String id): SharedNote
 		}
 
-		interface TaskService {
+		interface TaskService <<Interface>> {
 			+ add(userId: long, name: String, content: String, priority: String, dueDate: Date, time: Date): void
 			+ toggleDone(id: long, userId: long): void
 			+ delete(long id, long userId): void
@@ -65,19 +65,19 @@ left to right direction
 
 package de.thowl.tnt.storage {
 
-	interface GroupRepository {
+	interface GroupRepository <<Interface>> {
 		findById(id: int): Group
 		findByName(name: String): Group
 	}
 
-	interface NotesRepository {
+	interface NotesRepository <<Interface>> {
 		findById(id: long): Note
 		findByUser(user: User): List<Note>
 		findByUserAndTagsIn(user: User, tags: List<String>): List<Note>
 		findByUserAndKategory(user: User, kategory: NoteKategory): List<Note>
 	}
 
-	interface SessionRepository {
+	interface SessionRepository <<Interface>> {
 		findById(id: long): Session
 		findByAuthToken(authToken: String): Session
 		findByUserId(userId: long ): Session
@@ -85,13 +85,13 @@ package de.thowl.tnt.storage {
 
 	}
 
-	interface SharedNotesRepository {
+	interface SharedNotesRepository <<Interface>> {
 		findById(id: long): SharedNote
 		findByGuid(guid: String): SharedNote
 		findByNote(note: Note): SharedNote
-	}
+	 }
 
-	interface TaskRepository {
+	interface TaskRepository <<Interface>> {
 		findById(id: long): Task
 		findByUser(user: User): List<Task>
 		findByDone(done: boolean): List<Task>
@@ -100,7 +100,7 @@ package de.thowl.tnt.storage {
 		findByDueDateTimeAndNotOverdue(currentDateTime: String): List<Task>
 	}
 
-	interface UserRepository {
+	interface UserRepository <<Interface>> {
 		findByUsername(username: String): User
 		findByEmail(email: String): User
 		findByApiToken(apiToken: String): User
