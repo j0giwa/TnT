@@ -136,7 +136,7 @@ package de.thowl.tnt.storage {
 			- userId: long
 		}
 
-		class Entry {
+		abstract class Entry {
 			- id: long
 			- user: User
 			- name: String
