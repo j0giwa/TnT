@@ -48,10 +48,6 @@ public class SharedNote {
 
 	@NonNull
 	@NotNull
-
-	// @OneToOne
-	// private Note note;
-
 	@OneToOne
 	@JoinColumn(name = "note_id", referencedColumnName = "id")
 	private Note note;
