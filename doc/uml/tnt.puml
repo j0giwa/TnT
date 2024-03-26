@@ -163,6 +163,12 @@ package de.thowl.tnt.storage {
 
 		}
 
+  class SharedNote {
+    - id: long
+    - guid: String
+    - note: Note
+  }
+
 		enum NoteKategory{
 			LECTURE
 			LITTERATURE
