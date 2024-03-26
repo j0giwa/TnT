@@ -94,7 +94,7 @@ public class TaskApi {
 			@ApiResponse(responseCode = "200", description = "Success", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised or missing token", content = @Content)
 	})
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<String> addTask(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody TaskSchema task) {
 
