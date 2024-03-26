@@ -51,7 +51,7 @@ public class NoteApi {
 			@ApiResponse(responseCode = "200", description = "Success", content = @Content),
 			@ApiResponse(responseCode = "403", description = "Unauthorised or missing token", content = @Content)
 	})
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<String> addNote(@Parameter(description = "Your api token") @RequestParam String apiToken,
 			@RequestBody NoteSchema note) {
 
