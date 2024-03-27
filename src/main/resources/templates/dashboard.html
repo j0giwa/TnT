@@ -39,15 +39,6 @@
 		</div>
 	 </div>
 
-	<script>
-		var notes = document.getElementsByClassName('md-content');
-
-		for (var i = 0; i < elements.length; i++) {
-
-			notes[i].innerHTML = marked.parse(elements[i].innerHTML);
-
-		}
-	</script>
 	<script th:src="@{/js/ChangeActiveNavbar.js}"></script>
 	<script>
 		function formatDatetime(datetimeString) {
@@ -65,6 +56,14 @@
 		}
 
 		document.addEventListener("DOMContentLoaded", function (event) {
+
+			var notes = document.getElementsByClassName('md-content');
+
+			for (var i = 0; i < notes.length; i++) {
+
+				notes[i].innerHTML = marked.parse(notes[i].innerHTML);
+
+			}
 
 			var timestampElements = document.getElementsByName('timestamp');
 

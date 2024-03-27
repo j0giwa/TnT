@@ -81,11 +81,11 @@
 		</div>
 
 		<script>
-			var elements = document.getElementsByClassName('md-content');
+			var notes = document.getElementsByClassName('md-content');
 
-			for (var i = 0; i < elements.length; i++) {
+			for (var i = 0; i < notes.length; i++) {
 
-				elements[i].innerHTML = marked.parse(elements[i].innerHTML);
+				notes[i].innerHTML = marked.parse(notes[i].innerHTML);
 
 			}
 		</script>
