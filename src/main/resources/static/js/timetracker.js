@@ -1,3 +1,4 @@
+/* https://stackoverflow.com/questions/75232877/how-to-stop-timer-when-the-space-is-pressed-and-start-if-do-it-again */
 const timeDisplay = document.querySelector("#timeDisplay");
 const startBtn = document.querySelector("#startBtn");
 const pauseBtn = document.querySelector("#pauseBtn");
