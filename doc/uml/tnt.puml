@@ -57,7 +57,7 @@ package de.thowl.tnt.core {
 @startuml tnt-storage
 
 skinparam monochrome true
-skinparam dpi 400
+skinparam dpi 300
 scale 200 width
 scale 700 height
 
@@ -136,7 +136,7 @@ package de.thowl.tnt.storage {
 			- userId: long
 		}
 
-		abstract class Entry {
+		abstract class Entry <<Abstract>> {
 			- id: long
 			- user: User
 			- name: String
@@ -163,11 +163,11 @@ package de.thowl.tnt.storage {
 
 		}
 
-  class SharedNote {
-    - id: long
-    - guid: String
-    - note: Note
-  }
+  		class SharedNote {
+			- id: long
+    			- guid: String
+    			- note: Note
+  		}
 
 		enum NoteKategory{
 			LECTURE
@@ -198,10 +198,10 @@ package de.thowl.tnt.storage {
 	Task -- TaskRepository
 	Note -- NotesRepository
 	Note -- SharedNote
- SharedNote -- SharedNotesRepository
+	SharedNote -- SharedNotesRepository
 	Note -- NoteKategory
- Note -- SharedNote
- User -- Group
+	Note -- SharedNote
+	User -- Group
 	Task -- Priority
 }
 
